@@ -1,6 +1,8 @@
 <?php
 abstract class AdminbaseAction extends Action {
-
+	
+	protected $_cfgs;
+	
 	protected function _initialize() {
 		import('ORG.Util.Cookie');
 		// 用户权限检查
@@ -25,6 +27,10 @@ abstract class AdminbaseAction extends Action {
 				}
 			}
 		}
+		
+		$model = New ConfigModel();
+		$this->_cfgs = $model->getHash();
+		$this->assign('_CFG', $this->_cfgs);
 	}
 	
 	

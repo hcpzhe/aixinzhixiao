@@ -1,22 +1,22 @@
 <?php
 return array(
-	'DEFAULT_TIMEZONE'			=>	'RPC', //时区
+	'DEFAULT_TIMEZONE'			=>	'PRC', //时区
 	'URL_PATHINFO_DEPR'			=>	'-', //参数之间的分割符号  默认是'/'
     'URL_MODEL'                 =>  2, // 1:PATHINFO  2:rewrite 如果你的环境不支持PATHINFO 请设置为3
     'APP_GROUP_LIST'            =>  'Home,Admin',
     'DEFAULT_GROUP'             =>  'Home',
-//    'SHOW_PAGE_TRACE'           =>  TRUE,//显示调试信息
+    'SHOW_PAGE_TRACE'           =>  TRUE,//显示调试信息
     
     'DB_TYPE'                   =>  'mysql',
     'DB_HOST'                   =>  '192.168.1.9',
     'DB_NAME'                   =>  'aixinzhixiao',
-    'DB_USER'                   =>  'root',
-    'DB_PWD'                    =>  'root',
+    'DB_USER'                   =>  'wqseo',
+    'DB_PWD'                    =>  'wqseo',
     'DB_PORT'                   =>  '3306',
     'DB_PREFIX'                 =>  'ax_',
 
-	'TOKEN_ON'					=>	TRUE,
-	'TOKEN_NAME'				=>	'__hash__',
+//	'TOKEN_ON'					=>	TRUE,
+//	'TOKEN_NAME'				=>	'__hash__',
 
 /* RBAC 在每个单独分组中设置
 	'USER_AUTH_ON'				=>	true,		// 开启登录验证

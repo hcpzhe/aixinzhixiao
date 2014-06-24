@@ -1,10 +1,13 @@
 <?php
+//免登录控制器
 class CommonAction extends Action {
 	
+	protected $_cfgs = NULL;
+	
 	protected function _initialize() {
-		$set_M = D('Setting');
-		$list = $set_M->getField('set_name,set_value');
-		$this->assign('_PF',$list);
+		$model = New ConfigModel();
+		$this->_cfgs = $model->getHash();
+		$this->assign('_CFG', $this->_cfgs);
 	}
 	
 	public function _empty() {
@@ -14,6 +17,7 @@ class CommonAction extends Action {
 	public function login() {
 		$this->display();
 	}
+	
 	public function password(){
 		$this->display();
 	}
@@ -75,7 +79,7 @@ class CommonAction extends Action {
 
 			// 缓存访问权限
 			RBAC::saveAccessList();
-			$this->success('登录成功！',__GROUP__.'/Index/');
+			$this->success('登录成功！', U('Index/index'));
 		}
 	}
 	/**
@@ -86,9 +90,9 @@ class CommonAction extends Action {
 			unset($_SESSION[C('USER_AUTH_KEY')]);
 			unset($_SESSION);
 			session_destroy();
-			$this->success('登出成功！', __GROUP__.'/Index/');
+			$this->success('登出成功！', U('Index/index'));
 		}else {
-			$this->error('已经登出！', __GROUP__.'/Index/');
+			$this->error('已经登出！', U('Index/index'));
 		}
 	}
 	

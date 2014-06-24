@@ -26,10 +26,10 @@ return array(
 //	'SHOW_USE_MEM'=>true,			// 显示内存开销
 //    'DB_LIKE_FIELDS'=>'title|remark',
 
-	'RBAC_ROLE_TABLE'		=>'pf_role',		//角色表名称
-	'RBAC_USER_TABLE'		=>'pf_role_user',	//用户角色关系表名称
-	'RBAC_ACCESS_TABLE' 	=>'pf_access',		//权限表名称
-	'RBAC_NODE_TABLE'		=>'pf_node',		//节点表名称
+	'RBAC_ROLE_TABLE'		=>'ax_role',		//角色表名称
+	'RBAC_USER_TABLE'		=>'ax_role_user',	//用户角色关系表名称
+	'RBAC_ACCESS_TABLE' 	=>'ax_access',		//权限表名称
+	'RBAC_NODE_TABLE'		=>'ax_node',		//节点表名称
 	
 	'SESSION_OPTIONS'		=>array('path'=>SESSION_PATH.'Admin/')
 );
