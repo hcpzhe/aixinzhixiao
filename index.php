@@ -15,20 +15,18 @@ define('PUBLIC_PATH', './Public/');
 //定义公共目录路径
 define('SESSION_PATH', './Session/');
 
-//
-////session存储路径生成
-//$path = APP_PATH.'Session/';
-//if (!is_dir($path)) mkdir($path);
-//
-//$path = APP_PATH.'Session/Admin/';
-//if (!is_dir($path)) mkdir($path);
-//
-//$path = APP_PATH.'Session/Home/';
-//if (!is_dir($path)) mkdir($path);
-//
-//
-//$path = APP_PATH.'Public/';
-//if (!is_dir($path)) mkdir($path);
+
+//session存储路径生成
+if (!is_dir(SESSION_PATH)) mkdir(SESSION_PATH);
+
+$path = SESSION_PATH.'Admin/';
+if (!is_dir($path)) mkdir($path);
+
+$path = SESSION_PATH.'Home/';
+if (!is_dir($path)) mkdir($path);
+
+if (!is_dir(PUBLIC_PATH)) mkdir(PUBLIC_PATH);
+
 //
 ////编辑器内容 所用图片上传路径
 //$path = APP_PATH.'Public/textUpload/';

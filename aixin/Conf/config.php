@@ -30,4 +30,5 @@ return array(
 
 //	'TMPL_ACTION_ERROR'			=>	TMPL_PATH.'dispatch_jump.tpl', // 错误跳转对应的模板文件
 //	'TMPL_ACTION_SUCCESS'		=>	TMPL_PATH.'dispatch_jump.tpl', // 成功跳转对应的模板文件
+	'LIST_ROWS'					=>	15,	//每页的条数
 );

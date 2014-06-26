@@ -55,7 +55,7 @@ abstract class AdminbaseAction extends Action {
      * @return array|false
      * 返回数据集
      */
-    protected function _lists ($model,$where=array(),$order='',$base = array('status'=>array('egt',0)),$field=true){
+    protected function _lists ($model,$where=array(),$order='',$base = array(),$field=true){
         $options    =   array();
         $REQUEST    =   (array)I('request.');
         if(is_string($model)){

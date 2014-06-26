@@ -23,7 +23,7 @@ class CashModel extends Model {
 	);
 	
 	/**
-	 * 获取或用预提现金额   (申请但未审核的)
+	 * 获取预用预提现金额   (申请但未审核的)
 	 * @param $mid member_id
 	 */
 	public function getReadyMoney($mid) {
@@ -31,5 +31,48 @@ class CashModel extends Model {
 		$map['member_id'] = $mid;
 		$map['status'] = 1;
 		return $this->where($map)->sum('apply_money');
+	}
+	
+	/**
+	 * 通过    通过后, 要更新用户积分
+	 * @param  $id
+	 */
+	public function passCheck($id) {
+		$this->startTrans();
+		$data = array('status'=>'3','check_time'=>time());
+		if (false === $this->where('id='.$id)->setField($data)) {
+			$this->error = '审核失败, 升级记录更新错误';
+			return false;
+		}
+		$info = $this->find($id);
+		//存在受益人, 则更新受益人积分
+		if ($info['member_id'] > 0) {
+			$member_M = New Model('Member');
+			if (false === $member_M->where('id='.$info['member_id'])->setDec('points',$info['apply_money'])) {
+				$this->rollback();
+				$this->error = '审核失败, 用户积分更新错误';
+				return false;
+			}
+		}else {
+			$this->rollback();
+			$this->error = '审核失败, 找不到对应用户';
+			return false;
+		}
+		
+		$this->commit();
+		return true;
+	}
+	
+	/**
+	 * 拒绝
+	 * @param  $id
+	 */
+	public function denyCheck($id) {
+		$data = array('status'=>'2','check_time'=>time());
+		if (false === $this->where('id='.$id)->setField($data)) {
+			$this->error = '审核失败, 升级记录更新错误';
+			return false;
+		}
+		return true;
 	}
 }
