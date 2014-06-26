@@ -7,6 +7,8 @@ define('APP_NAME', 'aixin');
 //定义项目路径
 define('APP_PATH', './aixin/');
 
+//define ( 'RUNTIME_PATH', './Runtime/' );
+
 //定义公共目录路径
 define('PUBLIC_PATH', './Public/');
 

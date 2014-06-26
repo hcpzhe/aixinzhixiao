@@ -3,6 +3,89 @@
 class MemberAction extends AdminbaseAction {
 	
 	/**
+	 * 会员筛选列表
+	 * @param  $level		级别  0-5 0-临时会员
+	 * @param  $account		帐号
+	 * @param  $status		状态
+	 */
+	public function lists($level=null, $account=null, $status=1) {
+		$model = New MemberModel();
+		//查询条件
+		$map['status'] = $status;
+        if(isset($account)){
+            $map['account']   =   array('like', '%'.$account.'%');
+        }
+        if(isset($level)){
+            $map['level']  =   $level;
+        }else{
+            $map['level']  =   array('in', '0,1,2,3,4,5');
+        }
+		
+        $list = $this->_lists($model,$map);
+        
+        // 记录当前列表页的cookie
+        cookie('_currentUrl_',$_SERVER['REQUEST_URI']);
+        $this->assign('status', $status);
+        $this->assign('list', $list);
+        $this->meta_title = '会员列表';
+        $this->display();
+	}
+	
+	/**
+	 * 会员详细资料
+	 * @param  $id		
+	 */
+	public function info($id=0) {
+		$id = (int)I('get.id');
+		if ($id <= 0) $this->error('参数非法');
+	}
+	
+	/**
+	 * 会员资料更新
+	 * @param  $id		
+	 */
+	public function update() {
+		
+	}
+	
+	
+	/**
+	 * 重置用户密码
+	 * 传递用户主键信息
+	 */
+	public function resetPwd(){
+		$member_M = M('Member');
+		if (!empty($member_M)) {
+			$pk = $member_M->getPk();
+			$id = $_REQUEST [$pk];
+			if (isset($id)) {
+				$condition = array($pk => array('eq', $id));
+				$member = $member_M->where($condition)->find();
+				$list = $member_M->where($condition)->setField('password',pwdHash($member['account']));
+				if ($list !== false) {
+					$this->success('密码已重置为用户名！',cookie('_currentUrl_'));
+				} else {
+					$this->error('密码重置失败，请重试！');
+				}
+			} else {
+				$this->error('非法操作');
+			}
+		}
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	/**
 	 * ajax检测用户是否存在
 	 */
 	public function checkAccount() {
@@ -48,82 +131,7 @@ class MemberAction extends AdminbaseAction {
 		$this->success($return);
 	}
 	
-	/**
-	 * 已审核会员(所有会员)
-	 */
-	public function statusOne() {
-		$_REQUEST['status'] = array('in','1,3,4');
-		$this->index();
-	}
 	
-	/**
-	 * 未激活会员
-	 */
-	public function statusTwo() {
-		$_REQUEST['status'] = '2';
-		$this->index();
-	}
-	
-	/**
-	 * 已审核报单中心
-	 */
-	public function statusThree() {
-		$_REQUEST['status'] = '3';
-		$this->index();
-	}
-
-	/**
-	 * 未审核报单中心
-	 */
-	public function statusFour() {
-		$_REQUEST['status'] = '4';
-		$this->index();
-	}
-
-	/**
-	 * 未审核会员--- 功能会员, 但未付款
-	 */
-	public function statusFive() {
-		$_REQUEST['status'] = '5';
-		$this->index();
-	}
-	
-	/**
-	 * index使用common的通用index方法, 通过传递不同的参数, 显示不同的数据
-	 * 未审核用户列表
-	 * 已审核用户列表
-	 */
-	protected function _filter(&$map){
-		//index过滤查询字段
-		if (!empty($_REQUEST['status'])){
-			$map['status'] = $this->_request('status');
-		}
-	}
-
-	/**
-	 * 重置用户密码
-	 * 传递用户主键信息
-	 */
-	public function resetPwd(){
-		$member_M = M('Member');
-		if (!empty($member_M)) {
-			$pk = $member_M->getPk();
-			$id = $_REQUEST [$pk];
-			if (isset($id)) {
-				$condition = array($pk => array('eq', $id));
-				$member = $member_M->where($condition)->find();
-				$list = $member_M->where($condition)->setField('password',pwdHash($member['account']));
-				if ($list !== false) {
-					$this->success('密码已重置为用户名！',cookie('_currentUrl_'));
-				} else {
-					$this->error('密码重置失败，请重试！');
-				}
-			} else {
-				$this->error('非法操作');
-			}
-		}
-		
-	}
 	
 	/**
 	 * 修改密码接口

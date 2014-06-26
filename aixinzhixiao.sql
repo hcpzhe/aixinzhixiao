@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50524
 File Encoding         : 65001
 
-Date: 2014-06-24 18:16:00
+Date: 2014-06-26 18:04:50
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -30,8 +30,8 @@ CREATE TABLE `ax_article` (
   `is_recom` tinyint(1) NOT NULL DEFAULT '0' COMMENT '是否推荐 0-不推荐 1-推荐',
   `is_display` tinyint(1) NOT NULL DEFAULT '0' COMMENT '0-不显示 1-显示',
   `create_time` varchar(20) NOT NULL DEFAULT '0' COMMENT '发布时间 unix时间戳',
-  `update_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '更新时间 unix时间戳',
-  `status` tinyint(1) NOT NULL DEFAULT '0' COMMENT '-1-删除 0-禁用 1-正常',
+  `update_time` varchar(20) NOT NULL DEFAULT '0' COMMENT '更新时间 unix时间戳',
+  `status` tinyint(1) NOT NULL DEFAULT '1' COMMENT '-1-删除 0-禁用 1-正常',
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=84 DEFAULT CHARSET=utf8;
 
@@ -147,12 +147,14 @@ CREATE TABLE `ax_config` (
   `remark` varchar(255) DEFAULT NULL COMMENT '配置说明',
   PRIMARY KEY (`id`),
   UNIQUE KEY `cfgname` (`name`)
-) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of ax_config
 -- ----------------------------
-INSERT INTO `ax_config` VALUES ('1', 'fees', '提现手续费', null, '单位 %');
+INSERT INTO `ax_config` VALUES ('1', 'fees', '提现手续费', '10', '单位 %');
+INSERT INTO `ax_config` VALUES ('2', 'basepoints', '基础积分', '500', null);
+INSERT INTO `ax_config` VALUES ('3', 'maxlevel', '最高级别', '5', null);
 
 -- ----------------------------
 -- Table structure for `ax_levelup`
@@ -167,13 +169,13 @@ CREATE TABLE `ax_levelup` (
   `should_pay` decimal(10,2) NOT NULL DEFAULT '0.00' COMMENT '应付金额',
   `real_pay` decimal(10,2) NOT NULL DEFAULT '0.00' COMMENT '实际打款金额',
   `pay_time` varchar(255) DEFAULT NULL COMMENT '打款时间string',
-  `rec_id` int(10) unsigned NOT NULL COMMENT '收益用户ID',
-  `verify_time` varchar(20) NOT NULL DEFAULT '0' COMMENT '审核时间 unix',
+  `rec_id` int(10) unsigned NOT NULL COMMENT '收益用户ID   0-没有收益用户',
+  `check_time` varchar(20) NOT NULL DEFAULT '0' COMMENT '审核时间 unix',
   `status` tinyint(1) NOT NULL DEFAULT '1' COMMENT '状态 1-待审核, 2-拒绝, 3-通过',
-  `type` tinyint(1) NOT NULL DEFAULT '1' COMMENT '升级类型 1-付款升级 2-积分升级 3-人工升级',
+  `type` tinyint(1) NOT NULL DEFAULT '1' COMMENT '升级类型 1-付款升级 2-积分升级',
   `remark` varchar(255) DEFAULT NULL COMMENT '备注留言',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='升级记录';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='升级记录';
 
 -- ----------------------------
 -- Records of ax_levelup
@@ -200,7 +202,7 @@ CREATE TABLE `ax_member` (
   `bank_name` varchar(255) DEFAULT NULL COMMENT '开户银行',
   `bank_address` varchar(255) DEFAULT NULL COMMENT '开户地址',
   `create_time` varchar(20) DEFAULT '0' COMMENT '注册时间',
-  `status` tinyint(1) NOT NULL DEFAULT '2' COMMENT '-1-删除 0-禁用 1-正常',
+  `status` tinyint(1) NOT NULL DEFAULT '1' COMMENT '-1-删除 0-禁用 1-正常',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 

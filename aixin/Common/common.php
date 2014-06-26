@@ -1,5 +1,13 @@
 <?php
 //公共函数
+/**
+ * 用户升级应付金额算法
+ * @param  $level
+ * @param  $basepoints
+ */
+function get_shouldpay($level, $basepoints) {
+	return $basepoints * pow(2,$level);
+}
 
 /**
  * 密码加密方法

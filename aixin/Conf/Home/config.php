@@ -6,6 +6,7 @@ return array(
 	'USER_PW_PREFIX'		=>'aedb80', //用户密码前缀
 	'USER_AUTH_MODEL'		=>'Member',	// 默认验证数据表模型
 	'AUTH_PWD_ENCODER'		=>'md5',	// 用户认证密码加密方式
+	'PWDTWO_KEY'			=>'mpwdtwo',	//二级密码认证SESSION标记
 
 	'USER_AUTH_GATEWAY'		=>'Home/Common/login',	// 默认认证网关
 
@@ -14,7 +15,7 @@ return array(
 	'NOT_AUTH_ACTION'		=>'',		// 默认无需认证操作
 	'REQUIRE_AUTH_ACTION'	=>'',		// 默认需要认证操作
 
-	'SESSION_OPTIONS'		=>array('path'=>SESSION_PATH.'Home/')
+	'SESSION_OPTIONS'		=>array('name'=>'SITESESSID','path'=>SESSION_PATH.'Home/')
 
 //	'SHOW_RUN_TIME'=>true,			// 运行时间显示
 //	'SHOW_ADV_TIME'=>true,			// 显示详细的运行时间

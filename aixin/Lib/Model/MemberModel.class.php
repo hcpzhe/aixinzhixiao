@@ -1,38 +1,131 @@
 <?php
+/*
+ * MUST_VALIDATE	必须验证 不管表单是否有设置该字段
+ * VALUE_VALIDATE	值不为空的时候才验证
+ * EXISTS_VALIDATE	表单存在该字段就验证   (默认)
+ */
 // 用户模型
 class MemberModel extends Model {
-	public $_validate	=	array(
+	protected $_validate	=	array(
 		array('account','/^\w{4,16}$/i','会员编号格式错误，字母或数字 4-16位'),//  \w等价于[A-Za-z0-9_]
 		array('account','require','会员编号必须'),
 		array('account','','会员编号已经存在',self::EXISTS_VALIDATE,'unique'),
 		
 		array('password','require','登录密码必须'),
 		array('repassword','require','确认登录密码必须'),
-		array('repassword','password','登录确认密码不一致',self::VALUE_VALIDATE,'confirm'),
+		array('repassword','password','登录确认密码不一致',self::EXISTS_VALIDATE,'confirm'),
 		
-		array('pwd_money','require','取款密码必须'),
-		array('repwd_money','require','确认取款密码必须'),
-		array('repwd_money','pwd_money','取款确认密码不一致',self::VALUE_VALIDATE,'confirm'),
+		array('pwdtwo','require','二级密码必须'),
+		array('repwdtwo','require','二级取款密码必须'),
+		array('repwdtwo','pwdtwo','二级确认密码不一致',self::EXISTS_VALIDATE,'confirm'),
 		
-		array('parent_area','require','推荐人必须',self::EXISTS_VALIDATE,'regex',self::MODEL_INSERT),
-		array('parent_area_type','require','节点位置必须',self::EXISTS_VALIDATE,'regex',self::MODEL_INSERT),
+		array('parent_id','require','推荐人必须',self::EXISTS_VALIDATE ,'regex',self::MODEL_BOTH),
+		array('parent_area','require','节点位置必须',self::EXISTS_VALIDATE,'regex',self::MODEL_BOTH),
+		array('parent_area',array('A','B'),'节点位置非法',self::EXISTS_VALIDATE,'in',self::MODEL_BOTH),
 		
-		array('nickname','require','真实姓名必须'),
-		array('sex',array(1,2),'性别非法',self::VALUE_VALIDATE,'in'), //1-男 2-女
+		array('level',array(0,1,2,3,4,5),'级别非法',self::EXISTS_VALIDATE,'in',self::MODEL_UPDATE), //更新时 存在字段 验证
+		
+		array('realname','require','真实姓名不能为空'),
+		
 		array('tel','require','联系电话必须'),
 		//array('tel','/((\d{11})|^((\d{7,8})|(\d{4}|\d{3})-(\d{7,8})|(\d{4}|\d{3})-(\d{7,8})-(\d{4}|\d{3}|\d{2}|\d{1})|(\d{7,8})-(\d{4}|\d{3}|\d{2}|\d{1}))$)/','联系电话格式不正确'),
-		array('q','require','身份证号必须'),
-		//array('q','/^[1-9]\d{5}[1-9]\d{3}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])\d{4}$/','身份证号不正确'),
-		array('address','require','联系地址必须'),
-		array('status',array(0,1,2,3,4),'用户状态不正确',self::VALUE_VALIDATE,'in'),//0-删除 1-正常 2-未激活 3-已审报单中心 4-未审报单 5-已激活但未付款
-		);
+		array('idcard','require','身份证号必须'),
+		//array('idcard','/^[1-9]\d{5}[1-9]\d{3}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])\d{4}$/','身份证号不正确'),
+		
+		array('status',array(-1,0,1),'用户状态非法',self::VALUE_VALIDATE,'in'),//-1-删除 0-禁用 1-正常
+	);
 
-	public $_auto		=	array(
+	protected $_auto		=	array(
 		array('password','pwdHash',self::MODEL_INSERT,'function'),
 		array('pwd_money','pwdHash',self::MODEL_INSERT,'function'),
+		array('level','0',self::MODEL_INSERT), //默认级别-0 临时会员
 		array('create_time','time',self::MODEL_INSERT,'function'),
-		array('status','2',self::MODEL_INSERT),
-		);
+	);
+	
+	/**
+	 * 管理员新增用户
+	 * @param $data create的数据
+	 */
+	public function addByMgr($data=array()) {
+		/*
+		 * 管理员从后台     新增会员
+		 * 新增会员的status=1, level=0, 并在levelup表中插入待审核的升级记录
+		 */
+		if (empty($data)) $createflag = $this->create();
+		else $createflag = $this->create($data);
+		if (false === $createflag) return false;
+	}
+		
+
+	/**
+	 * 返回$id用户有几个直推下级 0,1,2
+	 * @param int $id 要判断的用户ID
+	 */
+	public function sonNums($id) {
+		$return = 0; $condition = array();
+		$condition['parent_id'] = $id;
+		
+		$condition['parent_area'] = 'A';
+		$son_A = $this->findAble($condition);
+		if ($son_A !== false && !empty($son_A)) $return++;
+		
+		$condition['parent_area'] = 'B';
+		$son_B = $this->findAble($condition);
+		if ($son_B !== false && !empty($son_B)) $return++;
+		
+		return $return;
+	}
+	
+	/**
+	 * 返回$id用户推荐体系的人数
+	 * @param int $id 要判断的用户ID
+	 */
+	public function areaNums($id,$nums=0) {
+		$return = $nums; $condition = array();
+		$condition['parent_id'] = $id;
+		
+		$condition['parent_area'] = 'A';
+		$son_A = $this->findAble($condition);
+		if ($son_A !== false && !empty($son_A)) {
+			$return++;
+			$return = $this->areaNums($son_A['id'],$return);
+		}
+		
+		$condition['parent_area'] = 'B';
+		$son_B = $this->findAble($condition);
+		if ($son_B !== false && !empty($son_B)) {
+			$return++;
+			$return = $this->areaNums($son_B['id'],$return);
+		}
+		
+		return $return;
+	}
+		
+
+	/**
+	 * 获取用户升级应付金额
+	 * @param  $mid
+	 * @param  $basepoints
+	 */
+	public function getShould($mid , $basepoints) {
+		$info = $this->find($mid);
+		return get_shouldpay($info['level'], $basepoints);
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	public function getMemberInfo($id=0) {
 		$id = (int)$id;
@@ -121,47 +214,4 @@ class MemberModel extends Model {
 		return true;
 	}
 	
-	/**
-	 * 返回$id用户有几个直推下级 0,1,2
-	 * @param int $id 要判断的用户ID
-	 */
-	public function sonNums($id) {
-		$return = 0; $condition = array();
-		$condition['parent_area'] = $id;
-		
-		$condition['parent_area_type'] = 'A';
-		$son_A = $this->findAble($condition);
-		if ($son_A !== false && !empty($son_A)) $return++;
-		
-		$condition['parent_area_type'] = 'B';
-		$son_B = $this->findAble($condition);
-		if ($son_B !== false && !empty($son_B)) $return++;
-		
-		return $return;
-	}
-	
-	/**
-	 * 返回$id用户推荐体系的人数
-	 * @param int $id 要判断的用户ID
-	 */
-	public function areaNums($id,$nums=0) {
-		$return = $nums; $condition = array();
-		$condition['parent_area'] = $id;
-		
-		$condition['parent_area_type'] = 'A';
-		$son_A = $this->findAble($condition);
-		if ($son_A !== false && !empty($son_A)) {
-			$return++;
-			$return = $this->areaNums($son_A['id'],$return);
-		}
-		
-		$condition['parent_area_type'] = 'B';
-		$son_B = $this->findAble($condition);
-		if ($son_B !== false && !empty($son_B)) {
-			$return++;
-			$return = $this->areaNums($son_B['id'],$return);
-		}
-		
-		return $return;
-	}
 }
