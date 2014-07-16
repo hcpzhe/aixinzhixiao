@@ -36,9 +36,11 @@
 				修改二级密码接口		U('Member/changePwdtwo')
 市场图谱		U('Member/atlas')
 
-公司介绍		公司简介		U('Article/lists?category=公司简介')
+公司介绍		公司简介		U('Article/read?category=公司简介')
 			新闻			U('Article/lists?category=新闻')
-			...
+			... 单页使用read方法, 列表也使用lists方法
+			
+			文章详细页	U('Article/read?id=')  传入对应文章的ID
 			
 财务中心		积分奖励明细		U('Points/listBonus')
 			提现列表		U('Points/listCash')
