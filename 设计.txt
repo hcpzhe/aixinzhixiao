@@ -27,21 +27,36 @@
 
 用户管理界面
 
-首页			公告列表
+首页			公告列表		U('Article/lists?category=公告')
 
-个人资料		资料查看
-			密码修改
-			
-市场图谱		
+个人资料		资料查看		U('Member/info')
+				资料更新提交接口		U('Member/update')
+			密码修改页面	U('Member/viewChgPwd')
+				修改登录密码接口		U('Member/changePwd')
+				修改二级密码接口		U('Member/changePwdtwo')
+市场图谱		U('Member/atlas')
 
-公司介绍		公司简介
-			新闻
+公司介绍		公司简介		U('Article/lists?category=公司简介')
+			新闻			U('Article/lists?category=新闻')
 			...
 			
-财务中心		积分奖励明细
+财务中心		积分奖励明细		U('Points/listBonus')
+			提现列表		U('Points/listCash')
+			提现详情页	U('Points/readCash')
+			提现页面		U('Points/viewCash')
+			提现提交接口		U('Points/addCash')
 			提现管理		-> 提现提交(提交的时候要判断   提现金额<= 余额-未审的金额); 提现记录
 			
-升级管理		升级记录
-			我要升级		-> 显示config银行帐号, 应付金额   ->提交 实际打款金额,打款时间; 
-						-> 积分升级 (要判断  所需积分>= 余额-预体现积分)
-						入库时, 要计算收益用户ID; 如果上级没有收益用户, rec_id为0
+升级管理		升级记录		U('Levelup/lists?status=3')   这个是通过审核的升级记录
+			待审核升级记录	U('Levelup/lists?status=1')
+			被拒绝的升级记录	U('Levelup/lists?status=2')
+			我要升级		U('Levelup/levelup')
+				付款升级接口		U('Levelup/payToup')
+				积分升级接口		U('Levelup/pointsToup')
+					-> 显示config银行帐号, 应付金额   ->提交 实际打款金额,打款时间; 
+					-> 积分升级 (要判断  所需积分>= 余额-预体现积分)
+					入库时, 要计算收益用户ID; 如果上级没有收益用户, rec_id为0
+
+用户管理中心额外的独立页面------
+二级密码验证页面		U('Member/viewPwdtwo')
+	二级密码验证提交接口		U('Member/checkPwdtwo')
