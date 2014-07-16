@@ -9,22 +9,14 @@ class PointsAction extends HomebaseAction {
 		$bonus_M = New Model('Bonus');
 		$map['member_id'] = MID;
 		$list = $this->_lists($bonus_M,$map,null);
-		$hash = array(
-			'source_id'=>array(
-				'model'=>'Member',
-				'field'=>'account',
-				'theme'=>'%account%'
-			)
-		);
-		$model = New Model();
-		foreach ($list as &$row) {
-			$tmp = $model->table(C('DB_PREFIX').'Member')->where('id='.$row['source_id'])->getField('account');
-			$row['source_id_view'] = $tmp;
-		}
-		unset($row); //清除指针
+		$this->assign('list',$list); //积分奖励列表
 		
-		$this->assign('list',$list);
-		dump($list);
+		$mem_ids = field_unique($list, 'source_id'); //列表中用到的会员ID
+		$model = New Model('Member');
+		$map = array('id'=>array('in',$mem_ids));
+		$memlist = $model->where($map)->getField('id,account,realname');
+		$this->assign('memlist',$memlist); //列表用到的会员列表 ID为key索引
+		
 		$this->display();
 	}
 	
@@ -32,21 +24,33 @@ class PointsAction extends HomebaseAction {
 	 * 提现list 筛选列表
 	 */
 	public function listCash() {
-		
+		$status = (int)I('get.status');
+		if ($status > 0) $map['status'] = $status;
+		$map['member_id'] = MID;
+		$model = New Model('Cash');
+		$list = $this->_lists($model,$map,null);
+		$this->assign('list',$list); //提现列表
+		$this->display();
 	}
 	
 	/**
 	 * 提现详细
 	 */
 	public function readCash() {
-		
+		$id = (int)I('get.id');
+		if ($id <= 0) $this->error('参数非法');
+		$map['id'] = $id;
+		$map['member_id'] = MID;
+		$model = New Model('Cash');
+		$info = $model->where($map)->find();
+		$this->display();
 	}
 	
 	/**
 	 * 提现页面
 	 */
 	public function viewCash() {
-		
+		$this->display();
 	}
 	
 	/**
