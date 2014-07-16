@@ -20,6 +20,7 @@ class MemberModel extends Model {
 		array('repwdtwo','pwdtwo','二级确认密码不一致',self::EXISTS_VALIDATE,'confirm'),
 		
 		array('parent_id','require','推荐人必须',self::EXISTS_VALIDATE ,'regex',self::MODEL_BOTH),
+		array('parent_aid','require','节点必须',self::EXISTS_VALIDATE ,'regex',self::MODEL_BOTH),
 		array('parent_area','require','节点位置必须',self::EXISTS_VALIDATE,'regex',self::MODEL_BOTH),
 		array('parent_area',array('A','B'),'节点位置非法',self::EXISTS_VALIDATE,'in',self::MODEL_BOTH),
 		
@@ -32,19 +33,19 @@ class MemberModel extends Model {
 		array('idcard','require','身份证号必须'),
 		//array('idcard','/^[1-9]\d{5}[1-9]\d{3}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])\d{4}$/','身份证号不正确'),
 		
-		array('status',array(-1,0,1),'用户状态非法',self::VALUE_VALIDATE,'in'),//-1-删除 0-禁用 1-正常
+		array('status',array('-1','0','1'),'用户状态非法',self::VALUE_VALIDATE,'in'),//-1-删除 0-禁用 1-正常
 	);
 
 	protected $_auto		=	array(
 		array('password','pwdHash',self::MODEL_INSERT,'function'),
-		array('pwd_money','pwdHash',self::MODEL_INSERT,'function'),
+		array('pwdtwo','pwdHash',self::MODEL_INSERT,'function'),
 		array('level','0',self::MODEL_INSERT), //默认级别-0 临时会员
 		array('create_time','time',self::MODEL_INSERT,'function'),
 	);
 	
 	/**
 	 * 管理员新增用户
-	 * @param $data create的数据
+	 * @param $data 用于create的数据
 	 */
 	public function addByMgr($data=array()) {
 		/*
@@ -100,8 +101,7 @@ class MemberModel extends Model {
 		
 		return $return;
 	}
-		
-
+	
 	/**
 	 * 获取用户升级应付金额
 	 * @param  $mid
@@ -112,8 +112,22 @@ class MemberModel extends Model {
 		return get_shouldpay($info['level'], $basepoints);
 	}
 	
-	
-	
+	/**
+	 * 查找 状态正常员&非临时 的会员
+	 * @param PKID或者array $options
+	 * @return array
+	 */
+	public function findAble($options=array()) {
+		$where = array();
+		if (is_numeric($options) || is_string($options)) {
+			$where[$this->getPk()]  =   $options;
+		}else {
+			$where = $options;
+		}
+		if (empty($where['status'])) $where['status'] = '1';
+		if (empty($where['level'])) $where['level'] = array('in','1,2,3,4,5');
+		return $this->where($where)->find();
+	}
 	
 	
 	
@@ -138,19 +152,6 @@ class MemberModel extends Model {
 		}
 	}
 	
-	/**
-	 * 用户status in 1,3,4,5
-	 */
-	public function findAble($options=array()) {
-		$where = array();
-		if (is_numeric($options) || is_string($options)) {
-			$where[$this->getPk()]  =   $options;
-		}else {
-			$where = $options;
-		}
-		if (empty($where['status'])) $where['status'] = array('in','1,3,4,5');
-		return $this->where($where)->find();
-	}
 	
 	/**
 	 * 新增数据前, 验证 parent_area 和 parent_area_type

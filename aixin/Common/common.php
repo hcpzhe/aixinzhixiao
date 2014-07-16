@@ -2,8 +2,8 @@
 //公共函数
 /**
  * 用户升级应付金额算法
- * @param  $level
- * @param  $basepoints
+ * @param  $level 当前用户级别
+ * @param  $basepoints 基础金额
  */
 function get_shouldpay($level, $basepoints) {
 	return $basepoints * pow(2,$level);

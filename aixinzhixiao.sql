@@ -2,15 +2,15 @@
 Navicat MySQL Data Transfer
 
 Source Server         : 127.0.0.1
-Source Server Version : 50524
+Source Server Version : 50516
 Source Host           : localhost:3306
 Source Database       : aixinzhixiao
 
 Target Server Type    : MYSQL
-Target Server Version : 50524
+Target Server Version : 50516
 File Encoding         : 65001
 
-Date: 2014-06-26 18:04:50
+Date: 2014-07-17 01:36:48
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -107,8 +107,8 @@ CREATE TABLE `ax_bonus` (
 -- Records of ax_bonus
 -- ----------------------------
 INSERT INTO `ax_bonus` VALUES ('1', '2', '0.00', '1394698240');
-INSERT INTO `ax_bonus` VALUES ('2', '0', '0.00', '1394866183');
-INSERT INTO `ax_bonus` VALUES ('2', '0', '0.00', '1394866305');
+INSERT INTO `ax_bonus` VALUES ('2', '1', '0.00', '1394866183');
+INSERT INTO `ax_bonus` VALUES ('2', '1', '0.00', '1394866305');
 
 -- ----------------------------
 -- Table structure for `ax_cash`
@@ -147,7 +147,7 @@ CREATE TABLE `ax_config` (
   `remark` varchar(255) DEFAULT NULL COMMENT '配置说明',
   PRIMARY KEY (`id`),
   UNIQUE KEY `cfgname` (`name`)
-) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of ax_config
@@ -155,6 +155,10 @@ CREATE TABLE `ax_config` (
 INSERT INTO `ax_config` VALUES ('1', 'fees', '提现手续费', '10', '单位 %');
 INSERT INTO `ax_config` VALUES ('2', 'basepoints', '基础积分', '500', null);
 INSERT INTO `ax_config` VALUES ('3', 'maxlevel', '最高级别', '5', null);
+INSERT INTO `ax_config` VALUES ('4', 'realname', '开户姓名', null, null);
+INSERT INTO `ax_config` VALUES ('5', 'bankname', '开户银行', null, null);
+INSERT INTO `ax_config` VALUES ('6', 'bankcard', '银行卡号', null, null);
+INSERT INTO `ax_config` VALUES ('7', 'bankaddress', '开户地址', null, null);
 
 -- ----------------------------
 -- Table structure for `ax_levelup`
@@ -191,6 +195,7 @@ CREATE TABLE `ax_member` (
   `password` char(32) NOT NULL COMMENT '登录密码',
   `pwdtwo` char(32) NOT NULL COMMENT '二级密码',
   `parent_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '推荐人',
+  `parent_aid` int(10) unsigned NOT NULL COMMENT '区域父ID',
   `parent_area` enum('A','B') NOT NULL COMMENT '所属推荐区域',
   `level` tinyint(1) NOT NULL DEFAULT '0' COMMENT '级别 0-临时会员',
   `points` decimal(10,2) DEFAULT '0.00' COMMENT '积分',
@@ -209,8 +214,8 @@ CREATE TABLE `ax_member` (
 -- ----------------------------
 -- Records of ax_member
 -- ----------------------------
-INSERT INTO `ax_member` VALUES ('1', 'test', 'ca5c77f495ac94c256cc039c87d8da38', 'ca5c77f495ac94c256cc039c87d8da38', '0', 'A', '1', '5625.00', 'asdasd', '11111111111', '111', '宝龙城市广场', null, null, null, '0', '1');
-INSERT INTO `ax_member` VALUES ('2', 'tttt', '15c9dfa38cfaf2635d54b1f94ffaed6c', 'ca5c77f495ac94c256cc039c87d8da38', '1', 'A', '4', '11.25', 'tttt', '11111111111', '1111', '1111', null, null, null, '1394680262', '1');
+INSERT INTO `ax_member` VALUES ('1', 'test', 'ca5c77f495ac94c256cc039c87d8da38', 'ca5c77f495ac94c256cc039c87d8da38', '0', '0', 'A', '1', '5625.00', 'asdasd', '11111111111', '111', '宝龙城市广场', null, null, null, '0', '1');
+INSERT INTO `ax_member` VALUES ('2', 'tttt', '15c9dfa38cfaf2635d54b1f94ffaed6c', 'ca5c77f495ac94c256cc039c87d8da38', '1', '1', 'A', '4', '11.25', 'tttt', '11111111111', '1111', '1111', null, null, null, '1394680262', '1');
 
 -- ----------------------------
 -- Table structure for `ax_user`

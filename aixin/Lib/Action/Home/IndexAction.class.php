@@ -8,4 +8,7 @@ class IndexAction extends HomebaseAction {
 		$this->display();
 	}
 	
+	function welcome() {
+		$this->display();
+	}
 }

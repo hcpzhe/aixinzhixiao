@@ -24,7 +24,7 @@ class PointsAction extends HomebaseAction {
 	 * 提现list 筛选列表
 	 */
 	public function listCash() {
-		$status = (int)I('get.status');
+		$status = (int)I('status');
 		if ($status > 0) $map['status'] = $status;
 		$map['member_id'] = MID;
 		$model = New Model('Cash');
@@ -39,10 +39,13 @@ class PointsAction extends HomebaseAction {
 	public function readCash() {
 		$id = (int)I('get.id');
 		if ($id <= 0) $this->error('参数非法');
+		
 		$map['id'] = $id;
 		$map['member_id'] = MID;
 		$model = New Model('Cash');
 		$info = $model->where($map)->find();
+		$this->assign('info',$info);
+		
 		$this->display();
 	}
 	

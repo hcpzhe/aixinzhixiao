@@ -3,31 +3,63 @@
 class CashAction extends AdminbaseAction {
 	
 	/**
-	 * TODO 记录筛选列表
+	 * 记录筛选列表
 	 */
-	public function lists() {
+	public function lists($status=1) {
+		$model = New Model('Cash');
+		//查询条件
+		$map['status'] = $status;
 		
+        $id = (int)I('param.id');
+        if ($id>0) $map['id'] = $id;
+        $list = $this->_lists($model,$map);
+        
+		$mem_ids = field_unique($list, 'member_id'); //列表中用到的会员ID
+		$map = array('id'=>array('in',$mem_ids));
+		$member_M = New Model('Member');
+		$memlist = $member_M->where($map)->getField('id,account,realname');
+		
+        $this->assign('list', $list); //记录列表
+        $this->assign('status', $map['status']); //用于筛选条件的显示
+		$this->assign('memlist',$memlist); //列表用到的会员列表, ID为key索引
+        
         // 记录当前列表页的cookie
         cookie('_currentUrl_',$_SERVER['REQUEST_URI']);
+        $this->display();
 	}
 	
 	/**
 	 * 记录详情
 	 */
 	public function read() {
+		$id = (int)I('get.id');
+		if ($id <= 0) $this->error('参数非法');
 		
+		$map['id'] = $id;
+		$model = new Model('Cash');
+		$info = $model->where($map)->find();
+		
+		$member_M = New Model('Member');
+		$meminfo = $member_M->find($info['member_id']);
+		
+		$this->assign('info',$info);
+		$this->assign('meminfo',$meminfo);
+		
+        // 记录当前列表页的cookie
+        cookie('_currentUrl_',$_SERVER['REQUEST_URI']);
+		$this->display();
 	}
 	
 	/**
 	 * 通过审核接口
 	 */
 	public function passCheck() {
-		$id = (int)I('param.id');
+		$id = (int)I('id');
 		
 		if ($id <= 0) $this->error('参数非法');
 		$model = New CashModel();
 		
-		$model->remark = I('param.remark'); //TODO 可能存不进去, 待测试
+		$model->remark = I('remark'); //TODO 可能存不进去, 待测试
 		if (false===$model->passCheck($id)) {
 			$this->error($model->getError());
 		}
@@ -39,12 +71,12 @@ class CashAction extends AdminbaseAction {
 	 */
 	public function denyCheck() {
 		//建议, 拒绝的时候给出页面, 让管理员填入拒绝原因,存入remark字段
-		$id = (int)I('param.id');
+		$id = (int)I('id');
 		
 		if ($id <= 0) $this->error('参数非法');
 		$model = New CashModel();
 		
-		$model->remark = I('param.remark'); //TODO 可能存不进去, 待测试
+		$model->remark = I('remark'); //TODO 可能存不进去, 待测试
 		if (false===$model->denyCheck($id)) {
 			$this->error($model->getError());
 		}

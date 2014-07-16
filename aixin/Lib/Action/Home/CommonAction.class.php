@@ -21,6 +21,7 @@ class CommonAction extends Action {
 	}
 	
 	public function password(){
+        cookie('_currentUrl_',$_SERVER['REQUEST_URI']);
 		$this->display();
 	}
 	
@@ -39,13 +40,14 @@ class CommonAction extends Action {
 	
 		//生成认证条件
 		$map			= array();
-		$map['account']	= $_POST['account'];
+		$map['account']	= I('account');
 		$map["status"]	= array('gt',0);
 //		if(session('verify') != md5($_POST['verify'])) {
 //			$this->error('验证码错误！');
 //		}
-		import ( 'ORG.Util.RBAC' );
-		$authInfo = RBAC::authenticate($map);
+		
+		$User	=	M('Member');
+		$authInfo = $User->find($map);
 		//使用用户名、密码和状态的方式进行认证
 		if(false === $authInfo) {
 			$this->error('帐号不存！');
@@ -69,7 +71,6 @@ class CommonAction extends Action {
 			}
 			
 			//保存登录信息
-			$User	=	M('User');
 			$ip		=	get_client_ip();
 			$time	=	time();
 			$data = array();

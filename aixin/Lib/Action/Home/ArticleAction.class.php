@@ -2,14 +2,18 @@
 class ArticleAction extends HomebaseAction {
 	
 	/**
-	 * TODO 文章筛选列表
+	 * 文章筛选列表
 	 */
 	public function lists() {
-		
 		$map['status'] = '1';
+		$cat = I('get.category');
+		$map['status'] = $cat;
+		$model = new Model('Article');
+		$list = $this->_lists($model,$map);
+		$this->assign('list',$list);
 		
         cookie('_currentUrl_',$_SERVER['REQUEST_URI']);
-		
+		$this->display();
 	}
 	
 	/**
