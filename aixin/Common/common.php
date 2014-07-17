@@ -77,7 +77,7 @@ function field_unique($list, $filed) {
 	}else {
 		$filedarr = explode(",", $filed);
 		foreach ($list as $row) {
-			foreach ($filed as $k => $v) {
+			foreach ($filedarr as $k => $v) {
 				$arr[] = $row[$v];
 			}
 		}

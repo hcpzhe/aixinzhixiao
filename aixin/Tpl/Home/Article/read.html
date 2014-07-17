@@ -1,0 +1,51 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<link href="__PUBLIC__/css/home.css" rel="stylesheet" type="text/css">
+<script type="text/javascript" src="__PUBLIC__/js/jquery.js"></script>
+<script type="text/javascript" src="__PUBLIC__/js/RSsubmit.js"></script>
+<title>
+
+</title></head>
+<body>
+<script type="text/javascript">
+KindEditor.ready(function(K) {
+	var myeditor = K.create('textarea[name="content"]', {
+		allowFileManager : true,
+		autoHeightMode : true,
+		afterCreate : function() {
+			this.loadPlugin('autoheight');
+		},
+		afterUpload : function(url) {
+			var firstimageoption = '<option value="' + url + '">' + url + '</option>';
+			var selectoption = '<option value="' + url + '" selected="selected">' + url + '</option>';
+			$("#firstimage").append(firstimageoption);
+			$("#images").append(selectoption);
+		}
+	});
+	K('#form1').bind('submit', function() {
+		myeditor.sync();
+		$(this).RSsubmit({success_alert:true,reload:true});
+		return false;
+	});
+});
+</script> 
+    <table width="100%" border="0" cellspacing="0" cellpadding="0">
+      <tbody>
+        <tr>
+          <td colspan="2" class="r_c1_title">{$info['title']}</td>
+        </tr>
+         <tr>
+            <th>{$info['title']}</th>
+          </tr> 
+          <tr>
+            <td align="right">发布时间：{$infocreate_time']} &nbsp;&nbsp;<a href="javascript:;void(history.go(-1));">返回</a></td>
+          </tr>       
+          <tr>
+            <td>{$info['content']}</td>
+          </tr> 
+        </tbody>
+      </table>
+</body>
+</html>
