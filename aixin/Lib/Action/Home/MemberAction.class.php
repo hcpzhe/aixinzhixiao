@@ -31,6 +31,57 @@ class MemberAction extends HomebaseAction {
 		$this->success('更新成功',cookie('_currentUrl_'));
 	}
 	
+	public function password(){
+        cookie('_currentUrl_',$_SERVER['REQUEST_URI']);
+		$this->display();
+	}
+	
+	/**
+	 * 注册会员页面
+	 */
+	public function add() {
+		$paid = (int)I('paid'); //新会员的节点人
+		if ($paid<=0) $this->error('参数非法',cookie('_currentUrl_'));
+		$ptype = I('ptype') === 'A' ? 'A' : 'B';
+		$member_M = new MemberModel();
+		$pinfo = $this->_me; //新会员的推荐人
+		$painfo = $member_M->findAble($paid);//新会员的节点人
+		if (empty($painfo)) $this->error('节点不存在, 请重新选择',cookie('_currentUrl_'));
+		
+		/*判断area_type是否被占用*********************************************************/
+		$cond = array();
+		$cond['parent_aid'] = $painfo['id'];
+		$cond['parent_area'] = $ptype;
+		$typebool = $member_M->findAble($cond);
+		if (!empty($typebool)) $this->error('推荐位已被占用, 请重新选择',cookie('_currentUrl_'));
+		/**************************************************************/
+		
+		$this->assign('pinfo',$pinfo);//推荐人
+		$this->assign('painfo',$painfo);//节点人
+		$this->assign('ptype',$ptype);//节点类型 A/B
+		
+		//cookie('_currentUrl_', U('Index/info')); //不需要返回至此页面
+		$this->display();
+	}
+	
+	/**
+	 * 新增接口(注册提交)
+	 */
+	public function insert() {
+		//默认提交为未审核用户
+		if (!empty($_POST)){
+			if (I('parent_id') != MID) $this->error('非法操作'); //推荐人必须为自己
+			$model = new MemberModel();
+			$info = $model->addByMgr();
+			if ($info !== false){
+				$this->success('注册成功，待审核！', U('levelup/lists?member_id='.$info));//跳转至新会员待审列表
+			}
+			$this->error($model->getError());
+		}else {
+			$this->error('非法提交');
+		}
+	}
+	
 	/**
 	 * 修改密码接口
 	 * i=1登录密码; i=2二级密码
@@ -87,10 +138,14 @@ class MemberAction extends HomebaseAction {
 	 */
 	public function atlas(){
 		$account = I('account');
+		$id = (int)I('id');
 		$member_list = array();
 		$member_model = new MemberModel();
-		if (!empty($account)){
-			$member_list = $member_model->find(array('account'=>$account));
+		if ($id>0) {
+			$member_list = $member_model->findAble($id);
+			if ($member_list['id'] != MID && false === $member_model->isParentArea(MID, $member_list['id'])) $this->error('没有权限');//判断查询的会员是否在自己的体系中
+		}elseif (!empty($account)){
+			$member_list = $member_model->findAble(array('account'=>$account));
 			if (empty($member_list)) $this->error('无此会员');
 			if (false === $member_model->isParentArea(MID, $member_list['id'])) $this->error('没有权限');//判断查询的会员是否在自己的体系中
 			$this->assign('search_account',$account);

@@ -5,7 +5,7 @@ class LevelupAction extends AdminbaseAction {
 	/**
 	 * 升级记录筛选列表
 	 */
-	public function lists($type=1, $status=1, $account=null) {
+	public function lists($type=1, $status=1, $account=null, $bef=null) {
 		$model = New Model('Levelup');
 		$member_M = new Model('Member');
 		//查询条件
@@ -18,6 +18,13 @@ class LevelupAction extends AdminbaseAction {
         	if ($map['type'] == '2') $map['status'] = '3';
         	else $map['status'] = $status;
         }
+        if (isset($bef) && $bef >=0 && $bef <=4) {
+        	$map['level_bef'] = $bef;
+        }else {
+        	//默认查询升级记录
+        	$map['level_bef'] = array('in','1,2,3,4');
+        }
+        
         $list = $this->_lists($model,$map);
         
         $this->assign('list', $list); //升级列表

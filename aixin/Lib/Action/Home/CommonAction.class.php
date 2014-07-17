@@ -20,11 +20,6 @@ class CommonAction extends Action {
 		$this->display();
 	}
 	
-	public function password(){
-        cookie('_currentUrl_',$_SERVER['REQUEST_URI']);
-		$this->display();
-	}
-	
 	/**
 	 * 登录提交验证
 	 */
@@ -80,8 +75,6 @@ class CommonAction extends Action {
 			$data['last_login_ip']	=	$ip;
 			$User->save($data);
 
-			// 缓存访问权限
-			RBAC::saveAccessList();
 			$this->success('登录成功！', U('Index/index'));
 		}
 	}
@@ -107,28 +100,4 @@ class CommonAction extends Action {
 		import('ORG.Util.Image');
 		Image::buildImageVerify(4,1,$type);
 	}
-	// 更换密码
-	public function changePwd() {
-		if(!isset($_SESSION[C('USER_AUTH_KEY')])) {
-			$this->error('没有登录',U(C('USER_AUTH_GATEWAY')));
-		}
-		//对表单提交处理进行处理或者增加非表单数据
-		$map	=	array();
-		$map['password']= pwdHash($_POST['oldpassword']);
-		if(isset($_POST['account'])) {
-			$map['account']	 =	 $_POST['account'];
-		}elseif(isset($_SESSION[C('USER_AUTH_KEY')])) {
-			$map['id']		=	$_SESSION[C('USER_AUTH_KEY')];
-		}
-		//检查用户
-		$User	=   M("User");
-		if(!$User->where($map)->field('id')->find()) {
-			$this->error('旧密码不符或者用户名错误！');
-		}else {
-			$User->password	=	pwdHash($_POST['password']);
-			$User->save();
-			$this->success('密码修改成功！');
-		 }
-	}
-	
 }

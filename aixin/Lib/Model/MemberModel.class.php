@@ -223,7 +223,6 @@ class MemberModel extends Model {
 		$condition['status'] = '1';
 		$condition['level'] = array('in','1,2,3,4,5');
 		$ids = $this->where($condition)->getField('id',true);
-		
 		if (empty($ids)) {
 			//检查完了, 没有了
 			return false;
