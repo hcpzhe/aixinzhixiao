@@ -6,7 +6,8 @@
 <link href="./Public/css/home.css" rel="stylesheet" type="text/css">
 <script type="text/javascript" src="./Public/js/jquery.js"></script>
 <script type="text/javascript" src="./Public/js/RSsubmit.js"></script>
-<script type="text/javascript">function SetCwinHeight() {
+<script type="text/javascript">
+function SetCwinHeight() {
     var iframeid = document.getElementById("main"); //iframe id
     if (document.getElementById) {
         if (iframeid && !window.opera) {
@@ -81,7 +82,7 @@ $(function($) {
                   <table width="167" border="0" cellspacing="0" cellpadding="0">
                     <tbody>
                       <tr>
-                        <td class="l_c1_item">用 &nbsp;户&nbsp;名：tttt</td>
+                        <td class="l_c1_item">用 &nbsp;户&nbsp;名：</td>
                       </tr>
                       <tr>
                         <td class="l_c1_item">报单中心：否</td>
@@ -139,7 +140,7 @@ $(function($) {
           </table>
         </td>
         <td valign="top" class="mn">
-           <iframe id="main" onload="Javascript:SetCwinHeight()" name="main" src="{:U('Index/info')}" style="border: none;" border="0" scrolling="no" width="100%" height="100"></iframe></iframe>     
+           <iframe id="main" onload="Javascript:SetCwinHeight()" name="main" src="{:U('Index/welcome')}" style="border: none;" border="0" scrolling="no" width="100%" height="auto"></iframe>   
  </td>
       </tr>
     </tbody>
