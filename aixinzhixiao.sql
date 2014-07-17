@@ -2,15 +2,15 @@
 Navicat MySQL Data Transfer
 
 Source Server         : 127.0.0.1
-Source Server Version : 50524
+Source Server Version : 50516
 Source Host           : localhost:3306
 Source Database       : aixinzhixiao
 
 Target Server Type    : MYSQL
-Target Server Version : 50524
+Target Server Version : 50516
 File Encoding         : 65001
 
-Date: 2014-07-17 19:06:18
+Date: 2014-07-18 02:41:26
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -214,8 +214,8 @@ CREATE TABLE `ax_member` (
 -- ----------------------------
 -- Records of ax_member
 -- ----------------------------
-INSERT INTO `ax_member` VALUES ('1', 'test', 'ca5c77f495ac94c256cc039c87d8da38', 'ca5c77f495ac94c256cc039c87d8da38', '0', '0', 'A', '1', '5625.00', 'asdasd', '11111111111', '111', '宝龙城市广场', null, null, null, '0', '1');
-INSERT INTO `ax_member` VALUES ('2', 'tttt', '15c9dfa38cfaf2635d54b1f94ffaed6c', 'ca5c77f495ac94c256cc039c87d8da38', '1', '1', 'A', '4', '11.25', 'tttt', '11111111111', '1111', '1111', null, null, null, '1394680262', '1');
+INSERT INTO `ax_member` VALUES ('1', 'test', '9e90c6271eddcf23e2e251f65bda6be3', 'ca5c77f495ac94c256cc039c87d8da38', '0', '0', 'A', '1', '5625.00', 'asdasd', '11111111111', '111', '宝龙城市广场', null, null, null, '0', '1');
+INSERT INTO `ax_member` VALUES ('2', 'tttt', '9e90c6271eddcf23e2e251f65bda6be3', 'ca5c77f495ac94c256cc039c87d8da38', '1', '1', 'A', '4', '11.25', 'tttt', '11111111111', '1111', '1111', null, null, null, '1394680262', '1');
 
 -- ----------------------------
 -- Table structure for `ax_user`
@@ -240,7 +240,7 @@ CREATE TABLE `ax_user` (
 -- ----------------------------
 -- Records of ax_user
 -- ----------------------------
-INSERT INTO `ax_user` VALUES ('1', 'admin', '9e90c6271eddcf23e2e251f65bda6be3', '超级管理员', '1400297978', '127.0.0.1', '93', null, '0', '1389940039', '1');
+INSERT INTO `ax_user` VALUES ('1', 'admin', '9e90c6271eddcf23e2e251f65bda6be3', '超级管理员', '1405608585', '127.0.0.1', '95', null, '0', '1389940039', '1');
 INSERT INTO `ax_user` VALUES ('2', 'user2', '3d06188d51e8024d76f1013b1563afcf', '2号', '1387789254', '127.0.0.1', '2', null, '0', '0', '1');
 INSERT INTO `ax_user` VALUES ('3', 'user3', '3d06188d51e8024d76f1013b1563afcf', '3号', '0', null, '0', null, '0', '0', '1');
 INSERT INTO `ax_user` VALUES ('4', 'user4', '15c9dfa38cfaf2635d54b1f94ffaed6c', '4434544656', '1387980302', '127.0.0.1', '1', null, '0', '1387980252', '1');
