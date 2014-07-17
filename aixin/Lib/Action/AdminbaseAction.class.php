@@ -28,7 +28,7 @@ abstract class AdminbaseAction extends Action {
 //			}
 //		}
 		
-		define(UID, $_SESSION[C('USER_AUTH_KEY')]);
+		define('UID', $_SESSION[C('USER_AUTH_KEY')]);
 		
 		$model = New ConfigModel();
 		$this->_cfgs = $model->getHash();
