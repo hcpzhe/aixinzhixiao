@@ -2,15 +2,15 @@
 Navicat MySQL Data Transfer
 
 Source Server         : 127.0.0.1
-Source Server Version : 50516
+Source Server Version : 50524
 Source Host           : localhost:3306
 Source Database       : aixinzhixiao
 
 Target Server Type    : MYSQL
-Target Server Version : 50516
+Target Server Version : 50524
 File Encoding         : 65001
 
-Date: 2014-07-17 01:36:48
+Date: 2014-07-17 19:06:18
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -223,12 +223,33 @@ INSERT INTO `ax_member` VALUES ('2', 'tttt', '15c9dfa38cfaf2635d54b1f94ffaed6c',
 DROP TABLE IF EXISTS `ax_user`;
 CREATE TABLE `ax_user` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `account` varchar(20) NOT NULL COMMENT '帐号',
-  `password` char(32) NOT NULL,
+  `account` varchar(64) NOT NULL COMMENT '帐号',
+  `password` char(32) NOT NULL COMMENT '密码',
+  `nickname` varchar(50) DEFAULT NULL COMMENT '昵称,姓名',
+  `last_login_time` varchar(20) DEFAULT '0' COMMENT 'unix时间戳',
+  `last_login_ip` varchar(40) DEFAULT NULL,
+  `login_count` mediumint(9) unsigned DEFAULT '0',
+  `email` varchar(255) DEFAULT NULL,
+  `create_time` varchar(20) DEFAULT '0' COMMENT 'unix时间戳',
+  `update_time` varchar(20) DEFAULT '0' COMMENT 'unix时间戳',
+  `status` tinyint(4) NOT NULL DEFAULT '0' COMMENT '0-删除 1-正常',
   PRIMARY KEY (`id`),
-  UNIQUE KEY `account` (`account`) USING BTREE
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+  UNIQUE KEY `account` (`account`)
+) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of ax_user
 -- ----------------------------
+INSERT INTO `ax_user` VALUES ('1', 'admin', '9e90c6271eddcf23e2e251f65bda6be3', '超级管理员', '1400297978', '127.0.0.1', '93', null, '0', '1389940039', '1');
+INSERT INTO `ax_user` VALUES ('2', 'user2', '3d06188d51e8024d76f1013b1563afcf', '2号', '1387789254', '127.0.0.1', '2', null, '0', '0', '1');
+INSERT INTO `ax_user` VALUES ('3', 'user3', '3d06188d51e8024d76f1013b1563afcf', '3号', '0', null, '0', null, '0', '0', '1');
+INSERT INTO `ax_user` VALUES ('4', 'user4', '15c9dfa38cfaf2635d54b1f94ffaed6c', '4434544656', '1387980302', '127.0.0.1', '1', null, '0', '1387980252', '1');
+INSERT INTO `ax_user` VALUES ('7', 'user7', 'b4b3aced3193c18c653bdeff2dd5c141', null, 'time', '127.0.0.1', '0', null, '1387876702', '1387876702', '1');
+INSERT INTO `ax_user` VALUES ('8', 'user5', 'b4b3aced3193c18c653bdeff2dd5c141', null, 'time', '127.0.0.1', '0', null, '1387876751', '1387876751', '1');
+INSERT INTO `ax_user` VALUES ('9', 'user6', 'b4b3aced3193c18c653bdeff2dd5c141', null, '1387876879', '127.0.0.1', '0', null, '1387876879', '1387876879', '1');
+INSERT INTO `ax_user` VALUES ('10', 'user8', '564736165e3715871289f3132886a6bd', null, '1387877657', '127.0.0.1', '0', null, '1387877657', '1387940353', '1');
+INSERT INTO `ax_user` VALUES ('15', 'user9', '564736165e3715871289f3132886a6bd', null, '0', '127.0.0.1', '0', null, '1387940319', '1387940375', '1');
+INSERT INTO `ax_user` VALUES ('16', 'user10', '15c9dfa38cfaf2635d54b1f94ffaed6c', null, '1387978601', '127.0.0.1', '11', null, '1387949776', '1387949776', '1');
+INSERT INTO `ax_user` VALUES ('17', 'user11', 'b4b3aced3193c18c653bdeff2dd5c141', null, '0', '127.0.0.1', '0', null, '1387949797', '1387949797', '1');
+INSERT INTO `ax_user` VALUES ('18', 'user12', '15c9dfa38cfaf2635d54b1f94ffaed6c', null, '1387960313', '127.0.0.1', '11', null, '1387949909', '1387949909', '0');
+INSERT INTO `ax_user` VALUES ('19', 'administrator', 'af73a1ef8d29ffc1c50c0bff6055b363', '超级管理员', '1400298323', '127.0.0.1', '87', '', '0', '1389940039', '1');
