@@ -1,0 +1,64 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>提现列表</title>
+<link href="__PUBLIC__/css/home.css" rel="stylesheet" type="text/css">
+</head>
+<body>
+  <table width="100%" border="0" cellspacing="0" cellpadding="0">
+    <tbody>
+      <tr>
+        <td class="r_c1_title">提现详情页</td>
+      </tr>
+      <tr>
+        <td align="center" style="line-height:1.8;">
+          <table width="100%" border="0" cellpadding="1" cellspacing="1" bgcolor="#F6F6F6" class="btab">
+            <tbody>
+              <tr class="tr1">
+                <td width="10%" height="24" align="center" bgcolor="#F0F0F0">开户姓名</td>
+                <td width="10%" align="center" bgcolor="#F0F0F0">开户银行</td>
+                <td width="10%" align="center" bgcolor="#F0F0F0">银行卡号</td>
+                <td width="10%" align="center" bgcolor="#F0F0F0">开户地址</td>
+                <td width="10%" align="center" bgcolor="#F0F0F0">申请提现金额</td>
+                <td width="10%" align="center" bgcolor="#F0F0F0">扣税金额</td>
+                <td width="10%" align="center" bgcolor="#F0F0F0">实发金额</td>
+                <td width="10%" align="center" bgcolor="#F0F0F0">申请提现时间</td>
+                <td width="10%" align="center" bgcolor="#F0F0F0">审核时间</td>
+                <td width="10%" align="center" bgcolor="#F0F0F0">备注留言</td>
+              </tr>    
+              <tr align="center">
+                <td>{$info['real_name']}</td>
+                <td>{$info['bank_name']}</td>
+                <td>{$info['bank_card']}</td>
+                <td>{$info['bank_address']}</td>
+                <td>{$info['apply_money']}</td>
+                <td>{$info['tax_money']}</td>
+                <td>{$info['real_money']}</td>
+                <td>{$info['create_time']}</td>
+                <td>{$info['check_time']}</td>
+                <td>{$info['remark']}</td>
+              </tr>  
+       </tbody>
+     </table>
+   </td>
+  </tr>
+  <tr>
+    <td height="20" align="center" bgcolor="#FFFFFF">
+      <!-- 分页开始 -->
+                <table class="" width="100%">
+                    <tbody><tr>
+                        <td align="left" height="29" width="40%">
+                            <div align="left">
+                            </div>
+                        </td>
+                        <td align="right" height="22" valign="middle" width="25%">
+                            {$page}
+                        </td>
+                    </tr>
+                </tbody></table>
+    </td>
+ </tr>
+ </tbody>
+</table>
+</body>
+</html>

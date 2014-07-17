@@ -1,0 +1,60 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<title>后台管理</title>
+<link href="__PUBLIC__/css/home.css" rel="stylesheet" type="text/css">
+<script type="text/javascript" src="__PUBLIC__/js/jquery.js"></script>
+<script type="text/javascript" src="__PUBLIC__/js/RSsubmit.js"></script>
+</head>
+	<body>
+		<table width="100%" border="0" cellspacing="0" cellpadding="0">
+            <tbody>
+              <tr>
+                <td class="r_c1_title">我要升级</td>
+              </tr>
+              <tr>
+                <td align="center" style="line-height:1.8;">
+					<table class="registertable1" width="100%;">
+						<tbody>
+							<tr>
+							<td>银行卡号</td>
+							<td>应付金额</td>
+							<td>操作</td>                          
+							</tr>
+							<!-- <foreach name="levelup_list" item="row"> -->
+							<tr>
+							<td>
+								{$member_acc[$row['member_id']]['account']}
+							</td>
+							<td>
+								{$level_name[$row['level_bef']]}
+							</td>
+							<td>提交</td>
+							</tr>
+							<!-- </foreach> -->	
+							</tbody>
+                            </table>
+                          </td>
+                         </tr>
+                         <tr>
+                           <td>
+							<!-- 分页开始 -->
+							<table class="" width="100%">
+								<tbody><tr>
+									<td align="left" height="29" width="40%">
+										<div align="left">
+										</div>
+									</td>
+									<td align="right" height="22" valign="middle" width="25%">
+										 {$_page} 
+									</td>
+								</tr>
+							</tbody>
+                      </table>
+                 </td>
+             </tr>
+          </tbody>
+      </table>	
+</body>
+</html>
