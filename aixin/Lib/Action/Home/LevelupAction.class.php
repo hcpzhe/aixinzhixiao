@@ -18,7 +18,8 @@ class LevelupAction extends HomebaseAction {
 		
 		$mem_ids = field_unique($list, 'rec_id'); //列表中用到的会员ID
 		$map = array('id'=>array('in',$mem_ids));
-		$memlist = $model->where($map)->getField('id,account,realname');
+		$member_M = New Model('Member');
+		$memlist = $member_M->where($map)->getField('id,account,realname');
 		$this->assign('memlist',$memlist); //列表中用到的会员列表, ID为key索引
 		
         // 记录当前列表页的cookie
@@ -38,18 +39,19 @@ class LevelupAction extends HomebaseAction {
 		}else {
 			$this->redirect('Member/viewPwdtwo');//跳转至二级密码验证页面 ~ 验证成功后返回至_currentUrl_
 		}
-		$member_M = New MemberModel();
-		$meinfo = $member_M->find(MID);
-		if ($meinfo['level'] >= $this->_cfgs['maxlevel']) $this->error('您已经达到最高级别了!', U('Index/welcome'));
+		if ($this->_me['level'] >= $this->_cfgs['maxlevel']) $this->error('您已经达到最高级别了!', U('Index/welcome'));
 		
-		$need_pts = get_shouldpay($meinfo['level'], $this->_cfgs['basepoints']);//所需积分
-		$this->assign('nedd_money',$need_pts);
+		$need_pts = get_shouldpay($this->_me['level'], $this->_cfgs['basepoints']);//所需积分
+		$this->assign('need_money',$need_pts);
 		
 		$levelup_M = New LevelupModel();
 		$rec_id = $levelup_M->getRec(MID);//受益人ID
+		$member_M = New Model('Member');
 		$rec_info = $member_M->find($rec_id);
 		$this->assign('rec_info',$rec_info);//受益人信息
 		
+        // 记录当前列表页的cookie
+        cookie('_currentUrl_',$_SERVER['REQUEST_URI']);
 		$this->display();
 	}
 	
@@ -72,14 +74,12 @@ class LevelupAction extends HomebaseAction {
 	 */
 	public function pointsToup() {
 		//判断   所需积分 >= 余额-预提现积分
-		$member_M = New MemberModel();
-		$cash_M = New CashModel();
-		$meinfo = $member_M->find(MID);
-		if ($meinfo['level'] >= $this->_cfgs['maxlevel']) $this->error('您已经达到最高级别了!');
+		if ($this->_me['level'] >= $this->_cfgs['maxlevel']) $this->error('您已经达到最高级别了!');
 		
-		$need_pts = get_shouldpay($meinfo['level'], $this->_cfgs['basepoints']);//所需积分
+		$need_pts = get_shouldpay($this->_me['level'], $this->_cfgs['basepoints']);//所需积分
+		$cash_M = New CashModel();
 		$ready_pts = $cash_M->getReadyMoney(MID);
-		if ($need_pts < $meinfo['points']-$ready_pts) $this->error('积分余额不足, 无法使用积分升级');
+		if ($need_pts < $this->_me['points']-$ready_pts) $this->error('积分余额不足, 无法使用积分升级');
 		
 		$levelup_M = New LevelupModel();
 		$data = array();

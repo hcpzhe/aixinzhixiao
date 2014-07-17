@@ -17,6 +17,7 @@ class PointsAction extends HomebaseAction {
 		$memlist = $model->where($map)->getField('id,account,realname');
 		$this->assign('memlist',$memlist); //列表用到的会员列表 ID为key索引
 		
+        cookie('_currentUrl_',$_SERVER['REQUEST_URI']);
 		$this->display();
 	}
 	
@@ -30,6 +31,8 @@ class PointsAction extends HomebaseAction {
 		$model = New Model('Cash');
 		$list = $this->_lists($model,$map,null);
 		$this->assign('list',$list); //提现列表
+		
+        cookie('_currentUrl_',$_SERVER['REQUEST_URI']);
 		$this->display();
 	}
 	
@@ -46,6 +49,7 @@ class PointsAction extends HomebaseAction {
 		$info = $model->where($map)->find();
 		$this->assign('info',$info);
 		
+        cookie('_currentUrl_',$_SERVER['REQUEST_URI']);
 		$this->display();
 	}
 	
@@ -53,6 +57,13 @@ class PointsAction extends HomebaseAction {
 	 * 提现页面
 	 */
 	public function viewCash() {
+		$model = new CashModel();
+		$readycash = $model->getReadyMoney(MID);//用户预提现金额
+		$ablecash = $this->_me['points'] - $readycash; //用户可提现最高金额
+		$this->assign('readycash',$readycash);
+		$this->assign('ablecash',$ablecash);
+		
+        cookie('_currentUrl_',$_SERVER['REQUEST_URI']);
 		$this->display();
 	}
 	
@@ -60,6 +71,15 @@ class PointsAction extends HomebaseAction {
 	 * 提现提交接口
 	 */
 	public function addCash() {
-		//添加的时候要判断   用户当前可用积分 > apply_money
+		$data = I('post.');
+		$data = array_merge($data, array('member_id'=>MID,'status'=>'1'));
+		$model = new CashModel();
+		if (false === $model->create()) {
+			$this->error($model->getError());
+		}
+		if (false === $model->addNew()) { //添加提现申请记录
+			$this->error($model->getError());
+		}
+		$this->success('提现请求已经提交, 请通知管理员进行审核!',cookie('_currentUrl_'));
 	}
 }
