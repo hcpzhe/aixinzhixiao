@@ -1,67 +1,12 @@
 <!DOCTYPE html>
-<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<html lang="zh-CN"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>会员中心</title>
     
-    <script src="__PUBLIC__/js/jquery.js" type="text/javascript"></script>
+    <script src="__PUBLIC__/js/jquery.js"></script>
+    <script src="__PUBLIC__/js/RSsubmit.js"></script>
     <link href="__PUBLIC__/css/Admin/Site.css" rel="stylesheet" type="text/css">
-    
-    <style type="text/css">
-		*{ margin:0 auto; padding:0; text-decoration:none;  }
-        div,span,table { font-size:12px; }
-        ul{ list-style:none; }
-        img{ border:0px; }
-        #LoginNumberDiv{ position:absolute; top: 60px; left: 10px; background-color: white; width: 104px; height: auto; min-height: 33px; z-index: 10; }
-        #LoginNumberDiv .nodes{ height: 30px; line-height: 30px; color: white; text-align: center; font-weight: bold; cursor: pointer; background:#666; }
-        #LoginNumberDiv a{ width: 104px; height: 33px; line-height: 33px; display: block; text-align: center; background: #F7F7F7; }
-        #LoginNumberDiv a:hover { background: #E4E4E4; }
-        
-        .topmenu{ float:left; width:52px; margin:10px 20px 0px 0px; text-align:center;}
-        .topmenu a{ display:block; width:52px; float:left; color:#FFF9D1; text-align:center;}
-        
-        .top{ height:71px; width:1140px; margin:0 auto; position:relative; }
-        .topmsg{ height:25px; background-color:#f1f1f1; position:absolute; top:130px; width:1140px; }
-        .topmsg div{ float:right; margin-left:20px; color:#8D8D8D; padding-left:30px; font-size:14px; line-height:25px; }
-        .userinfo{ background:url(__PUBLIC__/images/Admin/photo.png) no-repeat; }
-        .datetime{ background:url(__PUBLIC__/images/Admin/time.png) no-repeat; }
-        .newletter{ background:url(__PUBLIC__/images/Admin/cancel.png) no-repeat; }
-        .logoff{ background:url(__PUBLIC__/images/Admin/exit.png) no-repeat; }
-        
-        .content{ width:1140px; margin:0 auto; height:auto; background-color:#fff;}
-        .Menu{ width:160px; float:left;}
-        .Menu dl{ width:160px;}
-        .Menu dt { width:160px; position:relative; }
-        .Menu dt img { position:absolute; top:4px; left:16px; width:18px; height:20px;  }
-        .Menu dd{ height:30px; width:110px; padding-left:45px; line-height:30px; display:none; background:#0069a6;}
-        .Menu dd a{ color:#fff; text-decoration:none;}
-        .Menu dd a:hover{ color:#F00; text-decoration:underline;}
-        .Menu .slides{ font-weight:bold; height:32px; width:120px; font-size:12px; color:#fff; padding-left:40px; line-height:32px; cursor:pointer; background:#0069a6 url(__PUBLIC__/images/Admin/slideBg.jpg) top left repeat-x;}
-        .Menu .slides:hover{ color:#b5d8ec; }
-        .Menu .slides a{ color:#fff; text-decoration:none;}
-        .Menu .slides2{ font-weight:bold; height:32px; width:120px; font-size:12px; color:#fff; padding-left:40px; line-height:32px; cursor:pointer; background:url(__PUBLIC__/images/Admin/slideBgOn.jpg) top left repeat-y;}
-        .Menu .slides2 a{ color:#fff; text-decoration:none;}
-        
-        .right{width:959px; float:right; padding:0 0 20px 0; border-left:1px solid #ccc; min-height:560px;}
-        
-		.table{ width:98%; border:1px solid #f1f1f1; border-spacing:0px; border-collapse:collapse; }
-		.table thead tr{ background:#ccc; }
-		.table thead th{ height:30px; border:1px solid #ccc;}
-		.table tbody tr{ background-color:#f1f1f1;}
-		.table tbody td{ height:24px; text-align:center; border:1px solid #ccc;}
-		.table tfoot tr{ background-color:#f7f7f7;}
-		.table tfoot td{ height:25px; text-align:center; border:1px solid #ccc;}
-		.text{ border:1px solid #ccc; height:20px; border-radius:5px; }
-		
-        .submit{ padding:5px 15px 5px 15px; font-weight:bold; }
-
-		.pagea{ color:#999; margin:0px 3px 0 3px; border:1px solid #ccc; padding:3px; height:12px;}
-		.pagea:hover{ background-color:#fff; }
-		.foot{ width:100%; margin:0 auto; text-align:center; padding-bottom:10px; background:#000; color:#fff; height:30px; line-height:30px; }
-		
-		.success{ margin-top:30px; border:1px solid Green; width:98%; text-align:center; color:Green; font-size:14px; line-height:22px;}
-		.error{ margin-top:30px; border:1px solid Red; width:98%; text-align:center; color:Red; font-size:14px; line-height:22px;}
-        .btnsearch{ width:60px; height:20px; line-height:20px; }
-    </style>
-<style type="text/css"></style></head>
+    <link href="__PUBLIC__/css/Admin/style.css" rel="stylesheet" type="text/css">
+    </head>
 <body>
 
 <div style="height:71px;  background:url(__PUBLIC__/images/Admin/topBg.jpg); border-bottom:#003a5b 3px solid;">
@@ -71,20 +16,20 @@
         </div>
         <div style=" float:right; width:290px;">
             <div class="topmenu">
-                <a href="./会员中心_files/会员中心.htm"><img src="__PUBLIC__/images/Admin/ic1.jpg" alt=""></a>
-                <a href="./会员中心_files/会员中心.htm">首&nbsp;&nbsp;页</a>
+                <a href="{:U('Index/welcome')}" target="main"><img src="__PUBLIC__/images/Admin/ic1.jpg" alt=""></a>
+                <a href="{:U('Index/welcome')}" target="main">首&nbsp;&nbsp;页</a>
             </div>
             <div class="topmenu">
-                <a href="http://www.baolingweiyehuiyuan.com/User/UserNodes"><img src="__PUBLIC__/images/Admin/ic4.jpg" alt=""></a>
-                <a href="http://www.baolingweiyehuiyuan.com/User/UserNodes">我的团队</a>
+                <a href="{:U('Member/atlas')}" target="main"><img src="__PUBLIC__/images/Admin/ic4.jpg" alt=""></a>
+                <a href="{:U('Member/atlas')}" target="main">团队建设</a>
             </div>
             <div class="topmenu">
-                <a href="http://www.baolingweiyehuiyuan.com/User/EditPass"><img src="__PUBLIC__/images/Admin/ic6.jpg" alt=""></a>
-                <a href="http://www.baolingweiyehuiyuan.com/User/EditPass">修改密码</a>
+                <a href="{:U('Index/welcome')}" target="main"><img src="__PUBLIC__/images/Admin/ic6.jpg" alt=""></a>
+                <a href="{:U('Index/welcome')}" target="main">修改密码</a>
             </div>
             <div class="topmenu">
-                <a href="http://www.baolingweiyehuiyuan.com/User/LogOff" onclick="return confirm(&#39;请确认退出！&#39;);"><img src="__PUBLIC__/images/Admin/ic9.jpg" alt=""></a>
-                <a href="http://www.baolingweiyehuiyuan.com/User/LogOff" onclick="return confirm(&#39;请确认退出！&#39;);">退&nbsp;出</a>
+                <a class="bat_a_handle" href="{:U('Common/logout')}" onclick="return confirm(&#39;请确认退出！&#39;);"><img src="__PUBLIC__/images/Admin/ic9.jpg" alt=""></a>
+                <a class="bat_a_handle" href="{:U('Common/logout')}" onclick="return confirm(&#39;请确认退出！&#39;);">退&nbsp;出</a>
             </div>
         </div>
     </div>
@@ -97,16 +42,17 @@
             <div style="height:68px; width:160px; margin-bottom:2px; padding-top:30px; background:url(__PUBLIC__/images/Admin/userInfoBg.jpg);">
                 <table style="font-size:14px; line-height:25px;">
                     <tbody><tr>
-                        <td style="width:50px;">
-                            用户名：
+                        <td style="width:50px;">用户名：
                         </td>
                         <td>
-                            13102601
+                            {$uinfo['account']}
                         </td>
                     </tr>
                     <tr>
-                        <td colspan="2">
-                            您有 <a href="http://www.baolingweiyehuiyuan.com/Letter/LetterList" style="color:Red;">0</a>  封未读信件
+                        <td style="width:50px;">姓名：
+                        </td>
+                        <td>
+                            {$uinfo['nickname']}
                         </td>
                     </tr>
                 </tbody></table>
@@ -116,67 +62,46 @@
             <dl id="_menuindex">
                 <dt class="slides2"><img src="__PUBLIC__/images/Admin/menuindex.png" alt=""><a href="./会员中心_files/会员中心.htm">首页</a></dt>
             </dl>
-            <dl id="_menuconfig">
-                <dt class="slides"><img src="__PUBLIC__/images/Admin/menuconfig.png" alt="">个人信息</dt>
-                <dd><a href="http://www.baolingweiyehuiyuan.com/User/EditUser">个人资料</a></dd>
-                <dd><a href="http://www.baolingweiyehuiyuan.com/User/EditPass">修改密码</a></dd>
-            </dl>
             <dl id="_menuteam">
-                <dt class="slides"><img src="__PUBLIC__/images/Admin/menuteam.png" alt="">个人团队</dt>
-                <dd><a href="http://www.baolingweiyehuiyuan.com/User/Register" target="_blank">注册会员</a></dd> 
-                
-                    <dd><a href="http://www.baolingweiyehuiyuan.com/User/UserNodes" target="_blank">会员图谱</a></dd>
-                    <dd><a href="http://www.baolingweiyehuiyuan.com/User/BNets" target="_blank">B网关系图</a></dd>
+                <dt class="slides"><img src="__PUBLIC__/images/Admin/menuteam.png">会员管理</dt>
+                <dd><a href="{:U('Levelup/lists?bef=0&status=1')}" target="main">待审新会员</a></dd>
+                <dd><a href="{:U('Levelup/lists?bef=0&status=3')}" target="main">已审新会员</a></dd>
+                <dd><a href="{:U('Levelup/lists?bef=0&status=2')}" target="main">被拒绝新会员</a></dd>
+                <dd><a href="{:U('Member/lists')}" target="main">会员列表</a></dd>
+                <dd><a href="{:U('Member/atlas')}" target="main">会员图谱</a></dd>
             </dl>
-            <dl id="_menufinance">
-                <dt class="slides"><img src="__PUBLIC__/images/Admin/menufinance.png" alt="">个人财务</dt>
-                <dd><a href="http://www.baolingweiyehuiyuan.com/Money/SeeMoney">账户余额</a></dd> 
-                <dd><a href="http://www.baolingweiyehuiyuan.com/Money/OutMoney">申请提款</a></dd> 
-                <dd><a href="http://www.baolingweiyehuiyuan.com/Money/MoneyToConsumption">钱包转换</a></dd>
-                <dd><a href="http://www.baolingweiyehuiyuan.com/Money/UserToMoney">会员间转账</a></dd> 
-	        </dl>
-            <dl id="_menulog">
-                <dt class="slides"><img src="__PUBLIC__/images/Admin/menulog.png" alt="">个人记录</dt>
-                <dd><a href="http://www.baolingweiyehuiyuan.com/Bonus/UserBonusList">奖金记录</a></dd> 
-                <dd><a href="http://www.baolingweiyehuiyuan.com/Money/UserMoneyLogList">账户记录</a></dd> 
-                <dd><a href="http://www.baolingweiyehuiyuan.com/Money/UserOutMoneyLog">提现记录</a></dd> 
-                <dd><a href="http://www.baolingweiyehuiyuan.com/Money/UserTransferAccountsLog">转账记录</a></dd>
-                <dd><a href="http://www.baolingweiyehuiyuan.com/ApplyMoney/ApplyList">充值记录</a></dd> 
-	        </dl>
             <dl id="_menubusiness">
-                <dt class="slides"><img src="__PUBLIC__/images/Admin/menubusiness.png" alt="">服务管理</dt>
-                    <dd><a href="http://www.baolingweiyehuiyuan.com/Business/AddBusiness">申请服务商</a></dd> 
+                <dt class="slides"><img src="__PUBLIC__/images/Admin/menubusiness.png" alt="">升级管理</dt>
+                <dd><a href="{:U('Levelup/lists?status=1')}" target="main">待审升级记录</a></dd>
+                <dd><a href="{:U('Levelup/lists?status=3')}" target="main">已审升级记录</a></dd>
+                <dd><a href="{:U('Levelup/lists?status=2')}" target="main">拒绝升级记录</a></dd>
+                <dd><a href="{:U('Levelup/lists?type=2')}" target="main">积分升级记录</a></dd>
 	        </dl>
-            <dl id="_menuletter">
-                <dt class="slides"><img src="__PUBLIC__/images/Admin/menuinformation.png" alt="">信件管理</dt>
-                <dd><a href="http://www.baolingweiyehuiyuan.com/Letter/UserSend">发送信件</a></dd> 
-                <dd><a href="http://www.baolingweiyehuiyuan.com/Letter/LetterList">信件列表</a></dd> 
+            <dl id="_menufinance">
+                <dt class="slides"><img src="__PUBLIC__/images/Admin/menufinance.png" alt="">财务中心</dt>
+                <dd><a href="{:U('Bonus/lists')}" target="main">会员奖金记录</a></dd>
+                <dd><a href="{:U('Cash/lists?status=1')}" target="main">待审提现记录</a></dd>
+                <dd><a href="{:U('Cash/lists?status=3')}" target="main">已审提现记录</a></dd>
+                <dd><a href="{:U('Cash/lists?status=2')}" target="main">拒绝提现记录</a></dd>
 	        </dl>
-            <dl id="_menucompany">
-                <dt class="slides"><img src="__PUBLIC__/images/Admin/menucompany.png" alt="">公司信息</dt>
-                <dd><a href="http://www.baolingweiyehuiyuan.com/News/newsList">站内新闻</a></dd>
-                
+            <dl id="_menuconfig">
+                <dt class="slides"><img src="__PUBLIC__/images/Admin/menuconfig.png" alt="">系统设置</dt>
+                <dd><a href="{:U('Config/info')}" target="main">系统配置信息</a></dd>
+            </dl>
+            <dl id="_menulog">
+                <dt class="slides"><img src="__PUBLIC__/images/Admin/menulog.png" alt="">新闻公告</dt>
+                <dd><a href="{:U('Article/lists?category=公告')}" target="main">公告列表</a></dd>
+                <dd><a href="{:U('Article/lists?category=新闻')}" target="main">新闻列表</a></dd>
+                <dd><a href="{:U('Article/read?category=公司简介')}" target="main">公司简介</a></dd>
+                <dd><a href="{:U('Article/read?category=联系我们')}" target="main">联系我们</a></dd>
 	        </dl>
             <div style="background:url(__PUBLIC__/images/Admin/mbt.png); width:160px; height:31px;">
             </div>
         </div>
         <!-- end menu -->
         <div class="right">
-        	<div id="righttitle" style="height: 30px; margin-bottom: 6px; overflow: hidden; display: none;">
-            	<div style="width:200px; height:30px; line-height:30px; margin:0px 0px 0px 10px; font-weight:bold; color:#666; font-size:18px;">
-                	会员中心
-                </div>
-            </div>
-            <div style="width:100%; overflow:hidden;">
-    <p><img alt="" src="__PUBLIC__/images/Admin/index.jpg" style="height:768px; width:1100px"></p>
+        <iframe id="main" onload="Javascript:SetCwinHeight()" name="main" src="{:U('Index/welcome')}" style="border: none;" border="0" scrolling="no" width="100%" height="auto"></iframe>
 
-</div>
-<script type="text/javascript">
-    $(function () {
-        MenuShow("_menuindex");
-        $("#righttitle").css("display", "none");
-    });
-</script>
 
         </div>
         <div style="clear:both;"></div>
@@ -188,21 +113,43 @@
     </div>
     <!-- end foot -->
 </div>
-
 <script type="text/javascript">
-    $(function () {
-        $(".Menu dl dt").click(function () {
-            MenuShow($(this).parent().attr("id"));
-        });
-        $(".table tbody tr").mouseover(function () { $(this).css("backgroundColor", ""); });
-        $(".table tbody tr").mouseout(function () { $(this).css("backgroundColor", ""); });
-    });
-    function MenuShow(id) {
-        $(".Menu dl").find("dd").slideUp(500);
-        $(".Menu dl dt").attr("class", "slides");
-        $("#" + id + " dt").attr("class", "slides2");
-        $("#" + id).find("dd").slideDown(300);
+function SetCwinHeight() {
+    var iframeid = document.getElementById("main"); //iframe id
+    if (document.getElementById) {
+        if (iframeid && !window.opera) {
+            if (iframeid.contentDocument && iframeid.contentDocument.body.offsetHeight) {
+                iframeid.height = iframeid.contentDocument.body.offsetHeight;
+            } else if (iframeid.Document && iframeid.Document.body.scrollHeight) {
+                iframeid.height = iframeid.Document.body.scrollHeight;
+            }
+        }
     }
+}
+$(function ($) {
+	$(".bat_a_handle").click(function(){
+		$(this).RSsubmit({success_alert:true,reload:true});
+		return false;
+	});
+	$("#main").resize(function(){
+		SetCwinHeight();
+	})
+	
+    MenuShow("_menuindex");
+    $("#righttitle").css("display", "none");
+    
+    $(".Menu dl dt").click(function () {
+        MenuShow($(this).parent().attr("id"));
+    });
+    $(".table tbody tr").mouseover(function () { $(this).css("backgroundColor", ""); });
+    $(".table tbody tr").mouseout(function () { $(this).css("backgroundColor", ""); });
+});
+function MenuShow(id) {
+    $(".Menu dl").find("dd").slideUp(500);
+    $(".Menu dl dt").attr("class", "slides");
+    $("#" + id + " dt").attr("class", "slides2");
+    $("#" + id).find("dd").slideDown(300);
+}
 </script>
 
 
