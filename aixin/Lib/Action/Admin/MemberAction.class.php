@@ -22,8 +22,8 @@ class MemberAction extends AdminbaseAction {
             $map['level']  =   $level;
        		$this->assign('level', $map['level']);  //用于筛选条件的显示
         }else{
-            $map['level']  =   array('in', '0,1,2,3,4,5');
-       		$this->assign('level', -1);  //用于筛选条件的显示
+            $map['level']  =   array('in', '1,2,3,4,5');
+       		$this->assign('level', -1);  //所有级别会员, 用于筛选条件的显示
         }
 		
         $list = $this->_lists($model,$map);
@@ -34,7 +34,7 @@ class MemberAction extends AdminbaseAction {
         $this->meta_title = '会员列表';
         //$this->assign('pagetitle', $this->meta_title);
         
-		$mem_ids = field_unique($list, 'parent_id'); //列表中用到的会员ID
+		$mem_ids = field_unique($list, 'parent_id,parent_aid'); //列表中用到的会员ID
 		$map = array('id'=>array('in',$mem_ids));
 		$memlist = $model->where($map)->getField('id,account,realname');
 		$this->assign('memlist',$memlist); //列表用到的会员列表, ID为key索引
@@ -85,7 +85,6 @@ class MemberAction extends AdminbaseAction {
 		if (false === $model->where('id='.$id)->save()) $this->error('更新失败');
 		$this->success();
 	}
-	
 	
 	/**
 	 * 重置用户密码

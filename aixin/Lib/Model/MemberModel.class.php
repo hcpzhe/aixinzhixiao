@@ -52,29 +52,56 @@ class MemberModel extends Model {
 		 * 管理员从后台     新增会员
 		 * 新增会员的status=1, level=0, 并在levelup表中插入待审核的升级记录
 		 */
-		if (empty($data)) $createflag = $this->create();
-		else $createflag = $this->create($data);
-		if (false === $createflag) return false;
-	}
+		$data = (empty($data)) ? I('param.') : $data;
+		if (empty($data)) $data = I('param.');
+		$data['level'] = 0;
+		$new_mem = $this->create($data);
+		if ($new_mem === $this->create($data)) return false;
 		
+		$this->startTrans();
+		$return = $this->add();
+		if (false === $this->add()) {
+			$this->rollback();
+			return false;
+		}
+		
+		$levelup_M = new LevelupModel(); $config_M = new Model('Config');
+		$leveldata = array();
+		$leveldata['member_id'] = $return;
+		$leveldata['level_bef'] = 0;
+		$leveldata['level_aft'] = 1;
+		$leveldata['should_pay'] = (int)$config_M->where("`name`='basepoints'")->getField('cfgval');
+		$leveldata['real_pay'] = $data['real_pay'];
+		$leveldata['pay_time'] = $data['pay_time'];
+		$leveldata['rec_id'] = $new_mem['parent_id'];//受益人ID
+		$leveldata['status'] = 1;//待审
+		$leveldata['type'] = 1;//付款升级
+		$leveldata['remark'] = '此会员由管理员注册';
+		if (false === $levelup_M->create($leveldata)) {
+			$this->error = $levelup_M->getError();
+			$this->rollback();
+			return false;
+		}
+		if (false === $levelup_M->addRecord()) {
+			$this->error = $levelup_M->getError();
+			$this->rollback();
+			return false;
+		}
+		
+		return $return;
+	}
 
 	/**
-	 * 返回$id用户有几个直推下级 0,1,2
+	 * 返回$id用户有几个直推下级
 	 * @param int $id 要判断的用户ID
 	 */
 	public function sonNums($id) {
-		$return = 0; $condition = array();
+		$condition = array();
 		$condition['parent_id'] = $id;
+		$condition['status'] = '1';
+		$condition['level'] = array('in','1,2,3,4,5');
 		
-		$condition['parent_area'] = 'A';
-		$son_A = $this->findAble($condition);
-		if ($son_A !== false && !empty($son_A)) $return++;
-		
-		$condition['parent_area'] = 'B';
-		$son_B = $this->findAble($condition);
-		if ($son_B !== false && !empty($son_B)) $return++;
-		
-		return $return;
+		return $this->where($condition)->count();
 	}
 	
 	/**
@@ -129,39 +156,14 @@ class MemberModel extends Model {
 		return $this->where($where)->find();
 	}
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	public function getMemberInfo($id=0) {
-		$id = (int)$id;
-		if ($id <= 0) $id = $_SESSION[C('USER_AUTH_KEY')];
-		return $this->getById($id);
-	}
-	public function getMemberId($account){
-		if (!empty($account)){
-			return $this->where("account='".$account."'")->getField('id');
-		}
-	}
-	
-	
+		
 	/**
 	 * 新增数据前, 验证 parent_area 和 parent_area_type
 	 */
 	protected function _before_insert($data, $options) {
-		if (false === $this->chkPA($data)) {
-			$this->error = '推荐人不存在';
+		if (false === $this->chkParent($data)) {
 			return false;
-		}elseif (false === $this->chkPAT($data)) {
-			$this->error = '节点位置已被占用';
+		}elseif (false === $this->chkParentArea($data)) {
 			return false;
 		}else {
 			return true;
@@ -169,49 +171,44 @@ class MemberModel extends Model {
 	}
 	
 	/**
-	 * 检测推荐人是否存在
+	 * 检测推荐人,节点人 是否存在
 	 */
-	private function chkPA($data) {
+	public function chkParent($data) {
 		$condition = array();
-		$condition['status'] = array('in','1,3,4,5');
-		$condition['id'] = $data['parent_area'];
+		$condition['status'] = '1';
+		$condition['level'] = array('in','1,2,3,4,5');
+		$condition['id'] = $data['parent_aid'];
 		$num = $this->where($condition)->count();
-		if ($num > 0) return true;
-		else return false;
+		if ($num <= 0) {
+			$this->error = '节点人不存在';
+			return false;
+		}
+		$condition['id'] = $data['parent_id'];
+		$num = $this->where($condition)->count();
+		if ($num <= 0) {
+			$this->error = '推荐人不存在';
+			return false;
+		}
+		return true;
 	}
 	/**
 	 * 节点位置检测合法性
 	 */
-	private function chkPAT($data) {
-		if ($data['parent_area_type'] != 'A' && $data['parent_area_type'] != 'B') {
+	public function chkParentArea($data) {
+		if ($data['parent_area'] != 'A' && $data['parent_area'] != 'B') {
+			$this->error = '节点位置不合法';
 			return false;
 		}
 		$condition = array();
-		$condition['status'] = array('in','1,3,4,5');
+		$condition['status'] = '1';
+		$condition['level'] = array('in','1,2,3,4,5');
+		$condition['parent_aid'] = $data['parent_aid'];
 		$condition['parent_area'] = $data['parent_area'];
-		$condition['parent_area_type'] = $data['parent_area_type'];
 		$num = $this->where($condition)->count();
-		if ($num > 0) return false;
-		else return true;
-	}
-	
-	/**
-	 * 检查会员是否满足 结算将条件
-	 */
-	public function jiesuanAble($id) {
-		$condition = array();
-		$condition['parent_area'] = $id;
-		
-		$condition['parent_area_type'] = 'A';
-		$son_A = $this->findAble($condition);
-		if ($son_A === false || empty($son_A)) return false;
-		
-		$condition['parent_area_type'] = 'B';
-		$son_B = $this->findAble($condition);
-		if ($son_B === false || empty($son_B)) return false;
-		
-		if ($this->sonNums($son_A['id']) != 2) return false;
-		if ($this->sonNums($son_B['id']) != 2) return false;
+		if ($num > 0) {
+			$this->error = '节点位置已被占用';
+			return false;
+		}
 		return true;
 	}
 	

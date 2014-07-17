@@ -6,8 +6,8 @@ class ArticleAction extends HomebaseAction {
 	 */
 	public function lists() {
 		$map['status'] = '1';
-		$cat = I('get.category');
-		$map['status'] = $cat;
+		$cat = I('category');
+		$map['category'] = $cat;
 		$model = new Model('Article');
 		$list = $this->_lists($model,$map);
 		$this->assign('list',$list);
@@ -20,9 +20,9 @@ class ArticleAction extends HomebaseAction {
 	 * 文章内容页
 	 */
 	public function read() {
-		$id = (int)I('get.id');
+		$id = (int)I('id');
 		if ($id <= 0) {
-			$cat = I('get.category');
+			$cat = I('category');
 			//如果传入category参数
 			//取指定分类的第一条数据
 			if (empty($cat)) $this->error('参数非法');

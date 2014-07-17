@@ -62,7 +62,7 @@ class LevelupModel extends Model {
 	 * @param  $id 申请用户ID
 	 */
 	public function getRec($id) {
-		$member_M = New MemberModel();
+		$member_M = New Model('Member');
 		$meminfo = $member_M->field('id, parent_id, parent_aid, level')->find($id);
 		//level为0时,即新注册用户, 受益人为推荐人
 		if ($meminfo['level'] == '0') return $meminfo['parent_id'];
@@ -80,7 +80,7 @@ class LevelupModel extends Model {
 	 */
 	private function _getRecLoop($pid , $times , $now=0) {
 		$now++;
-		$member_M = New MemberModel();
+		$member_M = New Model('Member');
 		if ($pid == 0) {
 			return 0; //没有父级的时候, 返回0, 找不到受益人
 		}elseif ($now >= $times) {
@@ -103,7 +103,7 @@ class LevelupModel extends Model {
 	 * @param  $id levelup主键ID
 	 */
 	public function passCheck($id) {
-		$member_M = New Model('Member');
+		$member_M = New MemberModel();
 		$info = $this->find($id);
 		//判断级别
 		$config_M = New ConfigModel();
@@ -115,6 +115,21 @@ class LevelupModel extends Model {
 			return false;
 		}
 		
+		//新会员的话, 要检测 推荐人, 节点人, 节点位置的合法性
+		if ($info['level'] == '0') {
+			if (false === $member_M->chkParent(array('parent_id'=>$info['parent_id'],'parent_aid'=>$info['parent_aid']))) {
+				$this->remark = $this->error = $member_M->getError();
+				$this->denyCheck($id);
+				return false;
+			}
+			if (false === $member_M->chkParentArea(array('parent_area'=>$info['parent_area'],'parent_aid'=>$info['parent_aid']))) {
+				$this->remark = $this->error = $member_M->getError();
+				$this->denyCheck($id);
+				return false;
+			}
+		}
+		
+		//开始入库
 		$this->startTrans();
 		$data = array('status'=>'3','check_time'=>time(),'remark'=>$this->remark);
 		if (false === $this->where('id='.$id)->setField($data)) {

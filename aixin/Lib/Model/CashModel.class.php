@@ -34,6 +34,29 @@ class CashModel extends Model {
 	}
 	
 	/**
+	 * 添加新的提现记录
+	 * 先create再调用此方法 (此方法用来代替add方法)
+	 */
+	public function addNew() {
+		//先判断 用户当前可用积分 > apply_money
+		$member_M = New Model('Member');
+		$points = $member_M->getFieldById($this->member_id,'points'); //用户当前余额
+		$cash_M = New CashModel();//重新实例化, 以免污染当前对象的data数据
+		$readycash = $cash_M->getReadyMoney($this->member_id);
+		$ablecash = $points-$readycash;
+		if ($ablecash < $this->apply_money) {
+			$this->error = '申请失败, 当前最高提现金额为'.$ablecash;
+			return false;
+		}
+		
+		$config_M = New Model('Config');
+		$fees = $config_M->where("`name`='fees'")->getField('cfgval');//提现手续费, 单位%
+		$this->tax_money = $this->apply_money * $fees / 100;
+		$this->real_money = $this->apply_money - $this->tax_money;
+		return $this->add();
+	}
+	
+	/**
 	 * 通过    通过后, 要更新用户积分
 	 * @param  $id
 	 */
