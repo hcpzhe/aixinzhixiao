@@ -60,10 +60,12 @@ class LevelupAction extends HomebaseAction {
 		$need_pts = get_shouldpay($this->_me['level'], $this->_cfgs['basepoints']);//所需积分
 		$cash_M = New CashModel();
 		$ready_pts = $cash_M->getReadyMoney(MID);
-		$paypoints = ($need_pts < $this->_me['points']-$ready_pts) ? true : false; //是否可以使用积分升级
+		$canuse_pts = $this->_me['points']-$ready_pts; //可用积分
+		$paypoints = ($need_pts < $canuse_pts) ? true : false; //是否可以使用积分升级
 		
 		$this->assign('need_money',$need_pts);
 		$this->assign('paypoints',$paypoints);
+		$this->assign('canuse_pts',$canuse_pts);
 		
 		$levelup_M = New LevelupModel();
 		$rec_id = $levelup_M->getRec(MID);//受益人ID
