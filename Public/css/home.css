@@ -37,3 +37,46 @@ ul.nav li a.cur{ background:url(../images/nav_bg_hover.gif) no-repeat; }
 .r_c1_title{ background:url(../images/t_bg.jpg) repeat-x; height:26px; line-height:26px; text-align:left; padding-left:10px; color:#910000; font-weight:bold; font-size:13px; }
 .r_c1_item{ height:24px; line-height:24px; text-align:left; }
 
+
+/* = 分页
+------------------------------------------ */
+.page {
+    margin: 10px 0;
+    *zoom: 1;
+}
+.page:before,
+.page:after {
+    display: table;
+    content: "";
+}
+.page:after {
+    clear:both;
+}
+.page a,
+.page span {
+    float: left;
+    margin-left: -1px;
+    padding: 0 14px;
+    height: 30px;
+    line-height: 30px;
+    color: #000;
+    border-top: 1px solid #CCCCCC;
+    border-bottom: 1px solid #CCCCCC;
+    /*background-color: #4bbd00;*/
+}
+.page a:hover
+ {
+    text-decoration: none;
+    background-color: #387C0B;
+}
+.page .current {
+	border-top: 1px solid #387C0B;
+}
+.page .next,
+.page .prev {
+    font-family: "宋体";
+    font-weight: bold;
+}
+.page .rows {
+	border-right: 1px solid #CCCCCC;
+}
