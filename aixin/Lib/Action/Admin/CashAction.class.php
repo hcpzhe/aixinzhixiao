@@ -1,6 +1,16 @@
 <?php
 
 class CashAction extends AdminbaseAction {
+
+	function _initialize(){
+		parent::_initialize();
+		$stat = array(
+			'1' => '待审',
+			'2' => '拒绝',
+			'3' => '通过',
+		);
+		$this->assign('_stat',$stat);
+	}
 	
 	/**
 	 * 记录筛选列表

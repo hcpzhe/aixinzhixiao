@@ -68,7 +68,7 @@ class CashModel extends Model {
 			return false;
 		}
 		$info = $this->find($id);
-		//存在受益人, 则更新受益人积分
+		//更新申请人积分
 		if ($info['member_id'] > 0) {
 			$member_M = New Model('Member');
 			if (false === $member_M->where('id='.$info['member_id'])->setDec('points',$info['apply_money'])) {
