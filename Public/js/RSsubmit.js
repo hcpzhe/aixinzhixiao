@@ -1,5 +1,5 @@
 /**
- * RSsubmit v1.2
+ * RSsubmit v1.3
  * Dependencies jQuery
  * Copyright RockSnap
  */
@@ -27,7 +27,7 @@
 		if (myset.url == '' || myset.url == undefined) return false;
 		
 		if (myset.type == '') myset.type = $(this).attr('method');
-		if (myset.type != 'get') myset.type = 'post';
+		if (myset.type != 'post') myset.type = 'get';
 		
 		if (myset.data == '') {
 			myset.data = $(this).serializeArray();
