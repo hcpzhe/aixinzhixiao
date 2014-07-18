@@ -28,34 +28,160 @@ class MemberAction extends HomebaseAction {
 		$update['bank_address'] = $data['bank_address'];
 		$model = new Model('Member');
 		if (false ===$model->data($update)->save()) $this->error('资料更新失败,请联系制作人员');
-		$this->success();
+		$this->success('更新成功',cookie('_currentUrl_'));
 	}
 	
-	//修改登录密码接口
+	public function password(){
+        cookie('_currentUrl_',$_SERVER['REQUEST_URI']);
+		$this->display();
+	}
+	
+	/**
+	 * 注册会员页面
+	 */
+	public function add() {
+		$paid = (int)I('paid'); //新会员的节点人
+		if ($paid<=0) $this->error('参数非法',cookie('_currentUrl_'));
+		$ptype = I('ptype') === 'A' ? 'A' : 'B';
+		$member_M = new MemberModel();
+		$pinfo = $this->_me; //新会员的推荐人
+		$painfo = $member_M->findAble($paid);//新会员的节点人
+		if (empty($painfo)) $this->error('节点不存在, 请重新选择',cookie('_currentUrl_'));
+		
+		/*判断area_type是否被占用*********************************************************/
+		$cond = array();
+		$cond['parent_aid'] = $painfo['id'];
+		$cond['parent_area'] = $ptype;
+		$typebool = $member_M->findAble($cond);
+		if (!empty($typebool)) $this->error('推荐位已被占用, 请重新选择',cookie('_currentUrl_'));
+		/**************************************************************/
+		
+		$this->assign('pinfo',$pinfo);//推荐人
+		$this->assign('painfo',$painfo);//节点人
+		$this->assign('ptype',$ptype);//节点类型 A/B
+		
+		//cookie('_currentUrl_', U('Index/info')); //不需要返回至此页面
+		$this->display();
+	}
+	
+	/**
+	 * 新增接口(注册提交)
+	 */
+	public function insert() {
+		//默认提交为未审核用户
+		if (!empty($_POST)){
+			if (I('parent_id') != MID) $this->error('非法操作'); //推荐人必须为自己
+			$model = new MemberModel();
+			$info = $model->addByMgr();
+			if ($info !== false){
+				$this->success('注册成功，待审核！', U('levelup/lists?member_id='.$info));//跳转至新会员待审列表
+			}
+			$this->error($model->getError());
+		}else {
+			$this->error('非法提交');
+		}
+	}
+	
+	/**
+	 * 修改密码接口
+	 * i=1登录密码; i=2二级密码
+	 */
 	public function changePwd() {
-		
+        if ($_POST['i'] === '1') {
+        	//登录密码
+        	$pstr = 'password';
+        	$opwd = pwdHash($_POST['opwd1']);
+        	$npwd = $_POST['pwd1'];
+        	$npwdc = $_POST['pwd1c'];
+        	
+        }elseif ($_POST['i'] === '2') {
+        	//取款密码
+        	$pstr = 'pwdtwo';
+        	$opwd = pwdHash($_POST['opwd2']);
+        	$npwd = $_POST['pwd2'];
+        	$npwdc = $_POST['pwd2c'];
+        }else $this->error('非法提交');
+        
+        if ($npwd !== $npwdc) $this->error('两次输入的密码不一致');
+        
+        if ($this->_me[$pstr] != $opwd) $this->error('旧密码不符！');
+        
+        $mem_M = new Model('Member');
+        $map = array();
+        $map['id'] = MID;
+        $map[$pstr] = pwdHash($npwd);
+		if (false === $mem_M->save($map)) $this->error('密码修改错误, 请联系管理员');
+		$this->success('密码修改成功！');
 	}
 	
-	//修改二级密码接口
-	public function changePwdtwo() {
-		
-	}
 	
 	//二级密码验证页面
 	public function viewPwdtwo() {
 		$this->display();
 	}
 	
-	//TODO 验证二级密码接口
+	//验证二级密码接口
 	public function checkPwdtwo() {
+		if ($this->_me['pwdtwo'] == pwdHash($_POST['pwdtwo'])) {
+			//验证成功后记录session
+			$_SESSION[C('PWDTWO_KEY')]	=	true;
+			$this->success('二级密码验证成功',cookie('_currentUrl_'));
+		}else {
+			unset($_SESSION[C('PWDTWO_KEY')]);
+			$this->error('二级密码不正确');
+		}
+	}
+
+	/**
+	 * 会员图谱
+	 * 
+	 */
+	public function atlas(){
+		$account = I('account');
+		$id = (int)I('id');
+		$member_list = array();
+		$member_model = new MemberModel();
+		if ($id>0) {
+			$member_list = $member_model->findAble($id);
+			if ($member_list['id'] != MID && false === $member_model->isParentArea(MID, $member_list['id'])) $this->error('没有权限');//判断查询的会员是否在自己的体系中
+		}elseif (!empty($account)){
+			$member_list = $member_model->findAble(array('account'=>$account));
+			if (empty($member_list)) $this->error('无此会员');
+			if (false === $member_model->isParentArea(MID, $member_list['id'])) $this->error('没有权限');//判断查询的会员是否在自己的体系中
+			$this->assign('search_account',$account);
+		}else {
+			$member_list = $this->_me;
+		}
+		$member_list['son_nums'] = $member_model->sonNums($member_list['id']); //直推人数
+		$member_list['area_nums'] = $member_model->areaNums($member_list['id']); //推荐体系人数
 		
-		//验证成功后记录session
-		$_SESSION[C('PWDTWO_KEY')]	=	true;
-		$this->success('二级密码验证成功',cookie('_currentUrl_'));
+		$this->member($member_model,$member_list['id'],$member_list);
+		$this->assign('member_list',$member_list);
+		
+		cookie('_currentUrl_',$_SERVER['REQUEST_URI']);
+		$this->display();
 	}
 	
-	//图谱 只显示1层
-	public function atlas() {
-		
+	/**
+	 * 会员图谱递归方法
+	 */
+	protected function member($member_model,$mid,&$member_list,$level=0) {
+		//只显示3级图谱
+		if ($level >=3) return;
+		$level++;
+		$member_l = $member_model->where("parent_aid=$mid")->select();		
+		foreach ($member_l as $row){
+			$row['son_nums'] = $member_model->sonNums($row['id']); //直推人数
+			$row['area_nums'] = $member_model->areaNums($row['id']); //推荐体系人数
+			
+			if ($row['parent_area'] == 'A'){
+				$member_list['A'] = $row;
+				$this->member($member_model, $row['id'], $member_list['A'], $level);
+			
+			}else {
+				$member_list['B'] = $row;
+				$this->member($member_model, $row['id'], $member_list['B'], $level);		
+			}
+		}
 	}
 }

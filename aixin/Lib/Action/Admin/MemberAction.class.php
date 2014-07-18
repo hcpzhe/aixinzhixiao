@@ -3,7 +3,7 @@
 class MemberAction extends AdminbaseAction {
 	
 	/**
-	 * 会员筛选列表
+	 * 会员筛选列表. 默认1-5级正常会员
 	 * @param  $level		级别  0-5 0-临时会员
 	 * @param  $account		帐号
 	 * @param  $status		状态
@@ -109,15 +109,15 @@ class MemberAction extends AdminbaseAction {
 	 * 注册会员页面
 	 */
 	public function add() {
-		$pid = (int)I('param.pid'); //新会员的推荐人
-		$paid = (int)I('param.paid'); //新会员的节点人
-		if ($pid<=0) $this->error('参数非法',cookie('_currentUrl_'));
-		$ptype = I('param.ptype') === 'A' ? 'A' : 'B';
+		$pid = (int)I('pid'); //新会员的推荐人
+		$paid = (int)I('paid'); //新会员的节点人
+		if ($pid<=0 || $paid<=0) $this->error('参数非法',cookie('_currentUrl_'));
+		$ptype = I('ptype') === 'A' ? 'A' : 'B';
 		$member_M = new MemberModel();
 		$pinfo = $member_M->findAble($pid);
 		if (empty($pinfo)) $this->error('推荐人不存在, 请重新选择',cookie('_currentUrl_'));
 		$painfo = $member_M->findAble($paid);
-		if (empty($pinfo)) $this->error('节点不存在, 请重新选择',cookie('_currentUrl_'));
+		if (empty($painfo)) $this->error('节点不存在, 请重新选择',cookie('_currentUrl_'));
 		
 		/*判断area_type是否被占用*********************************************************/
 		$cond = array();
@@ -157,14 +157,19 @@ class MemberAction extends AdminbaseAction {
 	 * 
 	 */
 	public function atlas(){
-		$account = I('param.account');
+		$account = I('account');
+		$id = (int)I('id');
 		$member_list = array();
 		$member_model = new MemberModel();
-		if (!empty($account)){
-			$member_list = $member_model->find(array('account'=>$account));
+		if ($id>0) {
+			$member_list = $member_model->findAble($id);
+		}elseif (!empty($account)){
+			$member_list = $member_model->findAble(array('account'=>$account));
 		}else {
-			$member_list = $member_model->find(array('parent_aid'=>0));
+			$member_list = $member_model->where('parent_aid=0')->find();
 		}
+		if (empty($member_list)) $this->error('会员不存在');
+		
 		$member_list['son_nums'] = $member_model->sonNums($member_list['id']); //直推人数
 		$member_list['area_nums'] = $member_model->areaNums($member_list['id']); //推荐体系人数
 		
@@ -182,7 +187,11 @@ class MemberAction extends AdminbaseAction {
 		//只显示3级图谱
 		if ($level >=3) return;
 		$level++;
-		$member_l = $member_model->where("parent_aid=$mid")->select();		
+		$where=array();
+		$where['parent_aid'] = $mid;
+		$where['status'] = '1';
+		$where['level'] = array('in','1,2,3,4,5');
+		$member_l = $member_model->where($where)->select();
 		foreach ($member_l as $row){
 			$row['son_nums'] = $member_model->sonNums($row['id']); //直推人数
 			$row['area_nums'] = $member_model->areaNums($row['id']); //推荐体系人数

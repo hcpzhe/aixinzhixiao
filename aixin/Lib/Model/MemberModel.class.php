@@ -212,4 +212,27 @@ class MemberModel extends Model {
 		return true;
 	}
 	
+	/**
+	 * 判断是否在推荐体系中
+	 * @param $pid 父源ID,在此会员推荐体系中进行核查
+	 * @param $sonid 被检查的会员ID
+	 */
+	public function isParentArea($pid, $sonid) {
+		$condition = array();
+		$condition['parent_aid'] = $pid;
+		$condition['status'] = '1';
+		$condition['level'] = array('in','1,2,3,4,5');
+		$ids = $this->where($condition)->getField('id',true);
+		if (empty($ids)) {
+			//检查完了, 没有了
+			return false;
+		}elseif (in_array($sonid, $ids)) {
+			//找到了
+			return true;
+		}else {
+			$ids = array('in',$ids);
+			return $this->isParentArea($ids, $sonid);
+		}
+	}
+	
 }
