@@ -40,7 +40,7 @@ KindEditor.ready(function(K) {
             <th>{$info['title']}</th>
           </tr> 
           <tr>
-            <td align="right">发布时间：{$infocreate_time']} &nbsp;&nbsp;<a href="javascript:;void(history.go(-1));">返回</a></td>
+            <td align="right">发布时间：{:date('Y-m-d',$info['create_time'])} &nbsp;&nbsp;<a href="javascript:;void(history.go(-1));">返回</a></td>
           </tr>       
           <tr>
             <td>{$info['content']}</td>
