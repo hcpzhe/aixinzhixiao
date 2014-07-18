@@ -48,7 +48,7 @@ $(function($) {
       <tr>
         <td align="center" valign="top" class="top_nav">
           <ul class="nav">
-            <li><a href="{:U('Article/lists?category=公告')}" class="cur" target="main" data-qucik="a">首页</a></li>
+            <li><a href="{:U('Index/welcome')}" class="cur" target="main" data-qucik="a">首页</a></li>
             <li><a href="{:U('Member/info')}" target="main" data-qucik="b">个人资料</a></li>
             <li><a href="{:U('Member/atlas')}" target="main" data-qucik="c">市场图谱</a></li>
             <li><a href="{:U('Article/read?category=公司简介')}" target="main" data-qucik="d">公司介绍</a></li>
@@ -77,13 +77,16 @@ $(function($) {
                         <td class="l_c1_item">用 &nbsp;户&nbsp;名：{$_ME.account}</td>
                       </tr>
                       <tr>
+                        <td class="l_c1_item">您的级别：{$_ME.level} 星</td>
+                      </tr>
+                      <tr>
                         <td class="l_c1_item">身份证号：{$_ME.idcard}</td>
                       </tr>
                       <tr>
-                        <td class="l_c1_item">联系电话：{$_ME.points}</td>
+                        <td class="l_c1_item">联系电话：{$_ME.tel}</td>
                       </tr>
                       <tr>
-                        <td class="l_c1_item">积分：{$_ME.tel}</td>
+                        <td class="l_c1_item">积分余额：{$_ME.points}</td>
                       </tr>
                     </tbody>
                   </table>
@@ -100,6 +103,7 @@ $(function($) {
                 <td align="center" class="l_c2_mn">
                   <div id="dq-a" style="display: block;">
                   <a href="{:U('Article/lists?category=公告')}" target="main">公告列表</a>
+                  <a href="{:U('Article/lists?category=新闻')}" target="main">新闻列表</a>
                   </div>
                   <div id="dq-b" style="display: none;">
                     <a href="{:U('Member/info')}" target="main">个人资料</a>
@@ -120,6 +124,7 @@ $(function($) {
                     <a href="{:U('Levelup/lists?status=3')}" target="main">升级记录</a>
                     <a href="{:U('Levelup/lists?status=1')}" target="main">待审核升级记录</a>
                     <a href="{:U('Levelup/lists?status=2')}" target="main">被拒绝的升级记录</a>
+                    <a href="{:U('Levelup/lists?member_id=my')}" target="main">我的新会员升级记录</a>
                     <a href="{:U('Levelup/levelup')}" target="main">我要升级</a>
                   </div>
                 </td>

@@ -11,7 +11,7 @@
         a{ color:Blue; }
         a:hover{ color:#000;}
         .divList{ width:960px; }
-        .danyuan{ width:110px; line-height:30px; text-align:center; }
+        .danyuan{ width:110px; line-height:18px; text-align:center; }
         .danyuan a{ color:#000;}
         .danyuan a:hover{ color:#333;}
         .danyuan table{ width:100%; text-align:center; }
@@ -37,10 +37,10 @@
     </div>
     <div class="divList">
         <div style="border:1px solid #CCC; margin:0 auto; width:110px;">
-            <div class="danyuan" style="background:#ccc; ">
-                <div class="danyuan">{$member_list['account']}</div>
+            <div class="danyuan" style="background:#ccc;">
+                <div class="danyuan">{$member_list['level']} 星<br>{$member_list['account']}</div>
             </div>
-            <div class="danyuan" style="height:72px;">
+            <div class="danyuan" style="height:72px;line-height:30px;">
 				直推：{$member_list['son_nums']}<br />
 				体系：{$member_list['area_nums']}
             </div>
@@ -155,7 +155,7 @@ function boxdiv ($list,$area) {
 	}elseif (empty($list[$area])) {
 		$return = '
 		<div style="border:1px solid #CCC; margin:0 auto; width:110px;">
-		    <div class="danyuan" style="background:#c00; ">
+		    <div class="danyuan" style="background:#c00;line-height:30px;">
 		            <a href="'.U('Member/add?pid='.$list['id'].'&paid='.$list['id'].'&ptype='.$area).'">注册</a>
 		    </div>
 		    <div class="danyuan" style=" height:72px;">
@@ -165,9 +165,9 @@ function boxdiv ($list,$area) {
 		$return = '
 		<div style="border:1px solid #CCC; margin:0 auto; width:110px;">
 		    <div class="danyuan" style="background:#6fadd1; ">
-		            <div class="danyuan"><a href="'.U('Member/atlas?id='.$list[$area]['id']).'">'.$list[$area]['account'].'</a></div>
+		            <div class="danyuan"><a href="'.U('Member/atlas?id='.$list[$area]['id']).'">'.$list[$area]['level'].' 星<br>'.$list[$area]['account'].'</a></div>
 		    </div>
-		    <div class="danyuan" style="height:72px;">
+		    <div class="danyuan" style="height:72px;line-height:30px;">
 		   		 直推：'.$list[$area]['son_nums'].'人<br />
 				体系：'.$list[$area]['area_nums'].'人
 			</div>

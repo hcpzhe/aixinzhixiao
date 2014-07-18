@@ -165,7 +165,7 @@ function atlasstr($list,$pinfo=array(),$ptype='A') {
 		$str = '
 		<table cellspacing="1" cellpadding="1" width="150" align="center" bgcolor="#C9C9C9" border="0">
 		  <tr>
-			<td height="24" align="center" style="color:#999999">'.$regstr.'</td>
+			<td height="36" align="center" style="color:#999999">'.$regstr.'</td>
 		  </tr>
 		  <tr>
 			<td height="24" align="center" bgcolor="#FFFFFF"></td>
@@ -180,7 +180,7 @@ function atlasstr($list,$pinfo=array(),$ptype='A') {
 		$str='
 		<table cellspacing="1" cellpadding="1" width="150" align="center" bgcolor="'.$color.'" border="0">
 		  <tr>
-			<td height="24" align="center"><a href="'.U('Member/atlas?id='.$list['id']).'" style="color:'.$acor.'"><strong>'.$list['account'].'</strong></a></td>
+			<td height="36" align="center"><a href="'.U('Member/atlas?id='.$list['id']).'" style="color:'.$acor.'"><strong>'.$list['level'].' 星<br>'.$list['account'].'</strong></a></td>
 		  </tr>
 		  <tr>
 			<td height="24" align="center" bgcolor="#FFFFFF" style="color:#62B0FF">推荐体系人数：'.$list['area_nums'].'</td>

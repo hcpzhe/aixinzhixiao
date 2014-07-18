@@ -3,22 +3,19 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>公告列表</title>
+<title>{$category}列表</title>
 <link href="__PUBLIC__/css/home.css" rel="stylesheet" type="text/css">
 </head>
 <body>
 <table width="100%" border="0" cellspacing="0" cellpadding="0">
   <tbody>
     <tr>
-      <td colspan="7" class="r_c1_title">文章列表</td>
+      <td colspan="7" class="r_c1_title">{$category}列表</td>
     </tr>
      <foreach name="list" item="vo">    
     <tr>
       <td width="4%" align="center" class="b_b"><img src="__PUBLIC__/images/list_pref1.gif" width="9" height="9"></td>
-      <td width="15%" class="r_c1_item b_b"><a href="{:U('Article/read?id='.$vo['id'])}">{$vo['title']}</a></td>
-      <td width="15%" class="r_c1_item b_b">{$vo['editor']}</td>
-      <td width="15%" class="r_c1_item b_b"><img src="{$vo.picture}" /></td>
-      <td width="15%" class="r_c1_item b_b">{:date('Y-m-d',$vo['create_time'])}</td>
+      <td width="80%" class="r_c1_item b_b"><a href="{:U('Article/read?id='.$vo['id'])}">{$vo['title']}</a></td>
       <td width="15%" class="r_c1_item b_b">{:date('Y-m-d',$vo['update_time'])}</td>
     </tr>
     </foreach>
