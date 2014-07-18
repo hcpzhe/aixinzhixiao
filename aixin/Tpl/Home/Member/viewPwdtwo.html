@@ -23,14 +23,14 @@
                   <tr>
                     <td width="30%" height="30" align="right">二级密码：</td>
                     <td width="70%" align="left">
-                      <input name="opwd1" type="password" id="opwd1">
+                      <input name="pwdtwo" type="password" id="pwd1">
                       <span style="color:#FF0000">*</span>
                     </td>
                   </tr>
                   <tr>
                       <td height="30" align="right">再次输入：</td>
                       <td align="left">
-                        <input name="pwd1c" type="password" id="pwd1c">              
+                        <input name="pwdtwo" type="password" id="pwd1c">              
                       </td>
                     </tr>
                     <tr>
@@ -49,22 +49,15 @@
 <script language="JavaScript" type="text/javascript">
 function checkfrm1(afrm)
 {
-	if(!/^\w{4,}$/i.test(afrm.opwd1.value))
-	{
-		alert("原登录密码无效");
-		afrm.opwd1.focus();
-		return false;
-	}
-	
 	if( (afrm.pwd1.value != "") && (!/^\w{4,}$/i.test(afrm.pwd1.value)) )
 	{
-		alert("登录密码无效");
+		alert("二级密码无效");
 		afrm.pwd1.focus();
 		return false;
 	}
 	if( (afrm.pwd1.value != "") &&  (afrm.pwd1c.value != afrm.pwd1.value) )
 	{
-		alert("登录密码确认有误！");
+		alert("二级密码确认有误！");
 		afrm.pwd1c.focus();
 		return false;
 	}
