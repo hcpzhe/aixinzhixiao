@@ -40,18 +40,6 @@ class IndexAction extends AdminbaseAction {
 		
 	}
 	/**
-	 * 系统设置页面
-	 */
-	public function system(){
-		$system_model = New Model('Config');
-		$systemt = $system_model->select();
-		
-		
-		$this->assign('system',$systemt);
-		$this->display();
-	}
-	
-	/**
 	 * 修改密码页面
 	 */
 	public function password(){
@@ -62,6 +50,8 @@ class IndexAction extends AdminbaseAction {
 	// 更换密码
 	public function changePwd() {
 		//对表单提交处理进行处理或者增加非表单数据
+		if ($_POST['password'] != $_POST['repassword']) $this->error('两次输入密码不一致');
+		if (empty($_POST['password']) || empty($_POST['oldpassword'])) $this->error('密码不能为空');
 		$map	=	array();
 		$map['password']= pwdHash($_POST['oldpassword']);
 		$map['id'] = UID;
@@ -69,7 +59,7 @@ class IndexAction extends AdminbaseAction {
 		//检查用户
 		$User	=   M("User");
 		if(!$User->where($map)->field('id')->find()) {
-			$this->error('旧密码不符或者用户名错误！');
+			$this->error('旧密码不符！');
 		}else {
 			$User->password	=	pwdHash($_POST['password']);
 			$User->where('id='.UID)->save();
