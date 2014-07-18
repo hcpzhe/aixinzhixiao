@@ -107,7 +107,7 @@ class MemberModel extends Model {
 	 */
 	public function areaNums($id,$nums=0) {
 		$return = $nums; $condition = array();
-		$condition['parent_id'] = $id;
+		$condition['parent_aid'] = $id;
 		
 		$condition['parent_area'] = 'A';
 		$son_A = $this->findAble($condition);
@@ -148,8 +148,9 @@ class MemberModel extends Model {
 		}else {
 			$where = $options;
 		}
-		if (!in_array($where['status'], array(-1,0,1))) $where['status'] = '1';
-		if (!in_array($where['level'], array(0,1,2,3,4,5))) $where['level'] = array('in','1,2,3,4,5');
+		
+		if ($where['status']===null||$where['status']===''||!in_array($where['status'], array(-1,0,1))) $where['status'] = '1';
+		if ($where['level']===null||$where['level']===''||!in_array($where['level'], array(0,1,2,3,4,5))) $where['level'] = array('in','1,2,3,4,5');
 		return $this->where($where)->find();
 	}
 	
