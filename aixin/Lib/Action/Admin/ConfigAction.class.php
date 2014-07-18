@@ -4,6 +4,12 @@ class ConfigAction extends AdminbaseAction {
 	
 	public function info() {
         // 记录当前列表页的cookie
+        $model = new Model('Config');
+        $map = array();
+        $map['name'] = array('not in','basepoints,maxlevel');
+        $list = $model->where($map)->select();
+        $this->assign('list',$list);
+        
         cookie('_currentUrl_',$_SERVER['REQUEST_URI']);
         $this->display();
 	}
