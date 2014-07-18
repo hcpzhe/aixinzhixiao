@@ -15,30 +15,54 @@
               </tr>
               <tr>
                 <td align="center" style="line-height:1.8;">
-					<table class="registertable1" width="450">
-						<tbody>
-							<tr>
-							<td width="40%">银行卡号</td>
-							<td width="30%">应付金额</td>
-							<td colspan="2" width="30%" align="center">操作</td>                          
-							</tr>
-							<tr>
-                            <form name="form" action="{:U('Levelup/payToup')}" method="post">
-							<td>
-								{$rec_info['bankcard']}
-							</td>
-							<td>
-								{$need_money}
-							</td>    
-							<td><a href="{:U('Levelup/payToup')}">付款升级</a>
-                            </td>
-                            <td><a href="{:U('Levelup/pointsToup')}">积分升级</a></td>
-                            </form>
-							</tr>
-							</tbody>
-                            </table>
-                          </td>
-                         </tr>                         
+					<td align="center">
+                     <form action="{:U('Levelup/payToup')}" method="post" name="form1" id="form1" onsubmit="$(this).RSsubmit({success_alert:true});return false;">
+          <table width="100%" border="0" cellpadding="0" cellspacing="0" class="btab">
+            <tbody>
+              <tr>
+                <td width="16%" height="28" align="right">应付金额：</td>
+                <td width="84%" align="left"><input name="should_pay" type="text" class="inputTxt" id="should_pay" size="30" value="{$rec_info['should_pay']}"></td>
+              </tr>
+              <tr>
+                <td height="26" align="right">实际打款金额：</td>
+                <td align="left"><input name="real_pay" type="text" class="inputTxt" id="real_pay" size="30" value="{$rec_info['real_pay']}"></td>
+              </tr>
+              <tr>
+                <td height="26" align="right">打款时间：</td>
+                <td align="left"><input name="pay_time" type="text" class="inputTxt" id="pay_time" size="30" value="{$rec_info['real_pay']}"></td>
+              </tr>
+              <tr>
+                <td height="26" align="right">收益用户：</td>
+                <td align="left"><input name="rec_id" type="text" class="inputTxt" id="rec_id" size="20" value="{$rec_info['rec_id']}"></td>
+              </tr> 
+               <tr>
+                <td height="26" align="right">开户姓名：</td>
+                <td align="left">{$rec_info['realname']}</td>
+              </tr>              
+               <tr>
+                 <td height="26" align="right">开户银行：</td>
+                 <td align="left">{$rec_info['bank_name']} </td>
+               </tr>
+               <tr>
+                 <td height="26" align="right">开户卡号：</td>
+                 <td align="left">{$rec_info['bank_card']} </td>
+               </tr>
+               <tr>
+                 <td height="26" align="right">开户地址：</td>
+                 <td align="left"> {$rec_info['bank_address']}</td>
+               </tr>
+               <tr>
+                 <td height="50" colspan="2" align="left">
+                 <input type="submit" name="Submit" value=" 付款升级  ">
+                 <input disabled type="button"  value=" 积分升级  " onClick="$(this).RSsubmit({ success_alert:true,url: '{:U(\'Levelup/pointsToup\')}' });return false;">
+                 </td>
+               </tr>
+              </tbody>
+              </table>
+            </form>
+                 </td>
+                </td>
+              </tr>                         
           </tbody>
       </table>	
 </body>

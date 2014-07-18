@@ -32,18 +32,34 @@
                 </td>
               </tr>
               <tr>
+                <td width="16%" height="28" align="right">确认密码：</td>
+                <td width="84%" align="left"><input type="password" name="repassword" class="inputTxt" id="repassword" size="20">
+                </td>
+              </tr>
+              <tr>
                 <td height="26" align="right">二级密码：</td>
                 <td align="left"><input type="password" name="pwdtwo" class="inputTxt" id="pwdtwo" size="20"><span style="color:#FF0000">*</span>
                 </td>
               </tr>
               <tr>
+                <td height="26" align="right">确认二级密码：</td>
+                <td align="left"><input type="password" name="repwdtwo" class="inputTxt" id="repwdtwo" size="20">
+                </td>
+              </tr>
+              <tr>
                 <td height="26" align="right">推荐人：</td>
                 <td align="left">{$_ME['account']}
-                <input type="hidden" name="paid" class="inputTxt" id="paid" size="20" value="{$pinfo['id']}">
-               <input type="hidden" name="painfo" class="inputTxt" id="painfo" size="20" value="{$painfo['id']}">
-              <input type="hidden" name="ptype" class="inputTxt" id="ptype" size="20" value="{$ptype}">
+              <input type="hidden" name="ptype" class="inputTxt" id="ptype" size="20" value="{$pinfo['parent_id']}"> 
                 </td>
-              </tr>   
+              </tr>  
+               <tr>
+                <td height="26" align="right">区域父id：</td>
+                <td align="left">{$pinfo['id']} </td>
+              </tr> 
+              <tr>
+                <td height="26" align="right">所属推荐区域：</td>
+                <td align="left">{$ptype} </td>
+              </tr>
               <tr>
                 <td height="26" align="right">真实姓名：</td>
                 <td align="left">
