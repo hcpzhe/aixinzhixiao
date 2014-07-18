@@ -15,45 +15,30 @@
               </tr>
               <tr>
                 <td align="center" style="line-height:1.8;">
-					<table class="registertable1" width="100%;">
+					<table class="registertable1" width="450">
 						<tbody>
 							<tr>
-							<td>银行卡号</td>
-							<td>应付金额</td>
-							<td>操作</td>                          
+							<td width="40%">银行卡号</td>
+							<td width="30%">应付金额</td>
+							<td colspan="2" width="30%" align="center">操作</td>                          
 							</tr>
-							<!-- <foreach name="levelup_list" item="row"> -->
 							<tr>
+                            <form name="form" action="{:U('Levelup/payToup')}" method="post">
 							<td>
-								{$member_acc[$row['member_id']]['account']}
+								{$rec_info['bankcard']}
 							</td>
 							<td>
-								{$level_name[$row['level_bef']]}
-							</td>
-							<td>提交</td>
+								{$need_money}
+							</td>    
+							<td><a href="{:U('Levelup/payToup')}">付款升级</a>
+                            </td>
+                            <td><a href="{:U('Levelup/pointsToup')}">积分升级</a></td>
+                            </form>
 							</tr>
-							<!-- </foreach> -->	
 							</tbody>
                             </table>
                           </td>
-                         </tr>
-                         <tr>
-                           <td>
-							<!-- 分页开始 -->
-							<table class="" width="100%">
-								<tbody><tr>
-									<td align="left" height="29" width="40%">
-										<div align="left">
-										</div>
-									</td>
-									<td align="right" height="22" valign="middle" width="25%">
-										 {$_page} 
-									</td>
-								</tr>
-							</tbody>
-                      </table>
-                 </td>
-             </tr>
+                         </tr>                         
           </tbody>
       </table>	
 </body>

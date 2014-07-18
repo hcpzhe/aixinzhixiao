@@ -14,6 +14,9 @@ td{ height:28px;}
         <td class="r_c1_title">提现详情页</td>
       </tr>
       <tr>
+        <td height="20"></td>
+      </tr>
+      <tr>
         <td align="center" style="line-height:1.8;">
           <table width="100%" border="0" cellpadding="1" cellspacing="1" bgcolor="#F6F6F6" class="btab">
             <tbody>
@@ -47,11 +50,11 @@ td{ height:28px;}
               </tr>
               <tr class="tr1">
                 <td width="15%" align="center">申请提现时间：</td>
-                <td>{$info['create_time']}</td>
+                <td>{:date('Y-m-d',$info['create_time'])}</td>
               </tr>
               <tr class="tr1">
                 <td width="15%" align="center">审核时间：</td>
-                <td>{$info['check_time']}</td>
+                <td>{:date('Y-m-d',$info['check_time'])}</td>
               </tr>
               <tr class="tr1">
                 <td width="15%" align="center">备注留言：</td>
