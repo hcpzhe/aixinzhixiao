@@ -2,14 +2,27 @@
 
 class LevelupAction extends AdminbaseAction {
 	
+	function _initialize(){
+		parent::_initialize();
+		$stat = array(
+			'1' => '待审',
+			'2' => '拒绝',
+			'3' => '通过',
+		);
+		$this->assign('_stat',$stat);
+	}
+	
 	/**
 	 * 升级记录筛选列表
 	 */
-	public function lists($type=1, $status=1, $account=null, $bef=null) {
+	public function lists($type=1, $status=null, $member_id=null, $account=null, $bef=null, $tpl=null) {
 		$model = New Model('Levelup');
 		$member_M = new Model('Member');
 		//查询条件
-        if(isset($account)) {
+		if (isset($member_id)) {
+            $map['member_id'] = $member_M->where('id='.$member_id)->getField('id');
+            if (empty($map['member_id'])) $this->error('用户不存在',cookie('_currentUrl_'));
+		}elseif (isset($account)) {
             $memmap['account']   =   array('like', '%'.$account.'%');
             $map['member_id'] = $member_M->where($memmap)->getField('id');
             if (empty($map['member_id'])) $this->error('找不到用户',cookie('_currentUrl_'));
@@ -18,6 +31,7 @@ class LevelupAction extends AdminbaseAction {
         	if ($map['type'] == '2') $map['status'] = '3';
         	else $map['status'] = $status;
         }
+        
         if (isset($bef) && $bef >=0 && $bef <=4) {
         	$map['level_bef'] = $bef;
         }else {
@@ -32,14 +46,18 @@ class LevelupAction extends AdminbaseAction {
         $this->assign('type', $map['type']); //用于筛选条件的显示
         $this->assign('account', $account); //用于筛选条件的显示
         
+        
 		$mem_ids = field_unique($list, 'member_id,rec_id'); //列表中用到的会员ID
-		$map = array('id'=>array('in',$mem_ids));
-		$memlist = $member_M->where($map)->getField('id,account,realname');
+		if (!empty($mem_ids)) {
+			$map = array('id'=>array('in',$mem_ids));
+			$memlist = $member_M->where($map)->getField('id,account,realname');
+		}else $memlist = array();
 		$this->assign('memlist',$memlist); //列表用到的会员列表, ID为key索引
         
         // 记录当前列表页的cookie
         cookie('_currentUrl_',$_SERVER['REQUEST_URI']);
-        $this->display();
+        if (isset($tpl)) $this->display($tpl);
+        else $this->display();
 	}
 	
 	/**
@@ -68,11 +86,11 @@ class LevelupAction extends AdminbaseAction {
 	 * 通过审核接口
 	 */
 	public function passCheck() {
-		$id = (int)I('id');
-		if ($id <= 0) $this->error('参数非法');
+		$id = (int)I('get.id');
+		if ($id <= 0) $this->error('参数非法'.$id);
 		
 		$model = New LevelupModel();
-		$model->remark = I('remark');
+		//$model->remark = I('get.remark');
 		if (false===$model->passCheck($id)) {
 			$this->error($model->getError());
 		}
@@ -84,12 +102,12 @@ class LevelupAction extends AdminbaseAction {
 	 */
 	public function denyCheck() {
 		//建议, 拒绝的时候给出页面, 让管理员填入拒绝原因,存入remark字段
-		$id = (int)I('id');
+		$id = (int)I('get.id');
 		
 		if ($id <= 0) $this->error('参数非法');
 		$model = New LevelupModel();
 		
-		$model->remark = I('remark');
+		//$model->remark = I('get.remark');
 		if (false===$model->denyCheck($id)) {
 			$this->error($model->getError());
 		}

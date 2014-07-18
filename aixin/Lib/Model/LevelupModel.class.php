@@ -36,7 +36,7 @@ class LevelupModel extends Model {
 			return false;
 		}
 		//判断是否已经提交过升级, 并且没有被拒绝
-		$levelup_M = new Model('Levelup');//这里需要重新实例化, 以免影响$this的操作
+		$levelup_M = new LevelupModel();//这里需要重新实例化, 以免影响$this的操作
 		$map = array();
 		$map['member_id'] = $this->member_id;
 		$map['level_bef'] = $level;
@@ -51,10 +51,35 @@ class LevelupModel extends Model {
 		$this->level_aft = $level+1;
 		$this->should_pay = get_shouldpay($level, $configs['basepoints']);
 		$this->rec_id = $this->getRec($this->member_id);
-		if ($this->type == '2') $this->status = '3';
-		else {$this->type = '1'; $this->status = '1';}
-		
-		return $this->add();
+		if ($this->type == '2') {
+			$member_id = $this->member_id;
+			$real_pay = $this->real_pay = $this->should_pay;
+			$this->status = '1';
+			//积分升级     这里不进行是否可以进行积分升级的判断
+			$this->startTrans();
+			$return = $this->add();
+			if ($return === false) {
+				$this->rollback();
+				return false;
+			}
+			//扣除升级用户的积分余额
+			if (false === $member_M->where('id='.$member_id)->setDec('points',$real_pay)) {
+				$this->rollback();
+				$this->error = '审核失败, 用户积分扣除错误';
+				return false;
+			}
+			//执行passCheck操作
+			if (false === $levelup_M->passCheck($return)) {//这里不用$this 是以免数据污染
+				$this->error = $levelup_M->getError(); //获取审核不通过的错误原因
+				$this->rollback();
+				return false;
+			}
+			$this->commit();
+			return $return;
+		}else {
+			$this->type = '1'; $this->status = '1';
+			return $this->add();
+		}
 	}
 	
 	/**
@@ -103,26 +128,42 @@ class LevelupModel extends Model {
 	 * @param  $id levelup主键ID
 	 */
 	public function passCheck($id) {
+		$levelinfo = $this->find($id); //升级记录的信息
+		if (empty($levelinfo)) {
+			$this->error = '记录不存在! 请刷新页面重试';
+			return false;
+		}
 		$member_M = New MemberModel();
-		$info = $this->find($id);
+		$meminfo = $member_M->find($levelinfo['member_id']); //申请会员的信息
+		if (empty($meminfo)) {
+			$this->where('id='.$id)->delete();
+			$this->error = '申请会员不存在, 已删除此条记录! 请刷新页面';
+			return false;
+		}
 		//判断级别
+		if ($meminfo['level'] >= $levelinfo['level_aft']) {
+			//用户当前级别已经超出审核记录中的级别 , 正常流程是不会出现的, 所以删除此条记录
+			$this->where('id='.$id)->delete();
+			$this->error = '申请会员级别超出该记录的升级级别, 已删除此条记录! 请刷新页面';
+			return false;
+		}
+		
 		$config_M = New ConfigModel();
 		$configs = $config_M->getHash();
-		$level = $member_M->where('id='.$info['member_id'])->getField('level');//当前级别
-		if ($level >= $configs['maxlevel']) {
+		if ($meminfo['level'] >= $configs['maxlevel']) {
 			$this->remark = $this->error = '已升至最高级别, 无需升级!';
 			$this->denyCheck($id);
 			return false;
 		}
 		
 		//新会员的话, 要检测 推荐人, 节点人, 节点位置的合法性
-		if ($info['level'] == '0') {
-			if (false === $member_M->chkParent(array('parent_id'=>$info['parent_id'],'parent_aid'=>$info['parent_aid']))) {
+		if ($meminfo['level'] == '0') {
+			if (false === $member_M->chkParent(array('parent_id'=>$meminfo['parent_id'],'parent_aid'=>$meminfo['parent_aid']))) {
 				$this->remark = $this->error = $member_M->getError();
 				$this->denyCheck($id);
 				return false;
 			}
-			if (false === $member_M->chkParentArea(array('parent_area'=>$info['parent_area'],'parent_aid'=>$info['parent_aid']))) {
+			if (false === $member_M->chkParentArea(array('parent_area'=>$meminfo['parent_area'],'parent_aid'=>$meminfo['parent_aid']))) {
 				$this->remark = $this->error = $member_M->getError();
 				$this->denyCheck($id);
 				return false;
@@ -139,15 +180,15 @@ class LevelupModel extends Model {
 		}
 		
 		//更新用户级别
-		if (false === $member_M->where('id='.$info['member_id'])->setInc('level')) {
+		if (false === $member_M->where('id='.$levelinfo['member_id'])->setField('level',$levelinfo['level_aft'])) {
 			$this->rollback();
 			$this->error = '审核失败, 用户级别更新错误';
 			return false;
 		}
 		
 		//存在受益人, 则更新受益人积分
-		if ($info['rec_id'] > 0) {
-			if (false === $member_M->where('id='.$info['rec_id'])->setInc('points',$info['should_pay'])) {
+		if ($levelinfo['rec_id'] > 0) {
+			if (false === $member_M->where('id='.$levelinfo['rec_id'])->setInc('points',$levelinfo['should_pay'])) {
 				$this->rollback();
 				$this->error = '审核失败, 受益人积分更新错误';
 				return false;
@@ -156,9 +197,9 @@ class LevelupModel extends Model {
 		
 		//在bonus表中记录
 		$data = array(
-			'member_id' => $info['rec_id'],
-			'source_id' => $info['id'],
-			'bonus' => $info['should_pay'],
+			'member_id' => $levelinfo['rec_id'],
+			'source_id' => $levelinfo['member_id'],
+			'bonus' => $levelinfo['should_pay'],
 			'create_time' => time()
 		);
 		$bonus_M = New Model('Bonus');

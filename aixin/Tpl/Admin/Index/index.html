@@ -60,22 +60,23 @@
             <div style="background:url(__PUBLIC__/images/Admin/mtop.png); width:160px; height:15px;">
             </div>
             <dl id="_menuindex">
-                <dt class="slides2"><img src="__PUBLIC__/images/Admin/menuindex.png" alt=""><a href="./会员中心_files/会员中心.htm">首页</a></dt>
+                <dt class="slides2"><img src="__PUBLIC__/images/Admin/menuindex.png" alt=""><a href="{:U('Index/welcome')}" target="main">首页</a></dt>
             </dl>
             <dl id="_menuteam">
                 <dt class="slides"><img src="__PUBLIC__/images/Admin/menuteam.png">会员管理</dt>
                 <dd><a href="{:U('Levelup/lists?bef=0&status=1')}" target="main">待审新会员</a></dd>
-                <dd><a href="{:U('Levelup/lists?bef=0&status=3')}" target="main">已审新会员</a></dd>
-                <dd><a href="{:U('Levelup/lists?bef=0&status=2')}" target="main">被拒绝新会员</a></dd>
+                <dd><a href="{:U('Levelup/lists?bef=0&status=3&tpl=listb0s3')}" target="main">已审新会员</a></dd>
+                <dd><a href="{:U('Levelup/lists?bef=0&status=2&tpl=listb0s2')}" target="main">被拒绝新会员</a></dd>
                 <dd><a href="{:U('Member/lists')}" target="main">会员列表</a></dd>
+                <dd><a href="{:U('Member/lists?level=0&tpl=listl0')}" target="main">临时会员列表</a></dd>
                 <dd><a href="{:U('Member/atlas')}" target="main">会员图谱</a></dd>
             </dl>
             <dl id="_menubusiness">
                 <dt class="slides"><img src="__PUBLIC__/images/Admin/menubusiness.png" alt="">升级管理</dt>
-                <dd><a href="{:U('Levelup/lists?status=1')}" target="main">待审升级记录</a></dd>
-                <dd><a href="{:U('Levelup/lists?status=3')}" target="main">已审升级记录</a></dd>
-                <dd><a href="{:U('Levelup/lists?status=2')}" target="main">拒绝升级记录</a></dd>
-                <dd><a href="{:U('Levelup/lists?type=2')}" target="main">积分升级记录</a></dd>
+                <dd><a href="{:U('Levelup/lists?status=1&tpl=lists1')}" target="main">待审升级记录</a></dd>
+                <dd><a href="{:U('Levelup/lists?status=3&tpl=lists3')}" target="main">已审升级记录</a></dd>
+                <dd><a href="{:U('Levelup/lists?status=2&tpl=lists2')}" target="main">拒绝升级记录</a></dd>
+                <dd><a href="{:U('Levelup/lists?type=2&tpl=listt2')}" target="main">积分升级记录</a></dd>
 	        </dl>
             <dl id="_menufinance">
                 <dt class="slides"><img src="__PUBLIC__/images/Admin/menufinance.png" alt="">财务中心</dt>
