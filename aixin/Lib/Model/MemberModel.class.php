@@ -148,8 +148,8 @@ class MemberModel extends Model {
 		}else {
 			$where = $options;
 		}
-		if (empty($where['status'])) $where['status'] = '1';
-		if (empty($where['level'])) $where['level'] = array('in','1,2,3,4,5');
+		if (!in_array($where['status'], array(-1,0,1))) $where['status'] = '1';
+		if (!in_array($where['level'], array(0,1,2,3,4,5))) $where['level'] = array('in','1,2,3,4,5');
 		return $this->where($where)->find();
 	}
 	
