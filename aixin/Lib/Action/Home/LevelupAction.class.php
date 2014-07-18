@@ -1,6 +1,16 @@
 <?php
 
 class LevelupAction extends HomebaseAction {
+
+	function _initialize(){
+		parent::_initialize();
+		$stat = array(
+			'1' => '待审',
+			'2' => '拒绝',
+			'3' => '通过',
+		);
+		$this->assign('_stat',$stat);
+	}
 	
 	/**
 	 * 升级记录筛选列表
@@ -8,13 +18,14 @@ class LevelupAction extends HomebaseAction {
 	 */
 	public function lists($status=1,$member_id=null) {
 		$map = array(); $model = new Model('Levelup'); $member_M = New MemberModel();
+		$map['status'] = $status;
 		if (isset($member_id) && $member_id >0) {
 			//限定, 只能查询 由我注册的新会员的审核记录
 			$target = $member_M->findAble(array('id'=>$member_id,'level'=>'0'));//目标用户
 			if ($target['parent_id'] != MID) $this->error('没有权限'); 
 			$map['member_id'] = $target['id'];
 			$map['level_bef'] = '0'; //限定 只能查看  新会员的审核记录
-		}elseif ($member_id == '-1') {
+		}elseif ($member_id == 'my') {
 			//查看所有 由我注册的新会员的审核记录
 			$tmpcond = array();
 			$tmpcond['parent_id'] = MID;
@@ -23,17 +34,17 @@ class LevelupAction extends HomebaseAction {
 			
 			$target = $member_M->where($tmpcond)->getField('id',true);//目标用户
 			$map['member_id'] = (empty($target)) ? '0' : array('in',$target);
+			unset($map['status']);
 		}else {
 			$map['member_id'] = MID;
 		}
 		
-		$map['status'] = $status;
 		$this->assign('status',$map['status']);
 		
 		$list = $this->_lists($model,$map,'level_bef desc,id desc');
 		$this->assign('list',$list);
 		
-		$mem_ids = field_unique($list, 'rec_id'); //列表中用到的会员ID
+		$mem_ids = field_unique($list, 'member_id,rec_id'); //列表中用到的会员ID
 		$map = array('id'=>array('in',$mem_ids));
 		$memlist = $member_M->where($map)->getField('id,account,realname');
 		$this->assign('memlist',$memlist); //列表中用到的会员列表, ID为key索引
@@ -83,7 +94,7 @@ class LevelupAction extends HomebaseAction {
 	 */
 	public function payToup() {
 		$model = New LevelupModel();
-		$data = I('post.');
+		$data = I('param.');
 		$data = array_merge($data, array('member_id'=>MID));
 		$data['type'] = '1';
 		$model->create($data);

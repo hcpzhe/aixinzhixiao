@@ -50,13 +50,17 @@ class MemberAction extends AdminbaseAction {
 	 * @param  $id		
 	 */
 	public function info() {
-		$id = (int)I('get.id');
+		$id = (int)I('id');
 		if ($id <= 0) $this->error('参数非法');
 		
 		$map['id'] = $id;
 		$model = new Model('Member');
 		$info = $model->where($map)->find();
 		$this->assign('info',$info);
+		
+		$map = array('id'=>array('in',$info['parent_id'].','.$info['parent_aid']));
+		$memlist = $model->where($map)->getField('id,account,realname');
+		$this->assign('memlist',$memlist); //列表用到的会员列表, ID为key索引
 		
         // 记录当前列表页的cookie
         cookie('_currentUrl_',$_SERVER['REQUEST_URI']);
@@ -72,10 +76,12 @@ class MemberAction extends AdminbaseAction {
 		if ($id <= 0) $this->error('参数非法');
 		
 		$newdata = array();
+		$newdata['id'] = I('param.id');
 		$newdata['realname'] = I('param.realname');
 		$newdata['tel'] = I('param.tel');
 		$newdata['idcard'] = I('param.idcard');
-		$newdata['address'] = I('param.idcard');
+		$newdata['address'] = I('param.address');
+		$newdata['bank_account'] = I('param.bank_account');
 		$newdata['bank_card'] = I('param.bank_card');
 		$newdata['bank_name'] = I('param.bank_name');
 		$newdata['bank_address'] = I('param.bank_address');
@@ -84,21 +90,22 @@ class MemberAction extends AdminbaseAction {
 		$model = new MemberModel();
 		if (false === $model->create($newdata)) $this->error($model->getError());
 		if (false === $model->where('id='.$id)->save()) $this->error('更新失败');
-		$this->success();
+		$this->success('更新成功');
 	}
 	
 	/**
 	 * 重置用户密码
 	 * 传递用户主键信息
 	 */
-	public function resetPwd(){
-		$id = (int)I('get.id');
+	public function resetPwd($istwo=null){
+		$id = (int)I('id');
 		if ($id <= 0) $this->error('参数非法');
 		
 		$member_M = M('Member');
 		$condition = array('id' => array('eq', $id));
+		$field = (isset($istwo)) ? 'pwdtwo' : 'password';
 		$member = $member_M->where($condition)->find();
-		$list = $member_M->where($condition)->setField('password',pwdHash($member['account']));
+		$list = $member_M->where($condition)->setField($field,pwdHash($member['account']));
 		if ($list !== false) {
 			$this->success('密码已重置为用户名！',cookie('_currentUrl_'));
 		} else {

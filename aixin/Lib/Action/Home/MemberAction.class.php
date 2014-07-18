@@ -172,7 +172,11 @@ class MemberAction extends HomebaseAction {
 		//只显示3级图谱
 		if ($level >=3) return;
 		$level++;
-		$member_l = $member_model->where("parent_aid=$mid")->select();		
+		$where=array();
+		$where['parent_aid'] = $mid;
+		$where['status'] = '1';
+		$where['level'] = array('in','1,2,3,4,5');
+		$member_l = $member_model->where($where)->select();	
 		foreach ($member_l as $row){
 			$row['son_nums'] = $member_model->sonNums($row['id']); //直推人数
 			$row['area_nums'] = $member_model->areaNums($row['id']); //推荐体系人数
