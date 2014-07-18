@@ -2,15 +2,15 @@
 Navicat MySQL Data Transfer
 
 Source Server         : 127.0.0.1
-Source Server Version : 50516
+Source Server Version : 50524
 Source Host           : localhost:3306
 Source Database       : aixinzhixiao
 
 Target Server Type    : MYSQL
-Target Server Version : 50516
+Target Server Version : 50524
 File Encoding         : 65001
 
-Date: 2014-07-18 02:41:26
+Date: 2014-07-18 18:24:28
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -109,6 +109,9 @@ CREATE TABLE `ax_bonus` (
 INSERT INTO `ax_bonus` VALUES ('1', '2', '0.00', '1394698240');
 INSERT INTO `ax_bonus` VALUES ('2', '1', '0.00', '1394866183');
 INSERT INTO `ax_bonus` VALUES ('2', '1', '0.00', '1394866305');
+INSERT INTO `ax_bonus` VALUES ('0', '1', '500.00', '1405654611');
+INSERT INTO `ax_bonus` VALUES ('0', '1', '500.00', '1405654738');
+INSERT INTO `ax_bonus` VALUES ('0', '1', '2000.00', '1405667821');
 
 -- ----------------------------
 -- Table structure for `ax_cash`
@@ -179,11 +182,14 @@ CREATE TABLE `ax_levelup` (
   `type` tinyint(1) NOT NULL DEFAULT '1' COMMENT '升级类型 1-付款升级 2-积分升级',
   `remark` varchar(255) DEFAULT NULL COMMENT '备注留言',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='升级记录';
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 COMMENT='升级记录';
 
 -- ----------------------------
 -- Records of ax_levelup
 -- ----------------------------
+INSERT INTO `ax_levelup` VALUES ('2', '1', '0', '2', '3', '2000.00', '2000.00', null, '0', '1405667821', '3', '1', null);
+INSERT INTO `ax_levelup` VALUES ('4', '2', '0', '1', '2', '1000.00', '1000.00', null, '1', '1405668019', '2', '1', null);
+INSERT INTO `ax_levelup` VALUES ('5', '2', '0', '0', '1', '500.00', '500.00', null, '1', '0', '3', '1', null);
 
 -- ----------------------------
 -- Table structure for `ax_member`
@@ -203,19 +209,21 @@ CREATE TABLE `ax_member` (
   `tel` varchar(15) NOT NULL COMMENT '联系电话',
   `idcard` char(18) DEFAULT NULL COMMENT '身份证号',
   `address` varchar(100) DEFAULT NULL COMMENT '联系地址',
+  `bank_account` varchar(100) DEFAULT NULL COMMENT '开户姓名',
   `bank_card` varchar(255) DEFAULT NULL COMMENT '银行卡号',
   `bank_name` varchar(255) DEFAULT NULL COMMENT '开户银行',
   `bank_address` varchar(255) DEFAULT NULL COMMENT '开户地址',
   `create_time` varchar(20) DEFAULT '0' COMMENT '注册时间',
   `status` tinyint(1) NOT NULL DEFAULT '1' COMMENT '-1-删除 0-禁用 1-正常',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of ax_member
 -- ----------------------------
-INSERT INTO `ax_member` VALUES ('1', 'test', '9e90c6271eddcf23e2e251f65bda6be3', 'ca5c77f495ac94c256cc039c87d8da38', '0', '0', 'A', '1', '5625.00', 'asdasd', '11111111111', '111', '宝龙城市广场', null, null, null, '0', '1');
-INSERT INTO `ax_member` VALUES ('2', 'tttt', '9e90c6271eddcf23e2e251f65bda6be3', 'ca5c77f495ac94c256cc039c87d8da38', '1', '1', 'A', '4', '11.25', 'tttt', '11111111111', '1111', '1111', null, null, null, '1394680262', '1');
+INSERT INTO `ax_member` VALUES ('1', 'test', '9e90c6271eddcf23e2e251f65bda6be3', 'ca5c77f495ac94c256cc039c87d8da38', '0', '0', 'A', '2', '5625.00', 'asdasd', '11111111111', '111', '宝龙城市广场', null, null, null, null, '0', '1');
+INSERT INTO `ax_member` VALUES ('2', 'tttt', '9e90c6271eddcf23e2e251f65bda6be3', 'ca5c77f495ac94c256cc039c87d8da38', '1', '1', 'A', '1', '11.25', 'tttt', '11111111111', '1111', '1111', null, null, null, null, '1394680262', '1');
+INSERT INTO `ax_member` VALUES ('3', 'test2', '9e90c6271eddcf23e2e251f65bda6be3', '9e90c6271eddcf23e2e251f65bda6be3', '1', '1', 'B', '0', '0.00', '测试2', '', null, null, null, null, null, null, '0', '1');
 
 -- ----------------------------
 -- Table structure for `ax_user`
@@ -240,7 +248,7 @@ CREATE TABLE `ax_user` (
 -- ----------------------------
 -- Records of ax_user
 -- ----------------------------
-INSERT INTO `ax_user` VALUES ('1', 'admin', '9e90c6271eddcf23e2e251f65bda6be3', '超级管理员', '1405608585', '127.0.0.1', '95', null, '0', '1389940039', '1');
+INSERT INTO `ax_user` VALUES ('1', 'admin', '9e90c6271eddcf23e2e251f65bda6be3', '超级管理员', '1405659969', '127.0.0.1', '97', null, '0', '1389940039', '1');
 INSERT INTO `ax_user` VALUES ('2', 'user2', '3d06188d51e8024d76f1013b1563afcf', '2号', '1387789254', '127.0.0.1', '2', null, '0', '0', '1');
 INSERT INTO `ax_user` VALUES ('3', 'user3', '3d06188d51e8024d76f1013b1563afcf', '3号', '0', null, '0', null, '0', '0', '1');
 INSERT INTO `ax_user` VALUES ('4', 'user4', '15c9dfa38cfaf2635d54b1f94ffaed6c', '4434544656', '1387980302', '127.0.0.1', '1', null, '0', '1387980252', '1');
