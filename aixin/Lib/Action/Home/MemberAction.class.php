@@ -41,7 +41,8 @@ class MemberAction extends HomebaseAction {
 	 */
 	public function add() {
 		$paid = (int)I('paid'); //新会员的节点人
-		if ($paid<=0) $this->error('参数非法',cookie('_currentUrl_'));
+		$paid=1;
+		if ($paid<=0) $this->error('参数非法',cookie('_currentUrl_'));	
 		$ptype = I('ptype') === 'A' ? 'A' : 'B';
 		$member_M = new MemberModel();
 		$pinfo = $this->_me; //新会员的推荐人

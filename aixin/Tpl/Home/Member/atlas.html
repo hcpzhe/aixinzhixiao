@@ -161,7 +161,7 @@ loadWindow()
 <php>
 function atlasstr($list,$pinfo=array(),$ptype='A') {
 	if (empty($list)) {
-		$regstr = (empty($pinfo)) ? '' : '<a target="main" href="'.U('Member/atlas?paid='.$pinfo['id'].'&ptype='.$pinfo['parent_area']).'">未注册</a>';
+		$regstr = (empty($pinfo)) ? '' : '<a target="main" href="'.U('Member/add?paid='.$pinfo['id'].'&ptype='.$ptype).'">未注册</a>';
 		$str = '
 		<table cellspacing="1" cellpadding="1" width="150" align="center" bgcolor="#C9C9C9" border="0">
 		  <tr>
