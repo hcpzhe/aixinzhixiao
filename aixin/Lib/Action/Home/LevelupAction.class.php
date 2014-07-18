@@ -6,15 +6,15 @@ class LevelupAction extends HomebaseAction {
 	 * 升级记录筛选列表
 	 * 状态 1-待审核, 2-拒绝, 3-通过
 	 */
-	public function lists($status=1,$id=null) {
+	public function lists($status=1,$member_id=null) {
 		$map = array(); $model = new Model('Levelup'); $member_M = New MemberModel();
-		if (isset($id) && $id >0) {
+		if (isset($member_id) && $member_id >0) {
 			//限定, 只能查询 由我注册的新会员的审核记录
-			$target = $member_M->findAble(array('id'=>$id,'level'=>'0'));//目标用户
+			$target = $member_M->findAble(array('id'=>$member_id,'level'=>'0'));//目标用户
 			if ($target['parent_id'] != MID) $this->error('没有权限'); 
 			$map['member_id'] = $target['id'];
 			$map['level_bef'] = '0'; //限定 只能查看  新会员的审核记录
-		}elseif ($id == '-1') {
+		}elseif ($member_id == '-1') {
 			//查看所有 由我注册的新会员的审核记录
 			$tmpcond = array();
 			$tmpcond['parent_id'] = MID;
