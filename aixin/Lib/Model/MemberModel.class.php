@@ -19,10 +19,10 @@ class MemberModel extends Model {
 		array('repwdtwo','require','二级取款密码必须'),
 		array('repwdtwo','pwdtwo','二级确认密码不一致',self::EXISTS_VALIDATE,'confirm'),
 		
-		array('parent_id','require','推荐人必须',self::EXISTS_VALIDATE ,'regex',self::MODEL_BOTH),
-		array('parent_aid','require','节点必须',self::EXISTS_VALIDATE ,'regex',self::MODEL_BOTH),
-		array('parent_area','require','节点位置必须',self::EXISTS_VALIDATE,'regex',self::MODEL_BOTH),
-		array('parent_area',array('A','B'),'节点位置非法',self::EXISTS_VALIDATE,'in',self::MODEL_BOTH),
+		array('parent_id','require','推荐人必须',self::MUST_VALIDATE ,'regex',self::MODEL_INSERT),
+		array('parent_aid','require','节点必须',self::MUST_VALIDATE ,'regex',self::MODEL_INSERT),
+		array('parent_area','require','节点位置必须',self::MUST_VALIDATE,'regex',self::MODEL_INSERT),
+		array('parent_area',array('A','B'),'节点位置非法',self::MUST_VALIDATE,'in',self::MODEL_INSERT),
 		
 		array('level',array(0,1,2,3,4,5),'级别非法',self::EXISTS_VALIDATE,'in',self::MODEL_UPDATE), //更新时 存在字段 验证
 		
@@ -44,16 +44,15 @@ class MemberModel extends Model {
 	);
 	
 	/**
-	 * 管理员新增用户
+	 * 新增用户
 	 * @param $data 用于create的数据
 	 */
-	public function addByMgr($data=array()) {
+	public function addByMgr($data=array(),$leveldata=array()) {
 		/*
 		 * 管理员从后台     新增会员
 		 * 新增会员的status=1, level=0, 并在levelup表中插入待审核的升级记录
 		 */
 		$data = (empty($data)) ? I('param.') : $data;
-		if (empty($data)) $data = I('param.');
 		$data['level'] = 0;
 		$new_mem = $this->create($data);
 		if ($new_mem === $this->create($data)) return false;
@@ -66,7 +65,6 @@ class MemberModel extends Model {
 		}
 		
 		$levelup_M = new LevelupModel(); $config_M = new Model('Config');
-		$leveldata = array();
 		$leveldata['member_id'] = $return;
 		$leveldata['level_bef'] = 0;
 		$leveldata['level_aft'] = 1;
@@ -76,7 +74,6 @@ class MemberModel extends Model {
 		$leveldata['rec_id'] = $new_mem['parent_id'];//受益人ID
 		$leveldata['status'] = 1;//待审
 		$leveldata['type'] = 1;//付款升级
-		$leveldata['remark'] = '此会员由管理员注册';
 		if (false === $levelup_M->create($leveldata)) {
 			$this->error = $levelup_M->getError();
 			$this->rollback();

@@ -75,7 +75,7 @@ class MemberAction extends HomebaseAction {
 			$model = new MemberModel();
 			$info = $model->addByMgr();
 			if ($info !== false){
-				$this->success('注册成功，待审核！', U('levelup/lists?member_id='.$info));//跳转至新会员待审列表
+				$this->success('注册成功，待审核！', U('levelup/lists',array('member_id'=>$info)));//跳转至新会员待审列表
 			}
 			$this->error($model->getError());
 		}else {
