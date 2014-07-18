@@ -86,11 +86,11 @@ class LevelupAction extends AdminbaseAction {
 	 * 通过审核接口
 	 */
 	public function passCheck() {
-		$id = (int)I('get.id');
+		$id = (int)I('id');
 		if ($id <= 0) $this->error('参数非法'.$id);
 		
 		$model = New LevelupModel();
-		//$model->remark = I('get.remark');
+		//$model->remark = I('remark');
 		if (false===$model->passCheck($id)) {
 			$this->error($model->getError());
 		}
@@ -102,12 +102,12 @@ class LevelupAction extends AdminbaseAction {
 	 */
 	public function denyCheck() {
 		//建议, 拒绝的时候给出页面, 让管理员填入拒绝原因,存入remark字段
-		$id = (int)I('get.id');
+		$id = (int)I('id');
 		
 		if ($id <= 0) $this->error('参数非法');
 		$model = New LevelupModel();
 		
-		//$model->remark = I('get.remark');
+		//$model->remark = I('remark');
 		if (false===$model->denyCheck($id)) {
 			$this->error($model->getError());
 		}

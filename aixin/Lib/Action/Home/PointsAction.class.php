@@ -40,7 +40,7 @@ class PointsAction extends HomebaseAction {
 	 * 提现详细
 	 */
 	public function readCash() {
-		$id = (int)I('get.id');
+		$id = (int)I('id');
 		if ($id <= 0) $this->error('参数非法');
 		
 		$map['id'] = $id;
@@ -71,7 +71,7 @@ class PointsAction extends HomebaseAction {
 	 * 提现提交接口
 	 */
 	public function addCash() {
-		$data = I('post.');
+		$data = I('param.');
 		$data = array_merge($data, array('member_id'=>MID,'status'=>'1'));
 		$model = new CashModel();
 		if (false === $model->create()) {

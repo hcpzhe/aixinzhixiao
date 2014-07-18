@@ -42,7 +42,7 @@ class CashAction extends AdminbaseAction {
 	 * 记录详情
 	 */
 	public function read() {
-		$id = (int)I('get.id');
+		$id = (int)I('id');
 		if ($id <= 0) $this->error('参数非法');
 		
 		$map['id'] = $id;
