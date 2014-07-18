@@ -113,7 +113,7 @@ class MemberAction extends AdminbaseAction {
 		$pid = (int)I('pid'); //新会员的推荐人
 		$paid = (int)I('paid'); //新会员的节点人
 		if ($pid<=0 || $paid<=0) $this->error('参数非法',cookie('_currentUrl_'));
-		$ptype = I('ptype') === 'A' ? 'A' : 'B';
+		$ptype = I('ptype') === 'B' ? 'B' : 'A';
 		$member_M = new MemberModel();
 		$pinfo = $member_M->findAble($pid);
 		if (empty($pinfo)) $this->error('推荐人不存在, 请重新选择',cookie('_currentUrl_'));
@@ -125,7 +125,7 @@ class MemberAction extends AdminbaseAction {
 		$cond['parent_aid'] = $painfo['id'];
 		$cond['parent_area'] = $ptype;
 		$typebool = $member_M->findAble($cond);
-		if (!empty($typebool)) $this->error('推荐位已被占用, 请重新选择',cookie('_currentUrl_'));
+		if (!empty($typebool)) $this->error('推荐位已被占用, 请重新选择'.$member_M->getLastSql(),cookie('_currentUrl_'));
 		/**************************************************************/
 		
 		$this->assign('pinfo',$pinfo);//推荐人
