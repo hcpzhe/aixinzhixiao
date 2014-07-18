@@ -55,11 +55,11 @@ class MemberModel extends Model {
 		$data = (empty($data)) ? I('param.') : $data;
 		$data['level'] = 0;
 		$new_mem = $this->create($data);
-		if ($new_mem === $this->create($data)) return false;
+		if (false === $new_mem) return false;
 		
 		$this->startTrans();
 		$return = $this->add();
-		if (false === $this->add()) {
+		if (false === $return) {
 			$this->rollback();
 			return false;
 		}
@@ -84,7 +84,7 @@ class MemberModel extends Model {
 			$this->rollback();
 			return false;
 		}
-		
+		$this->commit();
 		return $return;
 	}
 

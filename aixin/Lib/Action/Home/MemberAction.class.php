@@ -71,8 +71,11 @@ class MemberAction extends HomebaseAction {
 		//默认提交为未审核用户
 		if (!empty($_POST)){
 			if (I('parent_id') != MID) $this->error('非法操作'); //推荐人必须为自己
+			$data = I('param.');
+			if (empty($data['real_pay'])) $this->error('打款金额不能为空');
+			if (empty($data['pay_time'])) $this->error('打款时间不能为空');
 			$model = new MemberModel();
-			$info = $model->addByMgr();
+			$info = $model->addByMgr($data);
 			if ($info !== false){
 				$this->success('注册成功，待审核！', U('levelup/lists',array('member_id'=>$info)));//跳转至新会员待审列表
 			}
