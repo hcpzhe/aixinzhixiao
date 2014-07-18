@@ -19,7 +19,8 @@ class ConfigAction extends AdminbaseAction {
 	 * 需用用ajax来组合数据进行更新 
 	 */
 	public function update() {
-		$datas = I('newdata');
+		$datas = I('post.');
+		$datas = $datas['newdata'];
 		$model = new ConfigModel();
 		$model->startTrans();
 		foreach ($datas as $row) {

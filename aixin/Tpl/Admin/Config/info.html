@@ -15,7 +15,7 @@
             </div>
             
 
-<form action="{:U('Config/update')}" method="post">
+<form action="{:U('Config/update')}" method="post" onsubmit="ajaxsubmit(this);return false;">
 <table class="table">
         <tbody>
         <!-- <foreach name="list" item="vo"> -->
@@ -24,7 +24,7 @@
                 <label for="{$vo['name']}">{$vo['title']}</label>&nbsp;
             </td>
             <td style="text-align:left;">&nbsp;
-                <input id="{$vo['name']}" name="{$vo['name']}" type="text" value="{$vo['cfgval']}">&nbsp;&nbsp;
+                <input class="forsub" data-subid="{$vo['id']}" id="{$vo['name']}" name="{$vo['name']}" type="text" value="{$vo['cfgval']}">&nbsp;&nbsp;
                 {$vo['remark']}
             </td>
         </tr>
@@ -34,7 +34,33 @@
                 <input type="submit" value=" 更新 " class="submit">
             </td>
         </tr>
-    </tbody></table>
+    </tbody>
+</table>
 </form>
+<script>
+function ajaxsubmit(myform) {
+	var $form = $(myform);
+	var data = new Array();
+	$('.forsub').each(function(){
+		var tmpobj = {};
+		tmpobj.id = $(this).attr('data-subid');
+		tmpobj.name = $(this).attr('name');
+		tmpobj.cfgval = $(this).val();
+		data.push(tmpobj);
+	});
+	$.ajax({
+		type: "post",
+		url: $form.attr('action'),
+		dataType: "json",
+		data: { newdata : data },
+		success: function(d){
+			alert(d.info);
+			if (d.url) window.location.href = d.url;
+			else if (d.status == 1) window.location.reload();
+		}
+	});
+	return false;
+}
+</script>
 </body>
 </html>
