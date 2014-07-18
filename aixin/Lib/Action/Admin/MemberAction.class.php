@@ -8,7 +8,7 @@ class MemberAction extends AdminbaseAction {
 	 * @param  $account		帐号
 	 * @param  $status		状态
 	 */
-	public function lists($level=null, $account=null, $status=1) {
+	public function lists($level=null, $account=null, $status=1, $tpl=null) {
 		$model = New MemberModel();
 		//查询条件
 		$map['status'] = $status;
@@ -41,7 +41,8 @@ class MemberAction extends AdminbaseAction {
         
         // 记录当前列表页的cookie
         cookie('_currentUrl_',$_SERVER['REQUEST_URI']);
-        $this->display();
+        if (isset($tpl)) $this->display($tpl);
+        else $this->display();
 	}
 	
 	/**

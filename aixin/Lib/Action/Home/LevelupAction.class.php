@@ -58,7 +58,12 @@ class LevelupAction extends HomebaseAction {
 		if ($this->_me['level'] >= $this->_cfgs['maxlevel']) $this->error('您已经达到最高级别了!', U('Index/welcome'));
 		
 		$need_pts = get_shouldpay($this->_me['level'], $this->_cfgs['basepoints']);//所需积分
+		$cash_M = New CashModel();
+		$ready_pts = $cash_M->getReadyMoney(MID);
+		$paypoints = ($need_pts < $this->_me['points']-$ready_pts) ? true : false; //是否可以使用积分升级
+		
 		$this->assign('need_money',$need_pts);
+		$this->assign('paypoints',$paypoints);
 		
 		$levelup_M = New LevelupModel();
 		$rec_id = $levelup_M->getRec(MID);//受益人ID
@@ -78,8 +83,9 @@ class LevelupAction extends HomebaseAction {
 		$model = New LevelupModel();
 		$data = I('post.');
 		$data = array_merge($data, array('member_id'=>MID));
+		$data['type'] = '1';
 		$model->create($data);
-		if (false === $model->addRecord()) { //添加积分升级记录
+		if (false === $model->addRecord()) { //添加升级记录
 			$this->error($model->getError());
 		}
 		$this->success('升级请求已经提交, 请通知管理员进行审核!',cookie('_currentUrl_'));
@@ -95,7 +101,7 @@ class LevelupAction extends HomebaseAction {
 		$need_pts = get_shouldpay($this->_me['level'], $this->_cfgs['basepoints']);//所需积分
 		$cash_M = New CashModel();
 		$ready_pts = $cash_M->getReadyMoney(MID);
-		if ($need_pts < $this->_me['points']-$ready_pts) $this->error('积分余额不足, 无法使用积分升级');
+		if ($need_pts > $this->_me['points']-$ready_pts) $this->error('积分余额不足, 无法使用积分升级');
 		
 		$levelup_M = New LevelupModel();
 		$data = array();
@@ -103,7 +109,7 @@ class LevelupAction extends HomebaseAction {
 		$data['type'] = 2;
 		$data['remark'] = I('remark');
 		$levelup_M->create($data);
-		if (false === $levelup_M->addRecord()) { //添加积分升级记录
+		if (false === $levelup_M->addRecord()) { //添加升级记录
 			$this->error($levelup_M->getError());
 		}
 		$this->success('升级成功, 请刷新网站!',cookie('_currentUrl_'));

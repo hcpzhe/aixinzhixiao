@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="zh-CN"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>注册会员</title>
+    <script src="__PUBLIC__/js/jquery.js"></script>
+    <script src="__PUBLIC__/js/RSsubmit.js"></script>
+    <link href="__PUBLIC__/css/Admin/Site.css" rel="stylesheet" type="text/css">
+    <link href="__PUBLIC__/css/Admin/style.css" rel="stylesheet" type="text/css">
+</head>
+<body>
+
+        	<div id="righttitle" style="height:30px; margin-bottom:6px; overflow:hidden;">
+            	<div style="width:200px; height:30px; line-height:30px; margin:0px 0px 0px 10px; font-weight:bold; color:#666; font-size:18px;">
+                	注册会员
+                </div>
+            </div>
+            
+
+<form action="{:U('Member/insert')}" method="post">    <table class="table">
+        <tbody><tr>
+            <td style="width:150px; text-align:right;">
+                <label for="account">会员帐号</label>&nbsp;
+            </td>
+            <td style="text-align:left;">&nbsp;
+                <input id="account" name="account" type="text" value=""><span class="colorred">*</span>
+            </td>
+        </tr> 
+        <tr>
+            <td style="text-align:right;">
+                <label for="LoginPass">登陆密码</label>&nbsp;
+            </td>
+            <td style="text-align:left;">&nbsp;
+                <input data-val="true" data-val-length="必须为5-32个字符！" data-val-length-max="32" data-val-length-min="5" data-val-required="请输入登陆密码！" id="LoginPass" name="LoginPass" type="password"><span class="colorred">*</span>
+                <span class="field-validation-valid" data-valmsg-for="LoginPass" data-valmsg-replace="true"></span>
+            </td>
+        </tr>
+        <tr>
+            <td style="text-align:right;">
+                确认登陆密码&nbsp;
+            </td>
+            <td style="text-align:left;">&nbsp;
+                <input class="text" data-val="true" data-val-equalto="两次输入密码不一致！" data-val-equalto-other="*.LoginPass" data-val-length="必须为5-32个字符！" data-val-length-max="32" data-val-length-min="5" data-val-required="请输入确认登陆密码！" id="CfmLoginPass" name="CfmLoginPass" type="password"><span class="colorred">*</span>
+                <span class="field-validation-error" data-valmsg-for="CfmLoginPass" data-valmsg-replace="true"></span>
+            </td>
+        </tr>
+        <tr>
+            <td style="text-align:right;">
+                <label for="UltimatePass">二级密码</label>&nbsp;
+            </td>
+            <td style="text-align:left;">&nbsp;
+                <input data-val="true" data-val-length="必须为5-32个字符！" data-val-length-max="32" data-val-length-min="5" data-val-required="请输入二级密码！" id="UltimatePass" name="UltimatePass" type="password"><span class="colorred">*</span>
+                <span class="field-validation-valid" data-valmsg-for="UltimatePass" data-valmsg-replace="true"></span>
+            </td>
+        </tr>
+        <tr>
+            <td style="text-align:right;">
+                确认二级密码&nbsp;
+            </td>
+            <td style="text-align:left;">&nbsp;
+                <input class="text" data-val="true" data-val-equalto="两次输入密码不一致！" data-val-equalto-other="*.UltimatePass" data-val-length="必须为5-32个字符！" data-val-length-max="32" data-val-length-min="5" data-val-required="请输入确认二级密码！" id="CfmUltimatePass" name="CfmUltimatePass" type="password"><span class="colorred">*</span>
+                <span class="field-validation-error" data-valmsg-for="CfmUltimatePass" data-valmsg-replace="true"></span>
+            </td>
+        </tr>
+        <tr>
+            <td style="text-align:right;">
+                <label for="ParentId">安置人</label>&nbsp;
+            </td>
+            <td style="text-align:left;">&nbsp;
+                <input class="text" data-val="true" data-val-length="必须为4-18个字符！" data-val-length-max="18" data-val-length-min="4" data-val-regex="4-18字符，字母、数字或下划线组成！" data-val-regex-pattern="\w{4,18}\s*$" data-val-required="请输入安置人！" id="ParentUser" name="ParentUser" type="text" value=""><span class="colorred">*</span>
+                <input type="button" value="查看会员是否存在" onclick="checkUser(&#39;ParentUser&#39;)" style="width:150px;">
+                <span class="field-validation-error" data-valmsg-for="ParentUser" data-valmsg-replace="true"><span class="field-validation-valid" data-valmsg-for="ParentId" data-valmsg-replace="true"></span></span>
+                
+            </td>
+        </tr>
+        <tr>
+            <td style="text-align:right;">
+                <label for="Position">位置</label>&nbsp;
+            </td>
+            <td style="text-align:left;">&nbsp;
+                <select id="Position" name="Position" value="1" class="valid">
+                    <option value="1">左区</option>
+                    <option value="2">右区</option>
+                </select>
+                <span class="field-validation-valid" data-valmsg-for="Position" data-valmsg-replace="true"></span>
+            </td>
+        </tr>
+        <tr>
+            <td style="text-align:right;">
+                <label for="UserTypeId">等级</label>&nbsp;
+            </td>
+            <td style="text-align:left;">&nbsp;
+                <select data-val="true" data-val-number="The field 等级 must be a number." data-val-required="The 等级 field is required." id="UserTypeId" name="UserTypeId" onchange="utpId()" rt="1"><option selected="selected" value="1">银卡</option>
+<option value="2">金卡</option>
+<option value="3">钻卡</option>
+<option value="4">VIP</option>
+</select>
+            </td>
+        </tr>
+        <tr>
+            <td style="text-align:right;">
+                产品&nbsp;
+            </td>
+            <td style="text-align:left;">&nbsp;
+                <select name="UTPId" id="UTPId" style="width: 150px;"><option value="1">银卡混搭套餐</option><option value="5">银卡护肤套餐</option></select><span class="colorred">*</span>
+                <span class="field-validation-valid" data-valmsg-for="UTPId" data-valmsg-replace="true"></span>
+            </td>
+        </tr>
+        <tr>
+            <td style="text-align:right;">
+                <label for="Recommend">推荐人</label>&nbsp;
+            </td>
+            <td style="text-align:left;">&nbsp;
+                <input class="text" data-val="true" data-val-length="必须为4-18个字符！" data-val-length-max="18" data-val-length-min="4" data-val-regex="4-18字符，字母、数字或下划线组成！" data-val-regex-pattern="\w{4,18}\s*$" data-val-required="请输入推荐人！" id="RecommendUser" name="RecommendUser" type="text" value=""><span class="colorred">*</span>
+                <input type="button" value="查看会员是否存在" onclick="checkUser(&#39;RecommendUser&#39;)" style="width:150px;">
+                <span class="field-validation-error" data-valmsg-for="RecommendUser" data-valmsg-replace="true"><span class="field-validation-valid" data-valmsg-for="Recommend" data-valmsg-replace="true"></span></span>
+            </td>
+        </tr>
+        <tr>
+            <td style="text-align:right;">
+                <label for="Service">服务中心</label>&nbsp;
+            </td>
+            <td style="text-align:left;">&nbsp;
+                <input class="text" data-val="true" data-val-length="必须为4-18个字符！" data-val-length-max="18" data-val-length-min="4" data-val-regex="4-18字符，字母、数字或下划线组成！" data-val-regex-pattern="\w{4,18}\s*$" id="ServiceNumber" name="ServiceNumber" type="text" value=""><span class="colorred">*</span>
+                <input type="button" value="查看会员是否存在" onclick="checkUser(&#39;ServiceNumber&#39;)" style="width:150px;">
+                <span class="field-validation-error" data-valmsg-for="ServiceNumber" data-valmsg-replace="true"><span class="field-validation-valid" data-valmsg-for="Service" data-valmsg-replace="true"></span></span>
+            </td>
+        </tr>
+        
+        <tr>
+            <td colspan="2">
+                个人信息
+            </td>
+        </tr>
+        <tr>
+            <td style="text-align:right;">
+                <label for="Nick">昵称</label>&nbsp;
+            </td>
+            <td style="text-align:left;">&nbsp;
+                <input class="text-box single-line" data-val="true" data-val-length="必须为3-18个字符！" data-val-length-max="18" data-val-length-min="3" data-val-required="请输入昵称！" id="Nick" name="Nick" type="text" value=""><span class="colorred">*</span>
+                <span class="field-validation-valid" data-valmsg-for="Nick" data-valmsg-replace="true"></span>
+            </td>
+        </tr>
+        <tr>
+            <td style="text-align:right;">
+                <label for="Name">姓名</label>&nbsp;
+            </td>
+            <td style="text-align:left;">&nbsp;
+                <input class="text-box single-line" data-val="true" data-val-length="最多输入10字符！" data-val-length-max="10" data-val-required="请输入姓名！" id="Name" name="Name" type="text" value=""><span class="colorred">*</span>
+                <span class="field-validation-valid" data-valmsg-for="Name" data-valmsg-replace="true"></span>
+            </td>
+        </tr>
+        <tr>
+            <td style="text-align:right;">
+                <label for="Gender">性别</label>&nbsp;
+            </td>
+            <td style="text-align:left;">&nbsp;
+                <input type="radio" name="Gender" value="true" checked="checked" style=" width:15px;"> <label>男</label>
+                <input type="radio" name="Gender" value="false" style=" width:15px;"> <label>女</label>
+            </td>
+        </tr>
+        <tr>
+            <td style="text-align:right;">
+                <label for="IdentityCard">证件号码</label>&nbsp;
+            </td>
+            <td style="text-align:left;">&nbsp;
+                <input class="text-box single-line" id="IdentityCard" name="IdentityCard" type="text" value="">
+                <span class="field-validation-valid" data-valmsg-for="IdentityCard" data-valmsg-replace="true"></span>
+            </td>
+        </tr>
+        <tr>
+            <td style="text-align:right;">
+                <label for="Birthday">出生日期</label>&nbsp;
+            </td>
+            <td style="text-align:left;">&nbsp;
+                <input class="text-box single-line hasDatepicker" data-val="true" data-val-required="The 出生日期 field is required." id="Birthday" name="Birthday" type="text" value="2014/7/17 16:50:00">
+                <span class="field-validation-valid" data-valmsg-for="Birthday" data-valmsg-replace="true"></span>
+            </td>
+        </tr>
+        <tr>
+            <td style="text-align:right;">
+                <label for="Mobile">手机号码</label>&nbsp;
+            </td>
+            <td style="text-align:left;">&nbsp;
+                <input class="text-box single-line" data-val="true" data-val-length="最多输入20字符！" data-val-length-max="20" data-val-required="请输入手机号码！" id="Mobile" name="Mobile" type="text" value=""><span class="colorred">*</span>
+                <span class="field-validation-valid" data-valmsg-for="Mobile" data-valmsg-replace="true"></span>
+            </td>
+        </tr>
+        <tr>
+            <td style="text-align:right;">
+                <label for="CountryId">国家</label>&nbsp;
+            </td>
+            <td style="text-align:left;">&nbsp;
+                <select data-val="true" data-val-number="The field 国家 must be a number." data-val-required="The 国家 field is required." id="CountryId" name="CountryId" onchange="countryId()"><option selected="selected" value="1">中国</option>
+<option value="2">USA</option>
+</select>
+                <span class="field-validation-valid" data-valmsg-for="CountryId" data-valmsg-replace="true"></span>
+            </td>
+        </tr>
+        <tr>
+            <td style="text-align:right;">
+                <label for="Address">收货地址</label>&nbsp;
+            </td>
+            <td style="text-align:left;">&nbsp;
+                <input class="text-box single-line" data-val="true" data-val-length="最多输入200字符！" data-val-length-max="200" id="Address" name="Address" type="text" value="">
+                <span class="field-validation-valid" data-valmsg-for="Address" data-valmsg-replace="true"></span>
+            </td>
+        </tr>
+        
+        <tr>
+            <td colspan="2">
+                银行信息
+            </td>
+        </tr>
+        <tr>
+            <td style="text-align:right;">
+                <label for="BankId">开户行</label>&nbsp;
+            </td>
+            <td style="text-align:left;">&nbsp;
+                <select name="BankId" id="BankId"><option value="1">农业银行</option><option value="3">建设银行</option><option value="4">工商银行</option></select><span class="colorred">*</span>
+                <span class="field-validation-valid" data-valmsg-for="BankId" data-valmsg-replace="true"></span>
+            </td>
+        </tr>
+        <tr>
+            <td style="text-align:right;">
+                <label for="BankNumber">开户账号</label>&nbsp;
+            </td>
+            <td style="text-align:left;">&nbsp;
+                <input class="text-box single-line" data-val="true" data-val-length="最多输入50字符！" data-val-length-max="50" data-val-required="请输入开户账号！" id="BankNumber" name="BankNumber" type="text" value=""><span class="colorred">*</span>
+                <span class="field-validation-valid" data-valmsg-for="BankNumber" data-valmsg-replace="true"></span>
+            </td>
+        </tr>
+        <tr>
+            <td style="text-align:right;">
+                <label for="BankUserName">开户人</label>&nbsp;
+            </td>
+            <td style="text-align:left;">&nbsp;
+                <input class="text-box single-line" data-val="true" data-val-equalto="开户人与姓名必须一致！" data-val-equalto-other="*.Name" data-val-length="最多输入20字符！" data-val-length-max="20" data-val-required="请输入开户人！" id="BankUserName" name="BankUserName" type="text" value=""><span class="colorred">*</span>
+                <span class="field-validation-valid" data-valmsg-for="BankUserName" data-valmsg-replace="true"></span>
+            </td>
+        </tr>
+        <tr>
+            <td style="text-align:right;">
+                <label for="BankAddress">开户行地址</label>&nbsp;
+            </td>
+            <td style="text-align:left;">&nbsp;
+                <input class="text-box single-line" data-val="true" data-val-length="最多输入200字符！" data-val-length-max="200" id="BankAddress" name="BankAddress" type="text" value="">
+                <span class="field-validation-valid" data-valmsg-for="BankAddress" data-valmsg-replace="true"></span>
+            </td>
+        </tr>
+        <tr>
+            <td style="text-align:right;">
+                验证码 &nbsp;
+            </td>
+            <td style="text-align:left;">&nbsp;
+                <input type="text" name="Code" id="Code" class="text" style="width:36px;">&nbsp;
+                <img src="./注册会员_files/ValiCode" alt="" id="codeImg" onclick="imgClick()">
+                <a href="javascript:imgClick();">刷新验证码</a>
+            </td>
+        </tr>
+        <tr rt="2">
+            <td style="text-align:right;">
+                二级密码&nbsp;
+            </td>
+            <td style=" text-align:left;">&nbsp;
+                <input type="password" name="Pass" value="" class="text">
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2">
+                <input type="submit" value=" 注册 " class="submit">
+                
+
+                <input data-val="true" data-val-number="The field 安置人 must be a number." data-val-required="The 安置人 field is required." id="ParentId" name="ParentId" type="hidden" value="0">
+                <input data-val="true" data-val-number="The field 推荐人 must be a number." data-val-required="The 推荐人 field is required." id="Recommend" name="Recommend" type="hidden" value="0">
+                <input data-val="true" data-val-number="The field 服务中心 must be a number." data-val-required="The 服务中心 field is required." id="Service" name="Service" type="hidden" value="0">
+            </td>
+        </tr>
+    </tbody></table>
+</form>
+</body>
+</html>
