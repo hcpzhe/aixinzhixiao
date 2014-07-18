@@ -62,3 +62,4 @@
 用户管理中心额外的独立页面------
 二级密码验证页面		U('Member/viewPwdtwo')
 	二级密码验证提交接口		U('Member/checkPwdtwo')
+我注册会员的审核记录	U('Levelup/lists?id=-1')   默认status=1待审记录
