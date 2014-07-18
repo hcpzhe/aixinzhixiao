@@ -70,18 +70,20 @@ function timehandle($start,$end) {
  */
 function field_unique($list, $filed) {
 	$arr = array();
-	if (is_array($filed)) {
-		foreach ($filed as $k => $v) {
-			$arr[$k] = field_unique($list,$v);
-		}
-	}else {
-		$filedarr = explode(",", $filed);
-		foreach ($list as $row) {
-			foreach ($filedarr as $k => $v) {
-				$arr[] = $row[$v];
+	if (!empty($list)) {
+		if (is_array($filed)) {
+			foreach ($filed as $k => $v) {
+				$arr[$k] = field_unique($list,$v);
 			}
+		}else {
+			$filedarr = explode(",", $filed);
+			foreach ($list as $row) {
+				foreach ($filedarr as $k => $v) {
+					$arr[] = $row[$v];
+				}
+			}
+			$arr = array_unique($arr);
 		}
-		$arr = array_unique($arr);
 	}
 	return $arr;
 }
