@@ -49,16 +49,13 @@
               <tr>
                 <td height="26" align="right">推荐人：</td>
                 <td align="left">{$_ME['account']}
-              <input type="hidden" name="ptype" class="inputTxt" id="ptype" size="20" value="{$pinfo['parent_id']}"> 
+              <input type="hidden" name="parent_id" class="inputTxt" id="parent_id" size="20" value="{$pinfo['parent_id']}"> 
+              <input type="hidden" name="parent_aid" class="inputTxt" id="parent_aid" size="20" value="{$painfo['parent_aid']}">
                 </td>
-              </tr>  
-               <tr>
-                <td height="26" align="right">区域父id：</td>
-                <td align="left">{$pinfo['id']} </td>
-              </tr> 
+              </tr>               
               <tr>
                 <td height="26" align="right">所属推荐区域：</td>
-                <td align="left">{$ptype} </td>
+                <td align="left">{$ptype['parent_area']} </td>
               </tr>
               <tr>
                 <td height="26" align="right">真实姓名：</td>
@@ -83,7 +80,7 @@
               <tr>
                 <td height="26" align="right">身份证号：</td>
                 <td align="left">
-                  <input name="q" type="text" class="inputTxt" id="idcard" size="30">			                  <span style="color:#FF0000">*</span>
+                  <input name="idcard" type="text" class="inputTxt" id="idcard" size="30">			                  <span style="color:#FF0000">*</span>
                  </td>
                </tr>
                <tr>
