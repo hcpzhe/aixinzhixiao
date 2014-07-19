@@ -42,19 +42,7 @@
 <script language="JavaScript" type="text/javascript">
 function checkfrm1(afrm)
 {
-	if( (afrm.pwd1.value != "") && (!/^\w{4,}$/i.test(afrm.pwd1.value)) )
-	{
-		alert("二级密码无效");
-		afrm.pwd1.focus();
-		return false;
-	}
-	if( (afrm.pwd1.value != "") &&  (afrm.pwd1c.value != afrm.pwd1.value) )
-	{
-		alert("二级密码确认有误！");
-		afrm.pwd1c.focus();
-		return false;
-	}
-	$(afrm).RSsubmit({success_alert:true});
+	$(afrm).RSsubmit();
 	return false;
 }
 </script>
