@@ -35,7 +35,8 @@ class ArticleAction extends AdminbaseAction {
 		$model = New Model('Article');
 		$info = $model->where($map)->find();
 		$this->assign('info',$info);
-		
+		$category_list = array('公告','新闻');
+		$this->assign('catlist',$category_list);
         cookie('_currentUrl_',$_SERVER['REQUEST_URI']);
         $this->display();
 	}

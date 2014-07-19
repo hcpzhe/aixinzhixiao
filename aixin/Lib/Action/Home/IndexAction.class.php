@@ -9,6 +9,13 @@ class IndexAction extends HomebaseAction {
 	}
 	
 	function welcome() {
+		$model = new Model('Article');
+		$map['category'] = '用户欢迎页';
+		$map['status'] = '1';
+		$info = $model->where($map)->find();
+		$this->assign('info',$info);
+		
+        cookie('_currentUrl_',$_SERVER['REQUEST_URI']);
 		$this->display();
 	}
 }
