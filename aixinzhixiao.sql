@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50524
 File Encoding         : 65001
 
-Date: 2014-07-19 10:52:33
+Date: 2014-07-19 14:21:37
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -118,11 +118,12 @@ CREATE TABLE `ax_cash` (
   `check_time` varchar(20) NOT NULL DEFAULT '0' COMMENT '审核时间',
   `remark` varchar(255) DEFAULT NULL COMMENT '备注留言',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='提现记录表';
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COMMENT='提现记录表';
 
 -- ----------------------------
 -- Records of ax_cash
 -- ----------------------------
+INSERT INTO `ax_cash` VALUES ('1', '1', '开户姓名', '开户银行', '银行帐号', '开户地址', '1000.00', '100.00', '900.00', '2', '1405744340', '1405745324', '');
 
 -- ----------------------------
 -- Table structure for `ax_config`
@@ -209,11 +210,11 @@ CREATE TABLE `ax_member` (
 -- ----------------------------
 -- Records of ax_member
 -- ----------------------------
-INSERT INTO `ax_member` VALUES ('1', 'test', 'd6ea0986a01145400bc828c83110ebce', 'd6ea0986a01145400bc828c83110ebce', '0', '0', 'A', '5', '7125.00', 'asdasd', '11111111111', '111', '宝龙城市广场', null, null, null, null, '0', '1');
+INSERT INTO `ax_member` VALUES ('1', 'test', 'd6ea0986a01145400bc828c83110ebce', 'd6ea0986a01145400bc828c83110ebce', '0', '0', 'A', '5', '7125.00', '测试t', '11111111111', '111', '宝龙城市广场', '开户姓名', '银行帐号', '开户银行', '开户地址', '0', '1');
 INSERT INTO `ax_member` VALUES ('2', 'tttt', '1d1765d842a84cfcca4870c4fc798e66', '1d1765d842a84cfcca4870c4fc798e66', '1', '1', 'A', '2', '11.25', 'tttt', '11111111111', '1111', '1111', null, null, null, null, '1394680262', '1');
 INSERT INTO `ax_member` VALUES ('3', 'test2', '9e90c6271eddcf23e2e251f65bda6be3', '9e90c6271eddcf23e2e251f65bda6be3', '1', '1', 'B', '0', '0.00', '测试2', '', null, null, null, null, null, null, '0', '1');
 INSERT INTO `ax_member` VALUES ('9', 'test3', '5f85eb5b813593a29037e93fedc5af34', '5f85eb5b813593a29037e93fedc5af34', '1', '2', 'A', '0', '0.00', 'test3', '1123123123', '123123', '', null, '', '', '', '1405699986', '1');
-INSERT INTO `ax_member` VALUES ('10', 'test4', 'e5fc178b0bc754b47e09f19c3f5eef7e', 'e5fc178b0bc754b47e09f19c3f5eef7e', '1', '2', 'A', '1', '0.00', 'test4', '1123123123', '12312311123', '1231231', '', '', '', '', '1405701877', '1');
+INSERT INTO `ax_member` VALUES ('10', 'test4', '15c9dfa38cfaf2635d54b1f94ffaed6c', 'e5fc178b0bc754b47e09f19c3f5eef7e', '1', '2', 'A', '1', '0.00', 'test4', '1123123123', '12312311123', '1231231', '', '', '', '', '1405701877', '1');
 
 -- ----------------------------
 -- Table structure for `ax_user`
