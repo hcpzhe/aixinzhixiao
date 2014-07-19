@@ -69,7 +69,7 @@ class CashAction extends AdminbaseAction {
 		if ($id <= 0) $this->error('参数非法');
 		$model = New CashModel();
 		
-		$model->remark = I('remark'); //TODO 可能存不进去, 待测试
+		//$model->remark = I('remark'); 
 		if (false===$model->passCheck($id)) {
 			$this->error($model->getError());
 		}
@@ -86,7 +86,7 @@ class CashAction extends AdminbaseAction {
 		if ($id <= 0) $this->error('参数非法');
 		$model = New CashModel();
 		
-		$model->remark = I('remark'); //TODO 可能存不进去, 待测试
+		//$model->remark = I('remark'); 
 		if (false===$model->denyCheck($id)) {
 			$this->error($model->getError());
 		}

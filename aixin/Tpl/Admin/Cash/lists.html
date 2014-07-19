@@ -34,6 +34,7 @@ $(function ($) {
             <th>申请时间</th>
             <th>审核时间</th>
             <th>状态</th>
+            <th>备注</th>
             <th>操作</th>
         </tr>
     </thead>
@@ -47,14 +48,11 @@ $(function ($) {
 			<td>{:date('Y/m/d H:i',$row['create_time'])}</td>
 			<td>{:date('Y/m/d H:i',$row['check_time'])}</td>
 			<td>{$_stat[$row['status']]}</td>
+			<td>{$row['remark']}</td>
 			<td>
 			<!-- <if condition="$row['status'] eq '1' "> -->
 				<a class="bat_a_handle" href="{:U('Cash/passCheck?id='.$row['id'])}">通过</a> | 
 				<a class="bat_a_handle" href="{:U('Cash/denyCheck?id='.$row['id'])}">拒绝</a>
-			<!-- <elseif condition="$row['status'] eq '2' "/> -->
-				<a class="bat_a_handle" href="{:U('Cash/passCheck?id='.$row['id'])}">通过</a>
-			<!-- <else /> -->
-				{$row['remark']}
 			<!-- </if> -->
 			</td>
 		</tr>
@@ -71,5 +69,6 @@ $(function ($) {
 </table>
 <div style="clear:both;"></div>
 <p style="padding: 20px; color:red; font-weight:bold;font-size:16px;">注意：请给客户转账后再进行审核操作！</p>
+<p style="padding: 20px; color:red; font-weight:bold;font-size:16px;">待审的提现金额会被冻结, 用户不能使用提交后待审的余额进行升级等任何用途.<br>拒绝后便会解除冻结.<br>通过后用户余额会减少！</p>
 </body>
 </html>

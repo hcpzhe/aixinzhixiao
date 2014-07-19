@@ -32,8 +32,15 @@ class PointsAction extends HomebaseAction {
 		$list = $this->_lists($model,$map,null);
 		$this->assign('list',$list); //提现列表
 		
+		$stat = array(
+			'1' => '待审',
+			'2' => '拒绝',
+			'3' => '通过',
+		);
+		$this->assign('_stat',$stat);
+		
         cookie('_currentUrl_',$_SERVER['REQUEST_URI']);
-		$this->display();
+		$this->viewCash();
 	}
 	
 	/**
@@ -48,6 +55,13 @@ class PointsAction extends HomebaseAction {
 		$model = New Model('Cash');
 		$info = $model->where($map)->find();
 		$this->assign('info',$info);
+		
+		$stat = array(
+			'1' => '待审',
+			'2' => '拒绝',
+			'3' => '通过',
+		);
+		$this->assign('_stat',$stat);
 		
         cookie('_currentUrl_',$_SERVER['REQUEST_URI']);
 		$this->display();
@@ -74,7 +88,7 @@ class PointsAction extends HomebaseAction {
 		$data = I('param.');
 		$data = array_merge($data, array('member_id'=>MID,'status'=>'1'));
 		$model = new CashModel();
-		if (false === $model->create()) {
+		if (false === $model->create($data)) {
 			$this->error($model->getError());
 		}
 		if (false === $model->addNew()) { //添加提现申请记录
