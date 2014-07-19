@@ -11,10 +11,10 @@ function SetCwinHeight() {
     var iframeid = document.getElementById("main"); //iframe id
     if (document.getElementById) {
         if (iframeid && !window.opera) {
-            if (iframeid.contentDocument && iframeid.contentDocument.body.offsetHeight) {
-                iframeid.height = iframeid.contentDocument.body.offsetHeight;
-            } else if (iframeid.Document && iframeid.Document.body.scrollHeight) {
-                iframeid.height = iframeid.Document.body.scrollHeight;
+            if (iframeid.contentDocument && iframeid.contentDocument.body.scrollHeight) {
+                iframeid.height = iframeid.contentDocument.body.scrollHeight;
+            } else if (iframeid.Document && iframeid.Document.body.offsetHeight) {
+                iframeid.height = iframeid.Document.body.offsetHeight;
             }
         }
     }
@@ -102,8 +102,10 @@ $(function($) {
               <tr>
                 <td align="center" class="l_c2_mn">
                   <div id="dq-a" style="display: block;">
-                  <a href="{:U('Article/lists?category=公告')}" target="main">公告列表</a>
-                  <a href="{:U('Article/lists?category=新闻')}" target="main">新闻列表</a>
+                  <a href="{:U('Article/lists?category=公告')}" target="main">通知公告</a>
+                  <a href="{:U('Article/lists?category=新闻')}" target="main">新闻动态</a>
+                    <a href="{:U('Article/read?category=联系我们')}" target="main">联系我们</a>
+                    <a href="{:U('Article/read?category=公司简介')}" target="main">公司简介</a>
                   </div>
                   <div id="dq-b" style="display: none;">
                     <a href="{:U('Member/info')}" target="main">个人资料</a>
@@ -114,7 +116,9 @@ $(function($) {
                   </div>
                   <div id="dq-d" style="display: none;">
                     <a href="{:U('Article/read?category=公司简介')}" target="main">公司简介</a>
-                    <a href="{:U('Article/lists?category=新闻')}" target="main">新闻</a>
+                    <a href="{:U('Article/read?category=联系我们')}" target="main">联系我们</a>
+                    <a href="{:U('Article/lists?category=公告')}" target="main">通知公告</a>
+                    <a href="{:U('Article/lists?category=新闻')}" target="main">新闻动态</a>
                   </div>
                   <div id="dq-e" style="display: none;">
                     <a href="{:U('Points/listBonus')}" target="main">积分奖励明细</a>
