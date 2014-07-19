@@ -32,7 +32,7 @@ ul.nav li a.cur{ background:url(../images/nav_bg_hover.gif) no-repeat; }
 .l_c2_mn div {display:none;}
 .l_c2_mn a{  margin:8px 0;display:block; width:140px; height:24px; background:url(../images/red_bg.jpg) no-repeat; line-height:24px; color:#FFFFFF; font-size:13px; }
 .l_c2_mn a:hover{ text-decoration:underline; }
-.l_c2_btm{ background:url(../images/clmn_07.gif) no-repeat; height:3px; }
+.l_c2_btm{ /*background:url(../images/clmn_07.gif) no-repeat;*/ height:3px; }
 
 .r_c1_title{ background:url(../images/t_bg.jpg) repeat-x; height:26px; line-height:26px; text-align:left; padding-left:10px; color:#910000; font-weight:bold; font-size:13px; }
 .r_c1_item{ height:24px; line-height:24px; text-align:left; }
