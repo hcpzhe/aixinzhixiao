@@ -9,8 +9,7 @@ class BonusAction extends AdminbaseAction {
 		$model = New Model('Bonus');
 		$member_M = new Model('Member');
 		
-        $list = $this->_lists($model);
-        
+        $list = $this->_lists($model,null,'create_time desc');
         $this->assign('list', $list); //记录列表
         
 		$mem_ids = field_unique($list, 'member_id,source_id'); //列表中用到的会员ID

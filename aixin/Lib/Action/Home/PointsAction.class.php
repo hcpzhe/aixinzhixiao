@@ -8,7 +8,7 @@ class PointsAction extends HomebaseAction {
 	public function listBonus() {
 		$bonus_M = New Model('Bonus');
 		$map['member_id'] = MID;
-		$list = $this->_lists($bonus_M,$map,null);
+		$list = $this->_lists($bonus_M,$map,'create_time desc');
 		$this->assign('list',$list); //积分奖励列表
 		
 		$mem_ids = field_unique($list, 'source_id'); //列表中用到的会员ID
