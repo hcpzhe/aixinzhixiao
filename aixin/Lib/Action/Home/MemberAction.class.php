@@ -23,11 +23,12 @@ class MemberAction extends HomebaseAction {
 		$update['tel'] = $data['tel'];
 		$update['idcard'] = $data['idcard'];
 		$update['address'] = $data['address'];
+		$update['bank_account'] = $data['bank_account'];
 		$update['bank_card'] = $data['bank_card'];
 		$update['bank_name'] = $data['bank_name'];
 		$update['bank_address'] = $data['bank_address'];
 		$model = new Model('Member');
-		if (false ===$model->data($update)->save()) $this->error('资料更新失败,请联系制作人员');
+		if (false ===$model->data($update)->where('id='.MID)->save()) $this->error('资料更新失败,请联系制作人员');
 		$this->success('更新成功',cookie('_currentUrl_'));
 	}
 	

@@ -34,9 +34,9 @@
                 <td align="left">{$_ME['parent_area']}</td>
               </tr>
               <tr>
-                <td height="26" align="right">姓名：</td>
+                <td height="26" align="right">真实姓名：</td>
                 <td align="left">
-                  <input name="nickname" type="text" class="inputTxt" id="nickname" size="20" value="{$_ME['realname']}"> 
+                  <input name="realname" type="text" class="inputTxt" id="nickname" size="20" value="{$_ME['realname']}"> 
                   <span style="color:#FF0000">*</span>
                 </td>
               </tr>     
@@ -56,7 +56,14 @@
               <tr>
                 <td height="26" align="right">身份证号：</td>
                 <td align="left">
-                  <input name="q" type="text" class="inputTxt" id="idcard" size="30" value="{$_ME['idcard']}">			                  <span style="color:#FF0000">*</span>
+                  <input name="idcard" type="text" class="inputTxt" id="idcard" size="30" value="{$_ME['idcard']}"> <span style="color:#FF0000">*</span>
+                 </td>
+               </tr>
+               <tr>
+                 <td height="26" align="right">开户姓名：</td>
+                 <td align="left">
+                   <input name="bank_account" type="text" class="inputTxt" id="bank_name" size="30" value="{$_ME['bank_account']}">
+                   <span style="color:#FF0000">*</span>
                  </td>
                </tr>
                <tr>
