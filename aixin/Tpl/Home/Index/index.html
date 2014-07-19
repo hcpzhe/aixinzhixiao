@@ -88,6 +88,11 @@ $(function($) {
                       <tr>
                         <td class="l_c1_item">积分余额：{$_ME.points}</td>
                       </tr>
+                      <!-- <if condition="$_ME['level'] lt 5"> -->
+                      <tr>
+                        <td align="center"><a href="{:U('Levelup/levelup')}" target="main"><img src="__PUBLIC__/images/levelup.gif"></a></td>
+                      </tr>
+                      <!-- </if> -->
                     </tbody>
                   </table>
                 </td>
