@@ -3,7 +3,6 @@ return array(
 /************** 不使用RBAC,仅作登录认证 *********************/
 	'USER_AUTH_ON'			=>true,
 	'USER_AUTH_KEY'			=>'cpMember',	// 用户认证SESSION标记
-	'USER_PW_PREFIX'		=>'aedb80', //用户密码前缀
 	'USER_AUTH_MODEL'		=>'Member',	// 默认验证数据表模型
 	'AUTH_PWD_ENCODER'		=>'md5',	// 用户认证密码加密方式
 	'PWDTWO_KEY'			=>'mpwdtwo',	//二级密码认证SESSION标记

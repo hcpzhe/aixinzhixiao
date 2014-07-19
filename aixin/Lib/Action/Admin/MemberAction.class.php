@@ -101,13 +101,13 @@ class MemberAction extends AdminbaseAction {
 		$id = (int)I('id');
 		if ($id <= 0) $this->error('参数非法');
 		
-		$member_M = M('Member');
+		$member_M = new Model('Member');
 		$condition = array('id' => array('eq', $id));
 		$field = (isset($istwo)) ? 'pwdtwo' : 'password';
 		$member = $member_M->where($condition)->find();
 		$list = $member_M->where($condition)->setField($field,pwdHash($member['account']));
 		if ($list !== false) {
-			$this->success('密码已重置为用户名！',cookie('_currentUrl_'));
+			$this->success($field.'密码已重置为用户名！',cookie('_currentUrl_'));
 		} else {
 			$this->error('密码重置失败，请重试！');
 		}

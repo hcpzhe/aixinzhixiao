@@ -4,7 +4,6 @@ return array(
 	'USER_AUTH_ON'			=>true,
 	'USER_AUTH_TYPE'		=>1,		// 默认认证类型 1 登录认证 2 实时认证
 	'USER_AUTH_KEY'			=>'cpAdmin',	// 用户认证SESSION标记
-	'USER_PW_PREFIX'		=>'aedb80', //用户密码前缀
     'ADMIN_AUTH_KEY'		=>'administrator',
 	'ADMIN_AUTHS'			=>array('admin','administrator'),//超管用户名
 	'USER_AUTH_MODEL'		=>'User',	// 默认验证数据表模型

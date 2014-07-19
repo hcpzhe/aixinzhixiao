@@ -41,8 +41,8 @@ class CommonAction extends Action {
 //			$this->error('验证码错误！');
 //		}
 		
-		$User	=	M('Member');
-		$authInfo = $User->find($map);
+		$User	=	new Model('Member');
+		$authInfo = $User->where($map)->find();
 		//使用用户名、密码和状态的方式进行认证
 		if(false === $authInfo) {
 			$this->error('帐号不存！');
