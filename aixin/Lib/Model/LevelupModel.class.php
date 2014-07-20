@@ -133,6 +133,10 @@ class LevelupModel extends Model {
 			$this->error = '记录不存在! 请刷新页面重试';
 			return false;
 		}
+		if ($levelinfo['status']<1||$levelinfo['status']>2) {
+			$this->error = '已通过审核 或 该记录不存! 请刷新页面重试';
+			return false;
+		}
 		$member_M = New MemberModel();
 		$memwhere = array();
 		$memwhere['id'] = $levelinfo['member_id'];
@@ -146,9 +150,8 @@ class LevelupModel extends Model {
 		}
 		//判断级别
 		if ($meminfo['level'] >= $levelinfo['level_aft']) {
-			//用户当前级别已经超出审核记录中的级别 , 正常流程是不会出现的, 所以删除此条记录
-			$this->where('id='.$id)->delete();
-			$this->error = '申请会员级别超出该记录的升级级别, 已删除此条记录! 请刷新页面';
+			$this->remark = $this->error = '用户级已达到或超出申请级别, 无需升级!';
+			$this->denyCheck($id);
 			return false;
 		}
 		
