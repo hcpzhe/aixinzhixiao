@@ -85,7 +85,6 @@ class MemberAction extends AdminbaseAction {
 		$newdata['bank_card'] = I('param.bank_card');
 		$newdata['bank_name'] = I('param.bank_name');
 		$newdata['bank_address'] = I('param.bank_address');
-		$newdata['status'] = I('param.status');
 		
 		$model = new MemberModel();
 		if (false === $model->create($newdata)) $this->error($model->getError());

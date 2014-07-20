@@ -41,6 +41,8 @@ class MemberModel extends Model {
 		array('pwdtwo','pwdHash',self::MODEL_INSERT,'function'),
 		array('level','0',self::MODEL_INSERT), //默认级别-0 临时会员
 		array('create_time','time',self::MODEL_INSERT,'function'),
+		
+		array('status','1',self::MODEL_BOTH,'function'), //保持用户状态永远为正常
 	);
 	
 	/**

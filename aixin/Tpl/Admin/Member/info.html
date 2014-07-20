@@ -113,16 +113,6 @@
             </td>
         </tr>
         <tr>
-            <td style="text-align:right;">状态：</td>
-            <td style="text-align:left;padding-left:10px;">
-            	<br>
-				<input type="radio" name="status" value="1" <if condition="$info['status'] eq '1'">checked</if> /> 正常<br><br>
-				<input type="radio" name="status" value="0" <if condition="$info['status'] eq '0'">checked</if> /> 禁用 (该帐号一切功能停用)<br><br>
-				<input type="radio" name="status" value="-1" <if condition="$info['status'] eq '-1'">checked</if> /> 删除 (该帐号一切功能停用, 并从系统中移除)
-				<br><br>
-            </td>
-        </tr>
-        <tr>
             <td colspan="2">
             	<input type="hidden" name="id" value="{$info['id']}">
                 <input type="submit" value=" 更新 " class="submit">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
