@@ -31,7 +31,8 @@ class MemberModel extends Model {
 		array('tel','require','联系电话必须'),
 		//array('tel','/((\d{11})|^((\d{7,8})|(\d{4}|\d{3})-(\d{7,8})|(\d{4}|\d{3})-(\d{7,8})-(\d{4}|\d{3}|\d{2}|\d{1})|(\d{7,8})-(\d{4}|\d{3}|\d{2}|\d{1}))$)/','联系电话格式不正确'),
 		array('idcard','require','身份证号必须'),
-		//array('idcard','/^[1-9]\d{5}[1-9]\d{3}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])\d{4}$/','身份证号不正确'),
+		array('idcard','/^[1-9]\d{5}[1-9]\d{3}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])\d{4}$/','请填写真实的身份证号码'),
+		array('idcard','chkIdcard','身份证号已经存在',self::EXISTS_VALIDATE,'callback'),
 		
 		array('status',array('-1','0','1'),'用户状态非法',self::VALUE_VALIDATE,'in'),//-1-删除 0-禁用 1-正常
 	);
@@ -235,4 +236,17 @@ class MemberModel extends Model {
 		}
 	}
 	
+	/**
+	 * 验证身份证号码的唯一性
+	 * @param string $idcard
+	 * @return bool
+	 */
+	public function chkIdcard($idcard) {
+		$map = array();
+		$map['status'] = array('neq','-1'); //被删除的会员除外
+		$map['idcard'] = $idcard;
+		$rs = $this->where($map)->find();
+		if (empty($rs)) return true;
+		else return false;
+	}
 }
