@@ -40,7 +40,7 @@ class LevelupModel extends Model {
 		$map = array();
 		$map['member_id'] = $this->member_id;
 		$map['level_bef'] = $level;
-		$map['status'] = 2;//被拒绝的
+		$map['status'] = array('neq','2');//被拒绝的
 		$beenbool = $levelup_M->where($map)->count();
 		if ($beenbool>0) {
 			//已经提交过升级, 并且没有被拒绝, 不再重复提交, 以免管理员重复审核导致数据出错
@@ -150,7 +150,7 @@ class LevelupModel extends Model {
 		}
 		//判断级别
 		if ($meminfo['level'] >= $levelinfo['level_aft']) {
-			$this->remark = $this->error = '用户级已达到或超出申请级别, 无需升级!';
+			$this->remark = $this->error = '用户级别已达到 或 超出申请级别, 无需升级!';
 			$this->denyCheck($id);
 			return false;
 		}
