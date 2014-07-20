@@ -38,7 +38,7 @@
     <div class="divList">
         <div style="border:1px solid #CCC; margin:0 auto; width:110px;">
             <div class="danyuan" style="background:#ccc;">
-                <div class="danyuan">{$member_list['level']} 星<br>{$member_list['account']}</div>
+                <div class="danyuan">{$member_list['level']} 级<br>{$member_list['account']}</div>
             </div>
             <div class="danyuan" style="height:72px;line-height:30px;">
 				直推：{$member_list['son_nums']}<br />
@@ -165,7 +165,7 @@ function boxdiv ($list,$area) {
 		$return = '
 		<div style="border:1px solid #CCC; margin:0 auto; width:110px;">
 		    <div class="danyuan" style="background:#6fadd1; ">
-		            <div class="danyuan"><a href="'.U('Member/atlas?id='.$list[$area]['id']).'">'.$list[$area]['level'].' 星<br>'.$list[$area]['account'].'</a></div>
+		            <div class="danyuan"><a href="'.U('Member/atlas?id='.$list[$area]['id']).'">'.$list[$area]['level'].' 级<br>'.$list[$area]['account'].'</a></div>
 		    </div>
 		    <div class="danyuan" style="height:72px;line-height:30px;">
 		   		 直推：'.$list[$area]['son_nums'].'人<br />
