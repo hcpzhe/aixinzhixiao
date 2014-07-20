@@ -72,7 +72,7 @@ class LevelupAction extends HomebaseAction {
 		$cash_M = New CashModel();
 		$ready_pts = $cash_M->getReadyMoney(MID);
 		$canuse_pts = $this->_me['points']-$ready_pts; //可用积分
-		$paypoints = ($need_pts < $canuse_pts) ? true : false; //是否可以使用积分升级
+		$paypoints = ($need_pts <= $canuse_pts) ? true : false; //是否可以使用积分升级
 		
 		$this->assign('need_money',$need_pts);
 		$this->assign('paypoints',$paypoints);
