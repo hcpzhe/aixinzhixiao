@@ -18,7 +18,7 @@ class BonusAction extends AdminbaseAction {
 		$this->assign('memlist',$memlist); //列表用到的会员列表, ID为key索引
         
         // 记录当前列表页的cookie
-        cookie('_currentUrl_',$_SERVER['REQUEST_URI']);
+        cookie(C('CURRENT_URL_NAME'),$_SERVER['REQUEST_URI']);
         $this->display();
 	}
 	

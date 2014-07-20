@@ -40,7 +40,7 @@ class MemberAction extends AdminbaseAction {
 		$this->assign('memlist',$memlist); //列表用到的会员列表, ID为key索引
         
         // 记录当前列表页的cookie
-        cookie('_currentUrl_',$_SERVER['REQUEST_URI']);
+        cookie(C('CURRENT_URL_NAME'),$_SERVER['REQUEST_URI']);
         if (isset($tpl)) $this->display($tpl);
         else $this->display();
 	}
@@ -63,7 +63,7 @@ class MemberAction extends AdminbaseAction {
 		$this->assign('memlist',$memlist); //列表用到的会员列表, ID为key索引
 		
         // 记录当前列表页的cookie
-        cookie('_currentUrl_',$_SERVER['REQUEST_URI']);
+        cookie(C('CURRENT_URL_NAME'),$_SERVER['REQUEST_URI']);
 		$this->display();
 	}
 	
@@ -107,7 +107,7 @@ class MemberAction extends AdminbaseAction {
 		$member = $member_M->where($condition)->find();
 		$list = $member_M->where($condition)->setField($field,pwdHash($member['account']));
 		if ($list !== false) {
-			$this->success($field.'密码已重置为用户名！',cookie('_currentUrl_'));
+			$this->success($field.'密码已重置为用户名！',cookie(C('CURRENT_URL_NAME')));
 		} else {
 			$this->error('密码重置失败，请重试！');
 		}
@@ -119,27 +119,27 @@ class MemberAction extends AdminbaseAction {
 	public function add() {
 		$pid = (int)I('pid'); //新会员的推荐人
 		$paid = (int)I('paid'); //新会员的节点人
-		if ($pid<=0 || $paid<=0) $this->error('参数非法',cookie('_currentUrl_'));
+		if ($pid<=0 || $paid<=0) $this->error('参数非法',cookie(C('CURRENT_URL_NAME')));
 		$ptype = I('ptype') === 'B' ? 'B' : 'A';
 		$member_M = new MemberModel();
 		$pinfo = $member_M->findAble($pid);
-		if (empty($pinfo)) $this->error('推荐人不存在, 请重新选择',cookie('_currentUrl_'));
+		if (empty($pinfo)) $this->error('推荐人不存在, 请重新选择',cookie(C('CURRENT_URL_NAME')));
 		$painfo = $member_M->findAble($paid);
-		if (empty($painfo)) $this->error('节点不存在, 请重新选择',cookie('_currentUrl_'));
+		if (empty($painfo)) $this->error('节点不存在, 请重新选择',cookie(C('CURRENT_URL_NAME')));
 		
 		/*判断area_type是否被占用*********************************************************/
 		$cond = array();
 		$cond['parent_aid'] = $painfo['id'];
 		$cond['parent_area'] = $ptype;
 		$typebool = $member_M->findAble($cond);
-		if (!empty($typebool)) $this->error('推荐位已被占用, 请重新选择'.$member_M->getLastSql(),cookie('_currentUrl_'));
+		if (!empty($typebool)) $this->error('推荐位已被占用, 请重新选择'.$member_M->getLastSql(),cookie(C('CURRENT_URL_NAME')));
 		/**************************************************************/
 		
 		$this->assign('pinfo',$pinfo);//推荐人
 		$this->assign('painfo',$painfo);//节点人
 		$this->assign('ptype',$ptype);//节点类型 A/B
 		
-		//cookie('_currentUrl_', U('Index/info')); //不需要返回至此页面
+		//cookie(C('CURRENT_URL_NAME'), U('Index/info')); //不需要返回至此页面
 		$this->display();
 	}
 	
@@ -185,7 +185,7 @@ class MemberAction extends AdminbaseAction {
 		$this->member($member_model,$member_list['id'],$member_list);
 		$this->assign('member_list',$member_list);
 		
-		cookie('_currentUrl_',$_SERVER['REQUEST_URI']);
+		cookie(C('CURRENT_URL_NAME'),$_SERVER['REQUEST_URI']);
 		$this->display();
 	}
 	

@@ -50,7 +50,7 @@ class LevelupAction extends HomebaseAction {
 		$this->assign('memlist',$memlist); //列表中用到的会员列表, ID为key索引
 		
         // 记录当前列表页的cookie
-        cookie('_currentUrl_',$_SERVER['REQUEST_URI']);
+        cookie(C('CURRENT_URL_NAME'),$_SERVER['REQUEST_URI']);
         $this->display();
 	}
 	
@@ -59,7 +59,7 @@ class LevelupAction extends HomebaseAction {
 	 * 收款账户显示的为公司账户, 由公司审核后,受益人获取积分
 	 */
 	public function levelup() {
-		cookie('_currentUrl_',$_SERVER['REQUEST_URI']);
+		cookie(C('CURRENT_URL_NAME'),$_SERVER['REQUEST_URI']);
 		if ($_SESSION[C('PWDTWO_KEY')]) {
 			//验证过二级密码了
 			unset($_SESSION[C('PWDTWO_KEY')]);
@@ -85,7 +85,7 @@ class LevelupAction extends HomebaseAction {
 		$this->assign('rec_info',$rec_info);//受益人信息
 		
         // 记录当前列表页的cookie
-        cookie('_currentUrl_',$_SERVER['REQUEST_URI']);
+        cookie(C('CURRENT_URL_NAME'),$_SERVER['REQUEST_URI']);
 		$this->display();
 	}
 	
@@ -101,7 +101,7 @@ class LevelupAction extends HomebaseAction {
 		if (false === $model->addRecord()) { //添加升级记录
 			$this->error($model->getError());
 		}
-		$this->success('升级请求已经提交, 请通知管理员进行审核!',cookie('_currentUrl_'));
+		$this->success('升级请求已经提交, 请通知管理员进行审核!',cookie(C('CURRENT_URL_NAME')));
 	}
 	
 	/**
@@ -125,6 +125,6 @@ class LevelupAction extends HomebaseAction {
 		if (false === $levelup_M->addRecord()) { //添加升级记录
 			$this->error($levelup_M->getError());
 		}
-		$this->success('升级成功, 请刷新网站!',cookie('_currentUrl_'));
+		$this->success('升级成功, 请刷新网站!',cookie(C('CURRENT_URL_NAME')));
 	}
 }

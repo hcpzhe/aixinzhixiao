@@ -17,7 +17,7 @@ class PointsAction extends HomebaseAction {
 		$memlist = $model->where($map)->getField('id,account,realname');
 		$this->assign('memlist',$memlist); //列表用到的会员列表 ID为key索引
 		
-        cookie('_currentUrl_',$_SERVER['REQUEST_URI']);
+        cookie(C('CURRENT_URL_NAME'),$_SERVER['REQUEST_URI']);
 		$this->display();
 	}
 	
@@ -39,7 +39,7 @@ class PointsAction extends HomebaseAction {
 		);
 		$this->assign('_stat',$stat);
 		
-        cookie('_currentUrl_',$_SERVER['REQUEST_URI']);
+        cookie(C('CURRENT_URL_NAME'),$_SERVER['REQUEST_URI']);
 		$this->viewCash();
 	}
 	
@@ -63,7 +63,7 @@ class PointsAction extends HomebaseAction {
 		);
 		$this->assign('_stat',$stat);
 		
-        cookie('_currentUrl_',$_SERVER['REQUEST_URI']);
+        cookie(C('CURRENT_URL_NAME'),$_SERVER['REQUEST_URI']);
 		$this->display();
 	}
 	
@@ -77,7 +77,7 @@ class PointsAction extends HomebaseAction {
 		$this->assign('readycash',$readycash);
 		$this->assign('ablecash',$ablecash);
 		
-        cookie('_currentUrl_',$_SERVER['REQUEST_URI']);
+        cookie(C('CURRENT_URL_NAME'),$_SERVER['REQUEST_URI']);
 		$this->display();
 	}
 	
@@ -94,6 +94,6 @@ class PointsAction extends HomebaseAction {
 		if (false === $model->addNew()) { //添加提现申请记录
 			$this->error($model->getError());
 		}
-		$this->success('提现请求已经提交, 请通知管理员进行审核!',cookie('_currentUrl_'));
+		$this->success('提现请求已经提交, 请通知管理员进行审核!',cookie(C('CURRENT_URL_NAME')));
 	}
 }

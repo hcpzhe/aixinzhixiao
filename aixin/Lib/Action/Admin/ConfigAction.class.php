@@ -10,7 +10,7 @@ class ConfigAction extends AdminbaseAction {
         $list = $model->where($map)->select();
         $this->assign('list',$list);
         
-        cookie('_currentUrl_',$_SERVER['REQUEST_URI']);
+        cookie(C('CURRENT_URL_NAME'),$_SERVER['REQUEST_URI']);
         $this->display();
 	}
 	

@@ -34,7 +34,7 @@ class CashAction extends AdminbaseAction {
 		$this->assign('memlist',$memlist); //列表用到的会员列表, ID为key索引
         
         // 记录当前列表页的cookie
-        cookie('_currentUrl_',$_SERVER['REQUEST_URI']);
+        cookie(C('CURRENT_URL_NAME'),$_SERVER['REQUEST_URI']);
         $this->display();
 	}
 	
@@ -56,7 +56,7 @@ class CashAction extends AdminbaseAction {
 		$this->assign('meminfo',$meminfo);
 		
         // 记录当前列表页的cookie
-        cookie('_currentUrl_',$_SERVER['REQUEST_URI']);
+        cookie(C('CURRENT_URL_NAME'),$_SERVER['REQUEST_URI']);
 		$this->display();
 	}
 	
@@ -73,7 +73,7 @@ class CashAction extends AdminbaseAction {
 		if (false===$model->passCheck($id)) {
 			$this->error($model->getError());
 		}
-		$this->success('审核成功',cookie('_currentUrl_'));
+		$this->success('审核成功',cookie(C('CURRENT_URL_NAME')));
 	}
 	
 	/**
@@ -90,6 +90,6 @@ class CashAction extends AdminbaseAction {
 		if (false===$model->denyCheck($id)) {
 			$this->error($model->getError());
 		}
-		$this->success('拒绝成功',cookie('_currentUrl_'));
+		$this->success('拒绝成功',cookie(C('CURRENT_URL_NAME')));
 	}
 }

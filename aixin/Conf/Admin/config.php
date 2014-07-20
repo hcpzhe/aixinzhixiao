@@ -30,5 +30,6 @@ return array(
 	'RBAC_ACCESS_TABLE' 	=>'ax_access',		//权限表名称
 	'RBAC_NODE_TABLE'		=>'ax_node',		//节点表名称
 	
-	'SESSION_OPTIONS'		=>array('name'=>'SITESESSID','path'=>SESSION_PATH.'Admin/')
+	'SESSION_OPTIONS'		=>array('name'=>'SITESESSID','path'=>SESSION_PATH.'Admin/'),
+	'CURRENT_URL_NAME'		=>'axhzAdminCurtUrl',	//currentUrl的cookie名称
 );

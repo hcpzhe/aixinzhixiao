@@ -14,7 +14,8 @@ return array(
 	'NOT_AUTH_ACTION'		=>'',		// 默认无需认证操作
 	'REQUIRE_AUTH_ACTION'	=>'',		// 默认需要认证操作
 
-	'SESSION_OPTIONS'		=>array('name'=>'SITESESSID','path'=>SESSION_PATH.'Home/')
+	'SESSION_OPTIONS'		=>array('name'=>'SITESESSID','path'=>SESSION_PATH.'Home/'),
+	'CURRENT_URL_NAME'		=>'axhzHomeCurtUrl',	//currentUrl的cookie名称
 
 //	'SHOW_RUN_TIME'=>true,			// 运行时间显示
 //	'SHOW_ADV_TIME'=>true,			// 显示详细的运行时间

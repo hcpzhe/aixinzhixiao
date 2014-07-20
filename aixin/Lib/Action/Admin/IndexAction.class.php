@@ -35,7 +35,7 @@ class IndexAction extends AdminbaseAction {
 		$this->assign('m_baodan',$m_baodan);
 		$this->assign('c_audit',$c_audit);
 		
-        cookie('_currentUrl_', __SELF__);
+        cookie(C('CURRENT_URL_NAME'), __SELF__);
 		$this->display();
 		
 	}
@@ -43,7 +43,7 @@ class IndexAction extends AdminbaseAction {
 	 * 修改密码页面
 	 */
 	public function password(){
-        cookie('_currentUrl_',$_SERVER['REQUEST_URI']);
+        cookie(C('CURRENT_URL_NAME'),$_SERVER['REQUEST_URI']);
 		$this->display();
 	}
 	

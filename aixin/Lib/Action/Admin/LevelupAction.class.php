@@ -21,11 +21,11 @@ class LevelupAction extends AdminbaseAction {
 		//查询条件
 		if (isset($member_id)) {
             $map['member_id'] = $member_M->where('id='.$member_id)->getField('id');
-            if (empty($map['member_id'])) $this->error('用户不存在',cookie('_currentUrl_'));
+            if (empty($map['member_id'])) $this->error('用户不存在',cookie(C('CURRENT_URL_NAME')));
 		}elseif (isset($account)) {
             $memmap['account']   =   array('like', '%'.$account.'%');
             $map['member_id'] = $member_M->where($memmap)->getField('id');
-            if (empty($map['member_id'])) $this->error('找不到用户',cookie('_currentUrl_'));
+            if (empty($map['member_id'])) $this->error('找不到用户',cookie(C('CURRENT_URL_NAME')));
         }else {
         	$map['type'] = $type;
         	if ($map['type'] == '2') $map['status'] = '3';
@@ -55,7 +55,7 @@ class LevelupAction extends AdminbaseAction {
 		$this->assign('memlist',$memlist); //列表用到的会员列表, ID为key索引
         
         // 记录当前列表页的cookie
-        cookie('_currentUrl_',$_SERVER['REQUEST_URI']);
+        cookie(C('CURRENT_URL_NAME'),$_SERVER['REQUEST_URI']);
         if (isset($tpl)) $this->display($tpl);
         else $this->display();
 	}
@@ -78,7 +78,7 @@ class LevelupAction extends AdminbaseAction {
 		$this->assign('memlist',$memlist); //列表用到的会员列表, ID为key索引
 		
         // 记录当前列表页的cookie
-        cookie('_currentUrl_',$_SERVER['REQUEST_URI']);
+        cookie(C('CURRENT_URL_NAME'),$_SERVER['REQUEST_URI']);
         $this->display();
 	}
 	
@@ -94,7 +94,7 @@ class LevelupAction extends AdminbaseAction {
 		if (false===$model->passCheck($id)) {
 			$this->error($model->getError());
 		}
-		$this->success('审核成功',cookie('_currentUrl_'));
+		$this->success('审核成功',cookie(C('CURRENT_URL_NAME')));
 	}
 	
 	/**
@@ -111,6 +111,6 @@ class LevelupAction extends AdminbaseAction {
 		if (false===$model->denyCheck($id)) {
 			$this->error($model->getError());
 		}
-		$this->success('拒绝成功',cookie('_currentUrl_'));
+		$this->success('拒绝成功',cookie(C('CURRENT_URL_NAME')));
 	}
 }

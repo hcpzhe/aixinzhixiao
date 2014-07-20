@@ -12,7 +12,7 @@ class ArticleAction extends AdminbaseAction {
 		$list = $this->_lists($model,$map);
 		$this->assign('list',$list);
 		$this->assign('category',$cat);
-        cookie('_currentUrl_',$_SERVER['REQUEST_URI']);
+        cookie(C('CURRENT_URL_NAME'),$_SERVER['REQUEST_URI']);
 		$this->display();
 	}
 	
@@ -37,7 +37,7 @@ class ArticleAction extends AdminbaseAction {
 		$this->assign('info',$info);
 		$category_list = array('公告','新闻');
 		$this->assign('catlist',$category_list);
-        cookie('_currentUrl_',$_SERVER['REQUEST_URI']);
+        cookie(C('CURRENT_URL_NAME'),$_SERVER['REQUEST_URI']);
         $this->display();
 	}
 	
@@ -51,14 +51,14 @@ class ArticleAction extends AdminbaseAction {
 		$model = new Model('Article');
 		$model->create();
 		$model->where('id='.$id)->save();
-		$this->success('更新成功',cookie('_currentUrl_'));
+		$this->success('更新成功',cookie(C('CURRENT_URL_NAME')));
 	}
 	
 	/**
 	 * 新增文章页面
 	 */
 	public function add() {
-        cookie('_currentUrl_',$_SERVER['REQUEST_URI']);
+        cookie(C('CURRENT_URL_NAME'),$_SERVER['REQUEST_URI']);
         $this->display();
 	}
 	
@@ -69,7 +69,7 @@ class ArticleAction extends AdminbaseAction {
 		$model = new Model('Article');
 		$model->create();
 		$model->add();
-		$this->success('添加成功',cookie('_currentUrl_'));
+		$this->success('添加成功',cookie(C('CURRENT_URL_NAME')));
 	}
 	
 	public function fdelete() {
@@ -78,6 +78,6 @@ class ArticleAction extends AdminbaseAction {
 		
 		$model = new Model('Article');
 		$model->where('id='.$id)->delete();
-		$this->success('删除成功',cookie('_currentUrl_'));
+		$this->success('删除成功',cookie(C('CURRENT_URL_NAME')));
 	}
 }
