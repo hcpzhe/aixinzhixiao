@@ -34,10 +34,13 @@ class LevelupAction extends AdminbaseAction {
         
         if (isset($bef) && $bef >=0 && $bef <=4) {
         	$map['level_bef'] = $bef;
-        }else {
+        }elseif (empty($map['member_id'])) {
+        	//如果查询指定会员, 则不对级别进行限制
+        	
         	//默认查询升级记录
         	$map['level_bef'] = array('in','1,2,3,4');
         }
+        
         
         $list = $this->_lists($model,$map);
         

@@ -15,7 +15,7 @@
             </div>
             
 
-<form action="{:U('Member/insert')}" method="post">
+<form action="{:U('Member/insert')}" method="post" onsubmit="$(this).RSsubmit({success_alert:true});return false;">
 <table class="table">
         <tbody>
         <tr>
