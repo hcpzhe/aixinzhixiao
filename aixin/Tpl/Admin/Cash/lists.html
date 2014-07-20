@@ -28,6 +28,9 @@ $(function ($) {
     <thead>
         <tr>
             <th>申请用户</th>
+            <th>开户姓名</th>
+            <th>开户银行</th>
+            <th>银行卡号</th>
             <th>申请金额</th>
             <th>扣税金额</th>
             <th>实发金额</th>
@@ -42,6 +45,9 @@ $(function ($) {
     <!-- <foreach name="list" item="row"> -->
 		<tr>
 			<td>{$memlist[$row['member_id']]['account']}（{$memlist[$row['member_id']]['realname']}）</td>
+			<td>{$row['real_name']}</td>
+			<td>{$row['bank_name']}</td>
+			<td>{$row['bank_card']}</td>
 			<td>{$row['apply_money']}</td>
 			<td>{$row['tax_money']}</td>
 			<td>{$row['real_money']}</td>
@@ -61,7 +67,7 @@ $(function ($) {
     </tbody>
     <tfoot>
         <tr>
-            <td colspan="11">
+            <td colspan="12">
                 {$_page}
             </td>
         </tr>
