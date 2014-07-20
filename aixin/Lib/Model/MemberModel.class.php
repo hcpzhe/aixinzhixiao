@@ -249,4 +249,25 @@ class MemberModel extends Model {
 		if (empty($rs)) return true;
 		else return false;
 	}
+	
+	/**
+	 * 返回可用的6位随机帐号
+	 */
+	public function randAccount($seed=array()) {
+		if (empty($seed)) $seed = range(100000, 999999);
+		shuffle($seed);
+		
+		$max = count($seed) - 1;
+		$seed_k = mt_rand(0, $max);
+		
+		$map = array();
+		$map['account'] = $seed[$seed_k];
+		
+		$rs = $this->where($map)->find();
+		if (empty($rs)) return $map['account'];
+		else {
+			unset($seed[$seed_k]);
+			return $this->randAccount($seed);
+		}
+	}
 }
