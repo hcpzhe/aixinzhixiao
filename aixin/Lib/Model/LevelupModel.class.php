@@ -134,7 +134,11 @@ class LevelupModel extends Model {
 			return false;
 		}
 		$member_M = New MemberModel();
-		$meminfo = $member_M->find($levelinfo['member_id']); //申请会员的信息
+		$memwhere = array();
+		$memwhere['id'] = $levelinfo['member_id'];
+		$memwhere['level'] = array('in','0,1,2,3,4,5');
+		$memwhere['status'] = '1';
+		$meminfo = $member_M->where($memwhere)->find(); //申请会员的信息
 		if (empty($meminfo)) {
 			$this->where('id='.$id)->delete();
 			$this->error = '申请会员不存在, 已删除此条记录! 请刷新页面';
@@ -160,11 +164,13 @@ class LevelupModel extends Model {
 		if ($meminfo['level'] == '0') {
 			if (false === $member_M->chkParent(array('parent_id'=>$meminfo['parent_id'],'parent_aid'=>$meminfo['parent_aid']))) {
 				$this->remark = $this->error = $member_M->getError();
+				$member_M->where('id='.$meminfo['id'])->setField('status','-1'); //删除此会员
 				$this->denyCheck($id);
 				return false;
 			}
 			if (false === $member_M->chkParentArea(array('parent_area'=>$meminfo['parent_area'],'parent_aid'=>$meminfo['parent_aid']))) {
 				$this->remark = $this->error = $member_M->getError();
+				$member_M->where('id='.$meminfo['id'])->setField('status','-1'); //删除此会员
 				$this->denyCheck($id);
 				return false;
 			}
