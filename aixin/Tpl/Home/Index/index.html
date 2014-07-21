@@ -51,7 +51,7 @@ $(function($) {
             <li><a href="{:U('Index/welcome')}" class="cur" target="main" data-qucik="a">首页</a></li>
             <li><a href="{:U('Member/info')}" target="main" data-qucik="b">个人资料</a></li>
             <li><a href="{:U('Member/atlas')}" target="main" data-qucik="c">市场图谱</a></li>
-            <li><a href="{:U('Article/read?category=公司简介')}" target="main" data-qucik="d">公司介绍</a></li>
+            <li><a href="{:U('Article/read?category=产品介绍')}" target="main" data-qucik="d">产品介绍</a></li>
             <li><a href="{:U('Points/listBonus')}" target="main" data-qucik="e">财务中心</a></li>
             <li><a href="{:U('Levelup/lists?status=3')}" target="main" data-qucik="f">升级管理</a></li>	
            <li><a href="{:U('Common/logout')}" onclick="if(confirm(&#39;您确认要退出吗？&#39;)){$(this).RSsubmit();}return false;">退出系统</a></li>
@@ -86,7 +86,7 @@ $(function($) {
                         <td class="l_c1_item">联系电话：{$_ME.tel}</td>
                       </tr>
                       <tr>
-                        <td class="l_c1_item">积分余额：{$_ME.points}</td>
+                        <td class="l_c1_item">剩余积分：{$_ME.points}</td>
                       </tr>
                       <!-- <if condition="$_ME['level'] lt 5"> -->
                       <tr>
@@ -110,7 +110,7 @@ $(function($) {
                   <a href="{:U('Article/lists?category=公告')}" target="main">通知公告</a>
                   <a href="{:U('Article/lists?category=新闻')}" target="main">新闻动态</a>
                     <a href="{:U('Article/read?category=联系我们')}" target="main">联系我们</a>
-                    <a href="{:U('Article/read?category=公司简介')}" target="main">公司简介</a>
+                    <a href="{:U('Article/read?category=产品介绍')}" target="main">产品介绍</a>
                   </div>
                   <div id="dq-b" style="display: none;">
                     <a href="{:U('Member/info')}" target="main">个人资料</a>
@@ -120,7 +120,7 @@ $(function($) {
                     <a href="{:U('Member/atlas')}" target="main">市场图谱</a>                 
                   </div>
                   <div id="dq-d" style="display: none;">
-                    <a href="{:U('Article/read?category=公司简介')}" target="main">公司简介</a>
+                    <a href="{:U('Article/read?category=产品介绍')}" target="main">产品介绍</a>
                     <a href="{:U('Article/read?category=联系我们')}" target="main">联系我们</a>
                     <a href="{:U('Article/lists?category=公告')}" target="main">通知公告</a>
                     <a href="{:U('Article/lists?category=新闻')}" target="main">新闻动态</a>
