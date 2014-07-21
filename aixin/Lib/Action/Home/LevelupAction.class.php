@@ -2,8 +2,15 @@
 
 class LevelupAction extends HomebaseAction {
 
-	function _initialize(){
+	protected function _initialize(){
 		parent::_initialize();
+		cookie(C('CURRENT_URL_NAME'),$_SERVER['REQUEST_URI']);
+		if ($_SESSION[C('PWDTWO_KEY')]) {
+			//验证过二级密码了
+			//unset($_SESSION[C('PWDTWO_KEY')]);
+		}else {
+			$this->redirect('Member/viewPwdtwo');//跳转至二级密码验证页面 ~ 验证成功后返回至_currentUrl_
+		}
 		$stat = array(
 			'1' => '待审',
 			'2' => '拒绝',
@@ -59,13 +66,6 @@ class LevelupAction extends HomebaseAction {
 	 * 收款账户显示的为公司账户, 由公司审核后,受益人获取积分
 	 */
 	public function levelup() {
-		cookie(C('CURRENT_URL_NAME'),$_SERVER['REQUEST_URI']);
-		if ($_SESSION[C('PWDTWO_KEY')]) {
-			//验证过二级密码了
-			unset($_SESSION[C('PWDTWO_KEY')]);
-		}else {
-			$this->redirect('Member/viewPwdtwo');//跳转至二级密码验证页面 ~ 验证成功后返回至_currentUrl_
-		}
 		if ($this->_me['level'] >= $this->_cfgs['maxlevel']) $this->error('您已经达到最高级别了!', U('Index/welcome'));
 		
 		$need_pts = get_shouldpay($this->_me['level'], $this->_cfgs['basepoints']);//所需积分

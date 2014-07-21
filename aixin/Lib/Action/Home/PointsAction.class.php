@@ -1,7 +1,17 @@
 <?php
 //财务中心
 class PointsAction extends HomebaseAction {
-	
+
+	protected function _initialize(){
+		parent::_initialize();
+		cookie(C('CURRENT_URL_NAME'),$_SERVER['REQUEST_URI']);
+		if ($_SESSION[C('PWDTWO_KEY')]) {
+			//验证过二级密码了
+			//unset($_SESSION[C('PWDTWO_KEY')]);
+		}else {
+			$this->redirect('Member/viewPwdtwo');//跳转至二级密码验证页面 ~ 验证成功后返回至_currentUrl_
+		}
+	}
 	/**
 	 * 积分奖励明细
 	 */

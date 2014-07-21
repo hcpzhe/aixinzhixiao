@@ -1,6 +1,20 @@
 <?php
 class MemberAction extends HomebaseAction {
 	
+
+	protected function _initialize(){
+		parent::_initialize();
+		if (ACTION_NAME != 'viewPwdtwo' && ACTION_NAME != 'checkPwdtwo') {
+			cookie(C('CURRENT_URL_NAME'),$_SERVER['REQUEST_URI']);
+			if ($_SESSION[C('PWDTWO_KEY')]) {
+				//验证过二级密码了
+				//unset($_SESSION[C('PWDTWO_KEY')]);
+			}else {
+				$this->redirect('Member/viewPwdtwo');//跳转至二级密码验证页面 ~ 验证成功后返回至_currentUrl_
+			}
+		}
+	}
+	
 	//模板变量已赋值过 $_ME记录了当前用户所有资料
 	
 	//资料查看页面
