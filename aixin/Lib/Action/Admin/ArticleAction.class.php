@@ -48,7 +48,7 @@ class ArticleAction extends AdminbaseAction {
 		$id = (int)I('id');
 		if ($id<=0) $this->error('参数非法');
 		
-		$model = new Model('Article');
+		$model = new ArticleModel();
 		$model->create();
 		$model->where('id='.$id)->save();
 		$this->success('更新成功',cookie(C('CURRENT_URL_NAME')));
@@ -66,10 +66,10 @@ class ArticleAction extends AdminbaseAction {
 	 * 新增文章接口
 	 */
 	public function insert() {
-		$model = new Model('Article');
-		$model->create();
+		$model = new ArticleModel();
+		$data = $model->create();
 		$model->add();
-		$this->success('添加成功',cookie(C('CURRENT_URL_NAME')));
+		$this->success('添加成功',U('Article/lists?category='.$data['category']));
 	}
 	
 	public function fdelete() {
