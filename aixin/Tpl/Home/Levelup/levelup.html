@@ -46,6 +46,12 @@
                  <td height="26" align="right">开户地址：</td>
                  <td align="left"> {$_CFG['bankaddress']}</td>
                </tr>
+				<!-- <if condition="$_CFG['payremark']"> -->
+               <tr>
+                 <td height="26" align="right">温馨提醒：</td>
+                 <td align="left"> {$_CFG['payremark']}</td>
+               </tr>
+				<!-- </if> -->
                 <tr>
                 <td height="26" align="right">实际打款金额：</td>
                 <td align="left"><input name="real_pay" type="text" class="inputTxt" id="real_pay" size="30" value=""><span style="color:#FF0000">&nbsp;*请在打款的时候多个几角几分, 便于管理员识别是您打的款!</span></td>
