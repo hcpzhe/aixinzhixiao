@@ -19,7 +19,7 @@
             <tbody>
               <tr>
                 <td width="16%" height="28" align="right">用户名：</td>
-                <td width="84%" align="left">{$_ME.account}</td>
+                <td width="84%" align="left">{$_ME['account']}</td>
               </tr>
               <tr>
                 <td height="26" align="right">积分：</td>
@@ -27,7 +27,11 @@
               </tr>
               <tr>
                 <td height="26" align="right">推荐人：</td>
-                <td align="left">{$_ME['parent_id']}</td>
+                <td align="left">{$memlist[$_ME['parent_id']]['account']}</td>
+              </tr>
+              <tr>
+                <td height="26" align="right">节点人：</td>
+                <td align="left">{$memlist[$_ME['parent_aid']]['account']}</td>
               </tr>
                <tr>
                 <td height="26" align="right">所属区域：</td>
