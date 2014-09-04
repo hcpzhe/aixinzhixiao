@@ -54,6 +54,7 @@ $(function($) {
             <li><a href="{:U('Article/read?category=产品介绍')}" target="main" data-qucik="d">产品介绍</a></li>
             <li><a href="{:U('Points/listBonus')}" target="main" data-qucik="e">财务中心</a></li>
             <li><a href="{:U('Levelup/lists?status=3')}" target="main" data-qucik="f">升级管理</a></li>	
+           <li><a href="{:U('Message/add')}" target="main" data-qucik="g">会员留言</a></li>
            <li><a href="{:U('Common/logout')}" onclick="if(confirm(&#39;您确认要退出吗？&#39;)){$(this).RSsubmit();}return false;">退出系统</a></li>
          </ul>
        </td>
@@ -135,6 +136,10 @@ $(function($) {
                     <a href="{:U('Levelup/lists?status=2')}" target="main">被拒绝的升级记录</a>
                     <a href="{:U('Levelup/lists?member_id=my')}" target="main">我的新会员升级记录</a>
                     <a href="{:U('Levelup/levelup')}" target="main">我要升级</a>
+                  </div>
+                  <div id="dq-g" style="display: none;">
+                    <a href="{:U('Message/add')}" target="main">会员留言</a>
+                    <a href="{:U('Message/lists?member_id='.$_ME[id])}" target="main">我的留言</a>
                   </div>
                 </td>
               </tr>

@@ -1,16 +1,16 @@
 /*
 Navicat MySQL Data Transfer
 
-Source Server         : 127.0.0.1
-Source Server Version : 50516
+Source Server         : localhost
+Source Server Version : 50524
 Source Host           : localhost:3306
 Source Database       : aixinzhixiao
 
 Target Server Type    : MYSQL
-Target Server Version : 50516
+Target Server Version : 50524
 File Encoding         : 65001
 
-Date: 2014-07-23 19:37:33
+Date: 2014-09-04 15:06:58
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -226,6 +226,33 @@ INSERT INTO `ax_member` VALUES ('3', 'test2', '9e90c6271eddcf23e2e251f65bda6be3'
 INSERT INTO `ax_member` VALUES ('9', 'test3', '5f85eb5b813593a29037e93fedc5af34', '5f85eb5b813593a29037e93fedc5af34', '1', '2', 'A', '0', '0.00', 'test3', '1123123123', '123123', '', null, '', '', '', '1405699986', '1');
 INSERT INTO `ax_member` VALUES ('10', 'test4', 'e5fc178b0bc754b47e09f19c3f5eef7e', 'e5fc178b0bc754b47e09f19c3f5eef7e', '1', '2', 'A', '3', '1000.00', 'test4', '1123123123', '12312311123', '1231231', '', '', '', '', '1405701877', '1');
 INSERT INTO `ax_member` VALUES ('12', '928284', 'd7f2089735f3a65338162b4ebd41e79e', 'd7f2089735f3a65338162b4ebd41e79e', '2', '2', 'B', '0', '0.00', '928284', '928284', '111111111111111111', '', '', '', '', '', '1405874086', '1');
+
+-- ----------------------------
+-- Table structure for `ax_message`
+-- ----------------------------
+DROP TABLE IF EXISTS `ax_message`;
+CREATE TABLE `ax_message` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `member_id` int(11) NOT NULL COMMENT '会员id',
+  `content` text NOT NULL COMMENT '留言内容',
+  `send_time` varchar(20) NOT NULL DEFAULT '0' COMMENT '留言时间',
+  `reply` text COMMENT '回复内容',
+  `status` tinyint(1) NOT NULL DEFAULT '1' COMMENT '-1 删除  0 禁用 1 正常',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of ax_message
+-- ----------------------------
+INSERT INTO `ax_message` VALUES ('1', '1', 'uu', '0000-00-00 00:00:00', 'huifu回复回复', '1');
+INSERT INTO `ax_message` VALUES ('2', '2', '家具', '0000-00-00 00:00:00', '留言已回复', '1');
+INSERT INTO `ax_message` VALUES ('3', '2', '快快快快', '1409647251', '留言信息留言信息留言信息留言信息留言信息留言信息留言信息', '0');
+INSERT INTO `ax_message` VALUES ('4', '2', '一样', '1409647520', '留言已看到搜索', '1');
+INSERT INTO `ax_message` VALUES ('5', '2', 'hh', '1409652052', '', '-1');
+INSERT INTO `ax_message` VALUES ('6', '2', 'hh', '1409652122', 'hh留言回复huifuhh', '0');
+INSERT INTO `ax_message` VALUES ('7', '2', '会员留言会员留言会员留言会员留言会员留言会员留言会员留言会员留言会员留言会员留言会员留言会员留言会员留言会员留言会员留言会员留言会员留言会员留言会员留言会员留言会员留言会员留言会员留言会员留言会员留言会员留言会员留言会员留言会员留言会员留言会员留言会员留言会员留言会员留言会员留言会员留言会员留言会员留言会员留言会员留言会员留言会员留言会员留言会员留言会员留言会员留言会员留言会员留言会员留言会员留言会员留言会员留言会员留言会员留言会员留言会员留言会员留言会员留言会员留言会员留言会员留言会员留言会员留言会员留言会员留言会员留言会员留言会员留言会员留言会员留言会员留言会员留言会员留言会员留言会员留言', '1409712814', 'liuyan留言回复留言回复留言回复留言回复留言回复留言回复留言回复留言回复留言回复留言回复留言回复留言回复留言回复留言回复留言回复留言回复留言回复留言回复留言回复留言回复', '1');
+INSERT INTO `ax_message` VALUES ('8', '2', '留言测试留言测试', '1409798211', null, '1');
+INSERT INTO `ax_message` VALUES ('9', '2', '会员会员会员会员会员', '1409798285', null, '1');
 
 -- ----------------------------
 -- Table structure for `ax_user`
