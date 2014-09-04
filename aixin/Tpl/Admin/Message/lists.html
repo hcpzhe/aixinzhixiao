@@ -35,8 +35,8 @@ $(function ($) {
     <tbody>
     <!-- <foreach name="list" item="row"> -->
 		<tr>
-			<td>{$row['account']}</td>			
-			<td>{$row['realname']}</td>
+			<td>{$memlist[$row['member_id']]['account']}</td>			
+			<td>{$memlist[$row['member_id']]['realname']}</td>
 			<td>{$row['content']|mb_substr=0,45}</td>
 			<td>{:date('Y/m/d H:i',$row['send_time'])}</td>
             <td>
@@ -67,7 +67,7 @@ $(function ($) {
     <tfoot>
         <tr>
             <td colspan="8">
-                {$_page}
+            {$_page}
             </td>
         </tr>
     </tfoot>

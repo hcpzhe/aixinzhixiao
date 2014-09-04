@@ -7,9 +7,19 @@ class MessageAction extends AdminbaseAction {
 	 */
 	public function lists() {
 		$model = new Model('Message');
-		//$model_m = new Model('Member');
-		$list = $model->table('ax_member member, ax_message message')->where('member.id = message.member_id')->field('member.account as account, member.realname as realname, message.id as id, message.content as content,message.send_time as send_time,message.reply as reply,message.status as status')->order('message.send_time desc' )->select();
-        $this->assign('list', $list); //会员留言    
+		$map = array();
+		$list = $this->_lists($model,$map);
+        $this->assign('list', $list); //会员留言
+		
+		$mem_ids = field_unique($list, 'member_id'); //列表中用到的会员ID
+		
+		if (!empty($mem_ids)) {
+			$member_M = new Model('Member');
+			$map = array('id'=>array('in',$mem_ids));
+			$memlist = $member_M->where($map)->getField('id,account,realname');
+		}else $memlist = array();
+		$this->assign('memlist',$memlist); //列表用到的会员列表, ID为key索引
+		
         // 记录当前列表页的cookie
         cookie(C('CURRENT_URL_NAME'),$_SERVER['REQUEST_URI']);
          $this->display();
