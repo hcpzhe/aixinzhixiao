@@ -155,7 +155,7 @@ class MemberAction extends AdminbaseAction {
 			$data = I('param.');
 			$info = $model->addByMgr($data,array('remark'=>'此会员由管理员注册'));
 			if ($info !== false){
-				$this->success('注册成功，待审核！', U('levelup/lists?member_id='.$info));//跳转至新会员待审列表
+				$this->success('注册成功，待审核！', U('Levelup/lists?member_id='.$info));//跳转至新会员待审列表
 			}
 			$this->error($model->getError());
 		}else {

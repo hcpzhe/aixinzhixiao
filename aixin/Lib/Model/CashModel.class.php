@@ -64,7 +64,7 @@ class CashModel extends Model {
 		$this->startTrans();
 		$data = array('status'=>'3','check_time'=>time(),'remark'=>$this->remark);
 		if (false === $this->where('id='.$id)->setField($data)) {
-			$this->error = '审核失败, 升级记录更新错误';
+			$this->error = '审核失败, 提现记录更新错误';
 			return false;
 		}
 		$info = $this->find($id);
@@ -93,7 +93,7 @@ class CashModel extends Model {
 	public function denyCheck($id) {
 		$data = array('status'=>'2','check_time'=>time(),'remark'=>$this->remark);
 		if (false === $this->where('id='.$id)->setField($data)) {
-			$this->error = '审核失败, 升级记录更新错误';
+			$this->error = '审核失败, 提现记录更新错误';
 			return false;
 		}
 		return true;
